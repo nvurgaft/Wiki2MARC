@@ -1,0 +1,25 @@
+<div class="row">
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">       
+        <div class="panel panel-default">
+            <div class="panel-heading">Stored records</div>
+            <div class="panel-body">
+                <div ng-show="vm.data.length > 0">
+                    <div class="list-group">
+                        <button class="list-group-item" ng-repeat="record in vm.data">{{record.name}}</button>
+                    </div>
+                </div>
+                <div ng-hide="vm.data.length > 0">
+                    <label class="control-label">Nothing to show, yet..</label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">Stored records</div>
+            <div class="panel-body">
+                display
+            </div>
+        </div>
+    </div>
+</div>

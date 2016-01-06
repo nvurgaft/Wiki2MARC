@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html ng-app="protowiki">
+    <head>
+        <title>ProtoWiki client</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+        <!-- dependencies -->
+        <script src="ui/dependencies/angular/angular.min.js" type="text/javascript"></script>
+        <link href="ui/dependencies/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <!--<link href="ui/dependencies/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>-->
+        <script src="ui/dependencies/ui-bootstrap/ui-bootstrap-tpls-0.14.3.min.js" type="text/javascript"></script>
+        <script src="ui/dependencies/ui-router/angular-ui-router.min.js" type="text/javascript"></script>
+        <link href="ui/dependencies/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+        
+        <!-- ace -->
+        <script src="ui/dependencies/ace/ace.js" type="text/javascript"></script>
+        <script src="ui/dependencies/ace/ui-ace.js" type="text/javascript"></script>
+        
+        <!-- smart table -->
+        <script src="ui/dependencies/smart-table/smart-table.min.js" type="text/javascript"></script>
+        
+        <!-- application -->
+        <script src="app.js" type="text/javascript"></script>
+        <link href="ui/style/style.css" rel="stylesheet" type="text/css"/>
+        
+        <script src="ui/mainController.js" type="text/javascript"></script>
+        <script src="ui/sparql-ui/sparqlController.js" type="text/javascript"></script>
+        <script src="ui/sparql-ui/sparqlService.js" type="text/javascript"></script>
+        <script src="ui/records/recordsService.js" type="text/javascript"></script>
+        <script src="ui/records/recordsController.js" type="text/javascript"></script>
+        
+        <script src="ui/mainService.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <div ui-view></div>       
+    </body>
+</html>

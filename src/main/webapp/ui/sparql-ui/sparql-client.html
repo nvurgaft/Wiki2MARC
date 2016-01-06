@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<div class="row">
+    <div class="col-lg-8">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <section>
+                    <label class="control-label">SPARQL query</label>
+                    <div ui-ace="vm.aceOptions" ng-model="vm.aceModel"></div>
+                    <div ng-model="vm.mode"></div>
+                </section>
+                <br>
+                <div class="form-group">
+                    <button type="button" 
+                            ng-click="vm.send()"
+                            class="btn btn-info">
+                        Send
+                    </button>
+                    <button type="button" 
+                            ng-click="vm.clear()"
+                            class="btn btn-default">
+                        Clear
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <label class="control-label">Options</label>
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Mode: </label>
+                        <div class="col-sm-10">
+                            <select class="form-control" 
+                                    ng-model="vm.mode" 
+                                    ng-options="m for m in vm.modes" 
+                                    ng-change="vm.modeChanged(vm.mode)">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Theme: </label>
+                        <div class="col-sm-10">
+                            <select class="form-control" 
+                                    ng-model="vm.theme" 
+                                    ng-options="t for t in vm.themes" 
+                                    ng-change="vm.themeChanged(vm.theme)">
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    server status: {{vm.status}}
+</div>
