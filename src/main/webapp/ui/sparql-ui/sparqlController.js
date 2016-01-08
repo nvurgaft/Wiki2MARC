@@ -1,22 +1,14 @@
 
-function sparqlController($log, mainService) {
+function sparqlController($log) {
 
     var vm = this;
-    vm.status = "[]";
-    mainService.getHeartbeat().then(function (data) {
-        vm.status = "[ " + data + " ]";
-    }, function (data) {
-        vm.status = "[ " + data + " ]";
-    });
 
     vm.aceModel = "Enter your SPARQL query here...";
-
     vm.modes = ['SQL', 'XML'];
     vm.mode = vm.modes[0];
-
     vm.themes = ['Chrome', 'Monokai'];
     vm.theme = vm.themes[0];
-
+    
     vm.aceOptions = {
         mode: vm.mode.toLowerCase(),
         theme: vm.theme.toLowerCase(),
@@ -35,12 +27,18 @@ function sparqlController($log, mainService) {
             $log.debug('aceChanged');
         }
     };
-    
-    vm.send = function() {
-        
+
+    vm.apis = [
+        {name: 'Snorql / Wikipedia', email: 'adam@email.com'},
+        {name: 'Sparql / Wikidata', email: 'amalie@email.com'}
+    ];
+    vm.selectedApi = vm.apis[0];
+
+    vm.send = function () {
+
     };
-    
-    vm.clear = function() {
+
+    vm.clear = function () {
         vm.aceModel = "";
     };
 }

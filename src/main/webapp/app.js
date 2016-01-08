@@ -19,10 +19,8 @@ function config($stateProvider, $urlRouterProvider) {
             });
 }
 
-function run() {
+function run() { }
 
-}
-
-angular.module('protowiki', ['ui.bootstrap', 'ui.router', 'smart-table', 'ui.ace'])
+angular.module('protowiki', ['ui.bootstrap', 'ui.router', 'smart-table', 'ui.ace', 'ui.select', 'ngSanitize'])
         .config(config)
         .run(run);

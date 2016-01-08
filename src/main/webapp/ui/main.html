@@ -26,6 +26,10 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <span class="label" ng-class="{'label-success': vm.serverStatus===200, 'label-warning': vm.serverStatus===404, 'label-danger': vm.serverStatus===200}">Server</span>
+                        <span class="label" ng-class="{'label-success': vm.databaseStatus===200, 'label-warning': vm.databaseStatus===404, 'label-danger': vm.databaseStatus===200}">Database</span>
+                    </li>
                     <li class="dropdown" uib-dropdown>
                         <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
                             Preferences <span class="caret"></span>
