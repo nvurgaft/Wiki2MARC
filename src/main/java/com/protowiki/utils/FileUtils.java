@@ -16,14 +16,14 @@ public class FileUtils {
 
     private static Logger logger = LoggerFactory.getLogger(FileUtils.class);
 
-    public static boolean doesFileExists(String path) {
+    public static boolean exists(String path) {
         if (path == null || path.isEmpty()) {
             return false;
         }
         return new File(path).exists();
     }
 
-    public static boolean createPath(String path) {
+    public static boolean createFile(String path) {
         if (path == null || path.isEmpty()) {
             return false;
         }
@@ -34,6 +34,15 @@ public class FileUtils {
             logger.error("Could not create file from given path", ioex);
             return false;
         }
+        return true;
+    }
+
+    public static boolean createDir(String path) {
+        if (path == null || path.isEmpty()) {
+            return false;
+        }
+        File dir = new File(path);
+        dir.mkdir();
         return true;
     }
 

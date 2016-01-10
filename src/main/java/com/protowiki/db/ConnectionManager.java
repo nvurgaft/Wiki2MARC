@@ -19,13 +19,14 @@ public class ConnectionManager {
     }
 
     public static Connection getConnection() {
-        Connection conn = null;
-        try {
-            conn = DriverManager.getConnection("jdbc:jena:mem:empty=true");
-        } catch (SQLException ex) {
-            logger.error("SQLException while trying to establish a connection", ex);
-        }
-        return conn;
+//        Connection conn = null;
+//        try {
+//            conn = DriverManager.getConnection("jdbc:jena:mem:empty=true");
+//        } catch (SQLException ex) {
+//            logger.error("SQLException while trying to establish a connection", ex);
+//        }
+//        return conn;
+        return null;
     }
 
     public static void close(Connection conn) {

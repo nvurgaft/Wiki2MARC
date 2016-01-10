@@ -5,20 +5,27 @@
             <div class="panel-body">
                 <div ng-show="vm.data.length > 0">
                     <div class="list-group">
-                        <button class="list-group-item" ng-repeat="record in vm.data">{{record.name}}</button>
+                        <button class="list-group-item" 
+                                ng-click="vm.selectedFile = record"
+                                ng-repeat="record in vm.data">{{record.name}} - {{record.size}}
+                        </button>
                     </div>
                 </div>
                 <div ng-hide="vm.data.length > 0">
-                    <label class="control-label">Nothing to show, yet..</label>
+                    <label class="control-label"><span class="fa fa-spinner fa-pulse fa-2x"></span> Loading ..</label>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">Stored records</div>
+        <div class="panel panel-default" ng-show="vm.selectedFile">
+            <div class="panel-heading">File details</div>
             <div class="panel-body">
-                display
+                <ul>
+                    <li><label class="control-label">Name:</label>&nbsp{{vm.selectedFile.name}}</li>
+                    <li><label class="control-label">Size:</label>&nbsp{{vm.selectedFile.size /1024/1024}} MB</li>
+                    <li><textarea class="form-control" rows="6">{{vm.selectedFile.content}}</textarea></li>
+                </ul>
             </div>
         </div>
     </div>

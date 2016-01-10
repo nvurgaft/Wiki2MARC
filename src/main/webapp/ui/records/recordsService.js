@@ -1,21 +1,13 @@
 
 function recordsService($http, $q, $log) {
     return {
-        getAll: function() {
-            $log.debug('fetching dummy data');
-            return $q.when([{
-                    name: "Douglas Adams",
-                    qid: "42",
-                    viaf: "22443300"
-            },{
-                    name: "Joe Smith",
-                    qid: "43",
-                    viaf: "22443301"
-            },{
-                    name: "Rex Nebular",
-                    qid: "44",
-                    viaf: "22443302"
-            }]);
+        getFiles: function() {
+            $log.info("Fetching stored files details");
+            return $http.get('rest/records/get-files').then(function(response) {
+                return response.data;
+            }, function(response) {
+                return $q.reject(response.status + " : " + response.data);
+            });
         }
     };
 }

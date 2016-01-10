@@ -1,7 +1,6 @@
 
 package com.protowiki.rest;
 
-import com.protowiki.rest.HeartbeatResource;
 import javax.ws.rs.core.Response;
 import org.junit.After;
 import org.junit.AfterClass;
