@@ -1,5 +1,5 @@
 
-package com.nvurgaft.rest;
+package com.protowiki.rest;
 
 import com.protowiki.rest.HeartbeatResource;
 import javax.ws.rs.core.Response;

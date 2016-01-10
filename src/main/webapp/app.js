@@ -16,11 +16,17 @@ function config($stateProvider, $urlRouterProvider) {
                 url: "/records",
                 controller: "recordsController as vm",
                 templateUrl: "ui/records/records.html"
+            })
+            .state('main.import', {
+                url: "/import",
+                controller: "importController as vm",
+                templateUrl: "ui/import/import.html"
             });
 }
 
 function run() { }
 
-angular.module('protowiki', ['ui.bootstrap', 'ui.router', 'smart-table', 'ui.ace', 'ui.select', 'ngSanitize'])
+angular.module('protowiki', ['ui.bootstrap', 'ui.router', 'smart-table', 'ui.ace', 
+    'angularFileUpload' ,'ui.select', 'ngSanitize'])
         .config(config)
         .run(run);

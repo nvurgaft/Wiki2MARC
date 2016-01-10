@@ -1,4 +1,3 @@
-
 package com.protowiki.utils;
 
 import com.protowiki.beans.Record;
@@ -17,10 +16,15 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class RecordHandler extends DefaultHandler {
     
-    private List<Record> records = new ArrayList<>();
+    private List<Record> records; 
+    private Stack<String> elementStack;
+    private Stack<Object> objectStack;
     
-    private Stack<String> elementStack = new Stack<>();
-    private Stack<Object> objectStack = new Stack<>();
+    public RecordHandler() {
+        records = new ArrayList<>();
+        elementStack = new Stack<>();
+        objectStack = new Stack<>();
+    }
 
     @Override
     public void startDocument() throws SAXException {
