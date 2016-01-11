@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class Datafield implements Serializable{ 
     List<Subfield> subfields;
-    List<String> ind;
+    String[] ind;
     String tag;
 
     public Datafield() {
@@ -23,11 +23,11 @@ public class Datafield implements Serializable{
         this.subfields = subfields;
     }
 
-    public List<String> getInd() {
+    public String[] getInd() {
         return ind;
     }
 
-    public void setInd(List<String> ind) {
+    public void setInd(String[] ind) {
         this.ind = ind;
     }
 
@@ -41,6 +41,10 @@ public class Datafield implements Serializable{
 
     @Override
     public String toString() {
-        return "Datafield{" + "subfields=" + subfields + ", ind=" + ind + ", tag=" + tag + '}';
+        String inds = "";
+        for (String s: ind) {
+            inds = inds.concat(s + " ");
+        }
+        return "Datafield: \n\t\tsubfields=" + subfields + ", ind=" + inds + ", tag=" + tag + "}";
     }
 }

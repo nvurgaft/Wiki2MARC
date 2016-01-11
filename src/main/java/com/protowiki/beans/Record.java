@@ -28,6 +28,6 @@ public class Record implements Serializable {
 
     @Override
     public String toString() {
-        return "Record{" + "datafields=" + datafields + '}';
+        return "Record: \n\tdatafields=" + datafields + '}';
     }
 }

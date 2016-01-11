@@ -31,6 +31,6 @@ public class Subfield implements Serializable{
 
     @Override
     public String toString() {
-        return "Subfield{" + "code=" + code + ", value=" + value + '}';
+        return "Subfield: \n\t\t\tcode=" + code + ", value=" + value + "}";
     }
 }
