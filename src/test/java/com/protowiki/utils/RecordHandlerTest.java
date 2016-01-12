@@ -1,5 +1,6 @@
 package com.protowiki.utils;
 
+import com.protowiki.beans.Author;
 import com.protowiki.beans.Record;
 import java.util.List;
 import org.junit.After;
@@ -7,7 +8,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.junit.Ignore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,10 +15,12 @@ import org.slf4j.LoggerFactory;
  *
  * @author Kobi
  */
-@Ignore
+//@Ignore
 public class RecordHandlerTest {
 
     private static Logger logger = LoggerFactory.getLogger(RecordHandlerTest.class);
+    
+    private String testXMLFileName = "C:\\files\\authbzi.xml";
 
     public RecordHandlerTest() {
     }
@@ -47,15 +49,18 @@ public class RecordHandlerTest {
      * provided. Fail: Otherwise.
      */
     @Test
-    public void testParseRecord() {
-
-        String fileName = "C:\\files\\authbzi.xml";
+    public void testParseRecord() {      
         RecordSAXParser parser = new RecordSAXParser();
-        List<Record> records = parser.parseXMLFileForRecords(fileName);
-        logger.info("Records: ");
-        for (Record record : records) {
-            System.out.println(record.toString());
-        }
+        List<Record> records = parser.parseXMLFileForRecords(testXMLFileName);
+        records.stream().forEach(System.out::println);
         logger.info("Total records amount: " + records.size());
+    }
+    
+    @Test
+    public void testRecordToAuthorTransformation() {
+        RecordSAXParser parser = new RecordSAXParser();
+        List<Record> records = parser.parseXMLFileForRecords(testXMLFileName);
+        List<Author> authorsList = parser.transformRecordsListToAuthors(records);
+        authorsList.stream().forEach(System.out::println);
     }
 }

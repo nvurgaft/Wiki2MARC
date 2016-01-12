@@ -1,5 +1,6 @@
 package com.protowiki.utils;
 
+import com.protowiki.beans.Controlfield;
 import com.protowiki.beans.Datafield;
 import com.protowiki.beans.Record;
 import com.protowiki.beans.Subfield;
@@ -21,6 +22,12 @@ import org.xml.sax.helpers.DefaultHandler;
 public class RecordHandler extends DefaultHandler {
 
     private static Logger logger = LoggerFactory.getLogger(RecordHandler.class);
+    
+    // XML tag identifiers
+    private static final String RECORD = "record";
+    private static final String CONTROL_FIELD = "controlfield";
+    private static final String DATA_FIELD = "datafield";
+    private static final String SUB_FIELD = "subfield";
 
     private List<Record> records;
     private Stack<String> elementStack;
@@ -34,12 +41,12 @@ public class RecordHandler extends DefaultHandler {
 
     @Override
     public void startDocument() throws SAXException {
-        super.startDocument(); //To change body of generated methods, choose Tools | Templates.
+        logger.info("Started parsing");
     }
 
     @Override
     public void endDocument() throws SAXException {
-        super.endDocument(); //To change body of generated methods, choose Tools | Templates.
+        logger.info("Finished parsing");
     }
 
     @Override
@@ -48,20 +55,28 @@ public class RecordHandler extends DefaultHandler {
         this.elementStack.push(qName);
 
         switch (qName) {
-            case "record":
+            case RECORD:
                 Record record = new Record();
-                record.setDatafields(new ArrayList<Datafield>());
+                record.setDatafields(new ArrayList<>());
+                record.setControlfields(new ArrayList<>());
                 this.objectStack.push(record);
                 break;
-            case "datafield":
+            case CONTROL_FIELD:
+                Controlfield controlfield  = new Controlfield();
+                String tag = attributes.getValue("tag");
+                controlfield.setTag(tag);
+                controlfield.setValue(new String());
+                this.objectStack.push(controlfield);
+                break;
+            case DATA_FIELD:
                 Datafield datafield = new Datafield();
                 String[] inds = {attributes.getValue("ind1").trim(), attributes.getValue("ind2").trim()};
                 datafield.setInd(inds);
                 datafield.setTag(attributes.getValue("tag").trim());
-                datafield.setSubfields(new ArrayList<Subfield>());
+                datafield.setSubfields(new ArrayList<>());
                 this.objectStack.push(datafield);
                 break;
-            case "subfield":
+            case SUB_FIELD:
                 Subfield subfield = new Subfield();
                 subfield.setCode(attributes.getValue("code").trim());
                 this.objectStack.push(subfield);
@@ -77,20 +92,27 @@ public class RecordHandler extends DefaultHandler {
         this.elementStack.pop();
 
         switch (qName) {
-            case "record":
+            case RECORD:
                 Record r = (Record) this.objectStack.pop();
                 records.add(r);
                 break;
-            case "datafield":
+            case CONTROL_FIELD:
+                Controlfield cf = (Controlfield) this.objectStack.pop();
+                if (currentElement().equals(RECORD)) {
+                    Record parentRecord = (Record) this.objectStack.peek();
+                    parentRecord.getControlfields().add(cf);
+                }
+                break;
+            case DATA_FIELD:
                 Datafield df = (Datafield) this.objectStack.pop();
-                if (currentElement().equals("record")) {
+                if (currentElement().equals(RECORD)) {
                     Record parentRecord = (Record) this.objectStack.peek();
                     parentRecord.getDatafields().add(df);
                 }
                 break;
-            case "subfield":
+            case SUB_FIELD:
                 Subfield sf = (Subfield) this.objectStack.pop();
-                if (currentElement().equals("datafield")) {
+                if (currentElement().equals(DATA_FIELD)) {
                     Datafield parentDatafield = (Datafield) this.objectStack.peek();
                     parentDatafield.getSubfields().add(sf);
                 }
@@ -103,12 +125,14 @@ public class RecordHandler extends DefaultHandler {
     @Override
     public void characters(char[] ch, int start, int length) throws SAXException {
         String value = new String(ch, start, length).trim();
-        if (value.isEmpty()) {
-            return;
-        }
+        if (value.isEmpty()) return;
 
         switch (currentElement()) {
-            case "subfield":
+            case CONTROL_FIELD:
+                Controlfield controlfield = (Controlfield) this.objectStack.peek();
+                controlfield.setValue(value);
+                break;
+            case SUB_FIELD:
                 Subfield subfield = (Subfield) this.objectStack.peek();
                 subfield.setValue(value);
                 break;

@@ -9,13 +9,10 @@ import java.util.List;
  */
 public class Record implements Serializable {
     
+    List<Controlfield> controlfields;
     List<Datafield> datafields;
 
     public Record() {
-    }
-
-    public Record(List<Datafield> datafields) {
-        this.datafields = datafields;
     }
 
     public List<Datafield> getDatafields() {
@@ -26,8 +23,16 @@ public class Record implements Serializable {
         this.datafields = datafields;
     }
 
+    public List<Controlfield> getControlfields() {
+        return controlfields;
+    }
+
+    public void setControlfields(List<Controlfield> controlfields) {
+        this.controlfields = controlfields;
+    }
+
     @Override
     public String toString() {
-        return "Record: \n\tdatafields=" + datafields + '}';
+        return "Record: \n\tcontrolfields=" + controlfields + ", datafields=" + datafields + '}';
     }
 }

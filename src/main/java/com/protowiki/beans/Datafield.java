@@ -45,6 +45,6 @@ public class Datafield implements Serializable{
         for (String s: ind) {
             inds = inds.concat(s + " ");
         }
-        return "Datafield: \n\t\tsubfields=" + subfields + ", ind=" + inds + ", tag=" + tag + "}";
+        return "Datafield: \n\t\tsubfields=" + subfields + ", ind=" + inds + ", tag=" + tag;
     }
 }

@@ -1,35 +1,45 @@
 package com.protowiki.beans;
 
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  *
- * @author Kobi
+ * @author Nick
  */
 public class Author implements Serializable{
-    private String name;
-    private Long viafId;
+    private Map<String, String> names;
+    private String viafId;
+    private String years;
     
     public Author() {}
     
-    public String getName() {
-        return this.name;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-     public Long getViafId() {
+     public String getViafId() {
         return this.viafId;
     }
     
-    public void setViafId(Long viafId) {
+    public void setViafId(String viafId) {
         this.viafId = viafId;
+    }
+
+    public Map<String, String> getNames() {
+        return names;
+    }
+
+    public void setNames(Map<String, String> names) {
+        this.names = names;
+    }
+
+    public String getYears() {
+        return years;
+    }
+
+    public void setYears(String born) {
+        this.years = born;
     }
 
     @Override
     public String toString() {
-        return "Author{" + "name=" + name + ", viafId=" + viafId + '}';
+        return "Author: " + "names=" + names + ", viafId=" + viafId + ", years=" + years;
     }
 }
