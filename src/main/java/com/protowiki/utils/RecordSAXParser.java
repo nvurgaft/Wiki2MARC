@@ -25,6 +25,12 @@ public class RecordSAXParser {
 
     private static Logger logger = LoggerFactory.getLogger(RecordSAXParser.class);
 
+    /**
+     *  Provided an XML file path, this method invokes a native Java SAX parser
+     *  handler implementation and maps the data unto a list of Record objects.
+     * @param fileName
+     * @return List of records
+     */
     public List<Record> parseXMLFileForRecords(String fileName) {
 
         if (fileName == null || fileName.isEmpty()) {
@@ -43,6 +49,11 @@ public class RecordSAXParser {
         return handler.getRecords();
     }
 
+    /**
+     *  Takes a list of Record objects and transforms it into a list of Author objects
+     * @param recordsList
+     * @return List of authors
+     */
     public List<Author> transformRecordsListToAuthors(List<Record> recordsList) {
 
         if (recordsList == null || recordsList.isEmpty()) {

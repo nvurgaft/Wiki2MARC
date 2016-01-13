@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  *
- * @author Kobi
+ * @author Nick
  */
 @Ignore
 public class HeartbeatResourceTest {

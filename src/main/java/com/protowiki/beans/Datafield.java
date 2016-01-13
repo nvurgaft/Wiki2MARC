@@ -5,7 +5,7 @@ import java.util.List;
 
 /**
  *
- * @author Kobi
+ * @author Nick
  */
 public class Datafield implements Serializable{ 
     List<Subfield> subfields;

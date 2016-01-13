@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  *
- * @author Kobi
+ * @author Nick
  */
 public class Subfield implements Serializable{
     private String code;

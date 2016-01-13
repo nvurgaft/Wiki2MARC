@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  *
- * @author Kobi
+ * @author Nick
  */
 public class ConnectionManager {
 

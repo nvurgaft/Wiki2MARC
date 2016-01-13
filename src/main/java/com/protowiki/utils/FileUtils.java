@@ -1,7 +1,9 @@
 package com.protowiki.utils;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -10,12 +12,17 @@ import org.slf4j.LoggerFactory;
 
 /**
  *
- * @author Kobi
+ * @author Nick
  */
 public class FileUtils {
 
     private static Logger logger = LoggerFactory.getLogger(FileUtils.class);
 
+    /**
+     *  Checks the file exists in the specified path
+     * @param path
+     * @return true if file exists
+     */
     public static boolean exists(String path) {
         if (path == null || path.isEmpty()) {
             return false;
@@ -23,6 +30,11 @@ public class FileUtils {
         return new File(path).exists();
     }
 
+    /**
+     *  Creates a file in the specified path
+     * @param path
+     * @return true if file was successfully created 
+     */
     public static boolean createFile(String path) {
         if (path == null || path.isEmpty()) {
             return false;
@@ -37,6 +49,11 @@ public class FileUtils {
         return true;
     }
 
+    /**
+     *  Creates a directory in the specified path
+     * @param path
+     * @return true if directory was successfully created
+     */
     public static boolean createDir(String path) {
         if (path == null || path.isEmpty()) {
             return false;
@@ -46,6 +63,12 @@ public class FileUtils {
         return true;
     }
 
+    /**
+     *  Reads an input stream and writes it's data into a file on the specified fileLocation
+     * @param inputStream
+     * @param fileLocation
+     * @return true is stream was successfully read and the file was created
+     */
     public static boolean saveFile(InputStream inputStream, String fileLocation) {
         boolean result;
         try (OutputStream outputStream = new FileOutputStream(new File(fileLocation))) {
@@ -62,5 +85,24 @@ public class FileUtils {
             result = false;
         }
         return result;
+    }
+    
+    /**
+     *  Reads a file from the provided file path and returns it's content
+     * @param file
+     * @return the file's content as a string
+     * @throws IOException
+     */
+    public static String fileReader(File file) throws IOException {
+        if (file==null) return null;
+        
+        StringBuilder content = new StringBuilder();
+        String line;
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+            while ((line = reader.readLine()) != null) {
+                content.append(line);
+            }
+        }
+        return content.toString();
     }
 }

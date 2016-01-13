@@ -9,7 +9,7 @@ import javax.ws.rs.core.Response.Status;
 
 /**
  *
- * @author Kobi
+ * @author Nick
  */
 @Path("heartbeat")
 public class HeartbeatResource {

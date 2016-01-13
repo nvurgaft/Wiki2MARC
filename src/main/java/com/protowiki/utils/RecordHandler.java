@@ -17,7 +17,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * Using a SAX parser, we transform an XML Record file into in memory data
  * structure
  *
- * @author Kobi
+ * @author Nick
  */
 public class RecordHandler extends DefaultHandler {
 
