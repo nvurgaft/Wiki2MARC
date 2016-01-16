@@ -8,6 +8,10 @@ function recordsService($http, $q, $log) {
             }, function(response) {
                 return $q.reject(response.status + " : " + response.data);
             });
+        },
+        postXMLFileDetails: function(fileDetails) {
+            
+            return $http.post('rest/records/parse-xml')
         }
     };
 }

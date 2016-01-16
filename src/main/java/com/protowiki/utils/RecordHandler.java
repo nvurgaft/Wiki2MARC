@@ -21,7 +21,7 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public class RecordHandler extends DefaultHandler {
 
-    private static Logger logger = LoggerFactory.getLogger(RecordHandler.class);
+    public static Logger logger = LoggerFactory.getLogger(RecordHandler.class);
     
     // XML tag identifiers
     private static final String RECORD = "record";

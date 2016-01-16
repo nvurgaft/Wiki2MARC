@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 @Path("upload")
 public class DataImportResource {
 
-    private static Logger logger = LoggerFactory.getLogger(DataImportResource.class);
+    public static Logger logger = LoggerFactory.getLogger(DataImportResource.class);
     private static final String FILE_SAVE_PATH = "C://files//";
 
     @POST

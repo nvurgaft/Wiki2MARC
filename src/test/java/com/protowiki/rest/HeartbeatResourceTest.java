@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 @Ignore
 public class HeartbeatResourceTest {
     
-    private static Logger logger = LoggerFactory.getLogger(HeartbeatResourceTest.class);
+    public static Logger logger = LoggerFactory.getLogger(HeartbeatResourceTest.class);
     
     public HeartbeatResourceTest() {
     }

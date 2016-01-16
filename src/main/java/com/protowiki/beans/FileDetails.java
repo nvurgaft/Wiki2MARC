@@ -9,10 +9,19 @@ import java.io.Serializable;
 public class FileDetails implements Serializable {
     
     private String name;
+    private String extension;
     private Integer size;
     private String content;
 
     public FileDetails() {
+    }
+
+    public String getExtension() {
+        return extension;
+    }
+
+    public void setExtension(String extension) {
+        this.extension = extension;
     }
 
     public String getName() {
@@ -21,6 +30,8 @@ public class FileDetails implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+        String[] ss = name.split(".");
+        this.extension = ss[ss.length-1];
     }
 
     public Integer getSize() {
@@ -41,6 +52,6 @@ public class FileDetails implements Serializable {
 
     @Override
     public String toString() {
-        return "FileDetails{" + "name=" + name + ", size=" + size + ", content=" + content + '}';
+        return "FileDetails{" + "name=" + name + "extension=" + extension + ", size=" + size + ", content=" + content + '}';
     }
 }

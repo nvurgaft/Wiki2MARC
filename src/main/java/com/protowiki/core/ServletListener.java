@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
  */
 public class ServletListener implements ServletContextListener {
 
-    private static Logger logger = LoggerFactory.getLogger(ServletListener.class);
+    public static Logger logger = LoggerFactory.getLogger(ServletListener.class);
     
     @Override
     public void contextInitialized(ServletContextEvent sce) {

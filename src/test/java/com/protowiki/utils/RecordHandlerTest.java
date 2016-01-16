@@ -7,6 +7,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,10 +16,10 @@ import org.slf4j.LoggerFactory;
  *
  * @author Nick
  */
-//@Ignore
+@Ignore
 public class RecordHandlerTest {
 
-    private static Logger logger = LoggerFactory.getLogger(RecordHandlerTest.class);
+    public static Logger logger = LoggerFactory.getLogger(RecordHandlerTest.class);
     
     private String testXMLFileName = "C:\\files\\authbzi.xml";
 

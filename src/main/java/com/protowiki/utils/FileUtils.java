@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
  */
 public class FileUtils {
 
-    private static Logger logger = LoggerFactory.getLogger(FileUtils.class);
+    public static Logger logger = LoggerFactory.getLogger(FileUtils.class);
 
     /**
      *  Checks the file exists in the specified path

@@ -8,6 +8,10 @@ function recordsController($log, recordsService) {
     }, function(response) {
         $log.error(response);
     });
+    
+    vm.parseXMLFile = function(fileDetail) {
+        
+    };
 };
 
 angular.module('protowiki').controller('recordsController', recordsController);

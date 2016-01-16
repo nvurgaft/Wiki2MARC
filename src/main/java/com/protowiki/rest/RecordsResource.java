@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 @Path("records")
 public class RecordsResource {
 
-    private static Logger logger = LoggerFactory.getLogger(RecordsResource.class);
+    public static Logger logger = LoggerFactory.getLogger(RecordsResource.class);
 
     @GET
     @Path("get-files")

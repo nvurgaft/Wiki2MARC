@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
  */
 public class AuthorModel {
     
-    private static Logger logger = LoggerFactory.getLogger(AuthorModel.class);
+    public static Logger logger = LoggerFactory.getLogger(AuthorModel.class);
     
     private static String GET_AUTHORS = "";
     private static String INSERT_AUTHORS = "";

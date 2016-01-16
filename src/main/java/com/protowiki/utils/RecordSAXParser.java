@@ -23,7 +23,7 @@ import org.xml.sax.SAXException;
  */
 public class RecordSAXParser {
 
-    private static Logger logger = LoggerFactory.getLogger(RecordSAXParser.class);
+    public static Logger logger = LoggerFactory.getLogger(RecordSAXParser.class);
 
     /**
      *  Provided an XML file path, this method invokes a native Java SAX parser

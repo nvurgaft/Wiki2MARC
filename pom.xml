@@ -69,14 +69,23 @@
         </dependency>
         <dependency>
             <groupId>org.apache.jena</groupId>
-            <artifactId>apache-jena-libs</artifactId>
-            <type>pom</type>
-            <version>3.0.1</version>
+            <artifactId>jena-arq</artifactId>
+            <version>2.11.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.virtjdbc.jdbc4</groupId>
+            <artifactId>virt-jdbc-driver</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.virtjdbc.jena2</groupId>
+            <artifactId>virt-jdbc-provider</artifactId>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>javax</groupId>

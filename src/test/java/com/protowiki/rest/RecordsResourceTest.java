@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 @Ignore
 public class RecordsResourceTest {
 
-    private static Logger logger = LoggerFactory.getLogger(RecordsResourceTest.class);
+    public static Logger logger = LoggerFactory.getLogger(RecordsResourceTest.class);
 
     public RecordsResourceTest() {
     }
