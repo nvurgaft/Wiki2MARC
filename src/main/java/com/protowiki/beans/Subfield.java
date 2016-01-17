@@ -6,7 +6,7 @@ import java.io.Serializable;
  *
  * @author Nick
  */
-public class Subfield implements Serializable{
+public class Subfield implements Serializable {
     private String code;
     private String value;
 

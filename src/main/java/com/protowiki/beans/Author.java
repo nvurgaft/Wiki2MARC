@@ -1,6 +1,7 @@
 package com.protowiki.beans;
 
 import java.io.Serializable;
+import java.net.URL;
 import java.util.Map;
 
 /**
@@ -9,10 +10,28 @@ import java.util.Map;
  */
 public class Author implements Serializable{
     private Map<String, String> names;
+    private URL wikipediaUrl;
     private String viafId;
+    private String nliId;
     private String years;
     
     public Author() {}
+
+    public Map<String, String> getNames() {
+        return names;
+    }
+
+    public void setNames(Map<String, String> names) {
+        this.names = names;
+    }
+
+    public URL getWikipediaUrl() {
+        return wikipediaUrl;
+    }
+
+    public void setWikipediaUrl(URL wikipediaUrl) {
+        this.wikipediaUrl = wikipediaUrl;
+    }
     
      public String getViafId() {
         return this.viafId;
@@ -22,12 +41,12 @@ public class Author implements Serializable{
         this.viafId = viafId;
     }
 
-    public Map<String, String> getNames() {
-        return names;
+    public String getNliId() {
+        return nliId;
     }
 
-    public void setNames(Map<String, String> names) {
-        this.names = names;
+    public void setNliId(String nliId) {
+        this.nliId = nliId;
     }
 
     public String getYears() {
@@ -40,6 +59,6 @@ public class Author implements Serializable{
 
     @Override
     public String toString() {
-        return "Author: " + "names=" + names + ", viafId=" + viafId + ", years=" + years;
+        return "Author{" + "names=" + names + ", wikipediaUrl=" + wikipediaUrl + ", viafId=" + viafId + ", nliId=" + nliId + ", years=" + years + '}';
     }
 }

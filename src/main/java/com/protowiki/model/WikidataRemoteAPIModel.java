@@ -8,6 +8,11 @@ import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.query.ResultSetFactory;
 import com.hp.hpl.jena.rdf.model.RDFNode;
+import com.protowiki.beans.Author;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,87 +51,174 @@ public class WikidataRemoteAPIModel {
                 "PREFIX wdt: <http://www.wikidata.org/prop/direct/>",
                 "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>",
                 "PREFIX bd: <http://www.bigdata.com/rdf#>",
-                "SELECT ?s ?sLabel ?viaf ?nli WHERE {",
+                "SELECT ?s ?viaf ?nli ?enName ?heName WHERE {",
                 "?s wdt:P31 wd:Q5 .",
                 "?s wdt:P949 ?nli .",
-                "?s wdt:P214 $viaf",
+                "?s wdt:P214 $viaf .",
                 "SERVICE wikibase:label {",
                 "bd:serviceParam wikibase:language \"he\" .",
+                "?s rdfs:label ?heName .",
+                "}",
+                "SERVICE wikibase:label {",
+                "bd:serviceParam wikibase:language \"en\" .",
+                "?s rdfs:label ?enName .",
                 "}",
                 "}"
             }, "\n");
+
+    /**
+     * Runs a user provided SPARQL query on the Wikidata endpoint
+     *
+     * @param queryString - the query string
+     * @param sparqlServiceUrl - the SPARQL endpoint ULR, if null or empty
+     * string, will default to "https://query.wikidata.org/sparql"
+     * @return the query results in a string
+     */
+    public String runQueryOnWikidata(String queryString, String sparqlServiceUrl) {
+        if (queryString == null || queryString.isEmpty()) {
+            return null;
+        }
+
+        if (sparqlServiceUrl == null || sparqlServiceUrl.isEmpty()) {
+            sparqlServiceUrl = "https://query.wikidata.org/sparql";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        try {
+            Query query = QueryFactory.create(queryString);
+            QueryExecution qe = QueryExecutionFactory.sparqlService(sparqlServiceUrl, query);
+            ResultSet rs = ResultSetFactory.copyResults(qe.execSelect());
+            while (rs.hasNext()) {
+                QuerySolution qs = rs.next();
+                while (qs.varNames().hasNext()) {
+                    String field = qs.varNames().next();
+                    sb.append(field).append(": ").append(qs.get(field)).append("\n");
+                }
+            }
+        } catch (Exception ex) {
+            logger.error("An exception has occured while processing the query", ex);
+            return new StringBuilder()
+                    .append("An exception has occured while processing the query")
+                    .append("\n")
+                    .append(ex)
+                    .append("\n")
+                    .toString();
+        }
+        return sb.toString();
+    }
 
     /**
      * Fetches from DBPedia the article abstract for an author in a certain
      * language
      *
      * @param author - the queried author
-     * @param language - the language that abstract should be in (if string is 
+     * @param language - the language that abstract should be in (if string is
      * null or empty, will default to 'en')
+     * 
+     * @return The article abstract text string
      */
-    public void getWikipediaAbstract(String author, String language) {
+    public String getWikipediaAbstract(String author, String language) {
         if (author == null || author.isEmpty()) {
-            return;
+            return null;
         }
         if (language == null || language.isEmpty()) {
             language = "en";
         }
-        
+
         String queryString = String.format(GET_WIKIPEDIA_ABSTRACT_FOR_LABEL, author, language);
         Query query = QueryFactory.create(queryString);
-        QueryExecution qe = QueryExecutionFactory.sparqlService("http://dbpedia.org/sparql", query); // http://dbpedia.org/sparql
-     
+        QueryExecution qe = QueryExecutionFactory.sparqlService("http://dbpedia.org/sparql", query);
+        String result = null;
         ResultSet rs = ResultSetFactory.copyResults(qe.execSelect());
         while (rs.hasNext()) {
             QuerySolution qs = rs.nextSolution();
             RDFNode _name = qs.get("name");
             RDFNode _abstract = qs.get("abstract");
             logger.info("Name: " + _name + ", Abstract: " + _abstract);
+            result = _abstract.toString();
         }
+        return result;
     }
 
     /**
-     * Fetches from local VOS all authors who have a VIAF ID and an NLI ID. These
-     * response is built in the following format (columns per row): 1. s -
+     * Fetches from local VOS all authors who have a VIAF ID and an NLI ID.
+     * These response is built in the following format (columns per row): 1. s -
      * Subject 2. sLabel - Subject label 3. viaf - VIAF ID 4. nli - NLI ID
+     *
+     * @return A list of Author objects
      */
-    public void getAuthorsWithVIAF() {
+    public List<Author> getAuthorsWithVIAF() {
+        List<Author> authors = null;
+        try {
+            VirtGraph graph = new VirtGraph(connection_string, login, password);
 
-        VirtGraph graph = new VirtGraph(connection_string, login, password);
-
-        Query query = QueryFactory.create(GET_VIAF_FROM_HEBREW_AUTHORS);
-        VirtuosoQueryExecution vqe = VirtuosoQueryExecutionFactory.create(query, graph);
-        ResultSet rs = vqe.execSelect();
-        System.out.println(rs.hasNext() ? "has next" : "no data");
-        while (rs.hasNext()) {
-            QuerySolution qs = rs.nextSolution();
-            RDFNode _s = qs.get("s");
-            RDFNode _sLabel = qs.get("sLabel");
-            RDFNode _viaf = qs.get("viaf");
-            RDFNode _nli = qs.get("nli");
-            logger.info("s: " + _s + ", Label: " + _sLabel + ", VIAF ID: " + _viaf + ", NLI: " + _nli);
+            Query query = QueryFactory.create(GET_VIAF_FROM_HEBREW_AUTHORS);
+            VirtuosoQueryExecution vqe = VirtuosoQueryExecutionFactory.create(query, graph);
+            ResultSet rs = vqe.execSelect();
+            authors = new ArrayList<>();
+            while (rs.hasNext()) {
+                QuerySolution qs = rs.nextSolution();
+                RDFNode _s = qs.get("s");
+                RDFNode _viaf = qs.get("viaf");
+                RDFNode _nli = qs.get("nli");
+                RDFNode _enName = qs.get("enName");
+                RDFNode _heName = qs.get("heName");
+                Author author = new Author();
+                author.setWikipediaUrl(new URL(_s.toString()));
+                author.setViafId(_viaf.toString());
+                author.setNliId(_nli.toString());
+                author.setNames(new HashMap<>());
+                author.getNames().put("en", _enName.toString());
+                author.getNames().put("he", _heName.toString());
+                authors.add(author);
+                logger.debug("s: " + _s + ", VIAF ID: " + _viaf + ", NLI: " + _nli + ", English name: " + _enName + ", Hebrew name: " + _heName);
+            }
+        } catch (Exception ex) {
+            logger.error("Exception while marshalling authors list from local VOS RDF", ex);
         }
+
+        return authors;
     }
-    
-    /**
-     * Fetches from Wikidata all authors who have a VIAF ID and an NLI ID. These
-     * response is built in the following format (columns per row): 1. s -
-     * Subject 2. sLabel - Subject label 3. viaf - VIAF ID 4. nli - NLI ID
-     */
-    public void getAuthorsWithVIAFRemote() {
 
-        Query query = QueryFactory.create(GET_VIAF_FROM_HEBREW_AUTHORS);
-        
-        QueryExecution qe = QueryExecutionFactory.sparqlService("https://query.wikidata.org/sparql", query);
-        ResultSet rs = ResultSetFactory.copyResults( qe.execSelect() );
-        System.out.println(rs.hasNext() ? "has next" : "no data");
-        while (rs.hasNext()) {
-            QuerySolution qs = rs.nextSolution();
-            RDFNode _s = qs.get("s");
-            RDFNode _sLabel = qs.get("sLabel");
-            RDFNode _viaf = qs.get("viaf");
-            RDFNode _nli = qs.get("nli");
-            logger.info("s: " + _s + ", Label: " + _sLabel + ", VIAF ID: " + _viaf + ", NLI: " + _nli);
+    /**
+     * Fetches from Wikidata all authors who have a VIAF ID and an NLI ID.
+     * Response is built in the following format (columns per row): 1. s -
+     * Subject 2. viaf - VIAF ID 3. nli - NLI ID 4. enName - Author full name in
+     * English (defaults to Q id is none was provided) 5. heName - Author full
+     * name in Hebrew (defaults to Q id is none was provided)
+     *
+     * @return A list of Author objects
+     */
+    public List<Author> getAuthorsWithVIAFRemote() {
+
+        List<Author> authors = null;
+        try {
+            Query query = QueryFactory.create(GET_VIAF_FROM_HEBREW_AUTHORS);
+
+            QueryExecution qe = QueryExecutionFactory.sparqlService("https://query.wikidata.org/sparql", query);
+            ResultSet rs = ResultSetFactory.copyResults(qe.execSelect());
+            authors = new ArrayList<>();
+            while (rs.hasNext()) {
+                QuerySolution qs = rs.nextSolution();
+                RDFNode _s = qs.get("s");
+                RDFNode _viaf = qs.get("viaf");
+                RDFNode _nli = qs.get("nli");
+                RDFNode _enName = qs.get("enName");
+                RDFNode _heName = qs.get("heName");
+                Author author = new Author();
+                author.setWikipediaUrl(new URL(_s.toString()));
+                author.setViafId(_viaf.toString());
+                author.setNliId(_nli.toString());
+                author.setNames(new HashMap<>());
+                author.getNames().put("en", _enName.toString());
+                author.getNames().put("he", _heName.toString());
+                authors.add(author);
+                logger.debug("s: " + _s + ", VIAF ID: " + _viaf + ", NLI: " + _nli + ", English name: " + _enName + ", Hebrew name: " + _heName);
+            }
+        } catch (Exception ex) {
+            logger.error("Exception while marshalling authors list from remote SPARQL API", ex);
         }
+
+        return authors;
     }
 }
