@@ -1,10 +1,10 @@
 
-function sparqlController($log) {
+function sparqlController($log, sparqlService) {
 
     var vm = this;
 
     vm.aceModel = "Enter your SPARQL query here...";
-    vm.modes = ['SQL', 'XML'];
+    vm.modes = ['SQL', 'XML', 'HTML'];
     vm.mode = vm.modes[0];
     vm.themes = ['Chrome', 'Monokai'];
     vm.theme = vm.themes[0];
@@ -29,13 +29,21 @@ function sparqlController($log) {
     };
 
     vm.apis = [
-        {name: 'Snorql / Wikipedia', email: 'adam@email.com'},
-        {name: 'Sparql / Wikidata', email: 'amalie@email.com'}
+        {name: 'DBPedia (SNORQL)', url: 'http://dbpedia.org/sparql'},
+        {name: 'Wikidata (SPARQL)', url: 'https://query.wikidata.org/sparql'}
     ];
     vm.selectedApi = vm.apis[0];
-
+    
+    vm.runningQuery = false;
     vm.send = function () {
-
+        vm.runningQuery = true;
+        sparqlService.postQuery(vm.aceModel, vm.selectedApi.url).then(function(response) {
+            vm.aceModel = response;
+        }, function(response) {
+            vm.aceModel = response;
+        })['finally'](function() {
+            vm.runningQuery = false;
+        });
     };
 
     vm.clear = function () {

@@ -12,6 +12,7 @@ import com.protowiki.beans.Author;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -69,8 +70,8 @@ public class WikidataRemoteAPIModel {
     /**
      * Runs a user provided SPARQL query on the Wikidata endpoint
      *
-     * @param queryString - the query string
-     * @param sparqlServiceUrl - the SPARQL endpoint ULR, if null or empty
+     * @param queryString The query string
+     * @param sparqlServiceUrl The SPARQL endpoint ULR, if null or empty
      * string, will default to "https://query.wikidata.org/sparql"
      * @return the query results in a string
      */
@@ -85,13 +86,15 @@ public class WikidataRemoteAPIModel {
 
         StringBuilder sb = new StringBuilder();
         try {
-            Query query = QueryFactory.create(queryString);
+            Query query = QueryFactory.create(GET_VIAF_FROM_HEBREW_AUTHORS);
             QueryExecution qe = QueryExecutionFactory.sparqlService(sparqlServiceUrl, query);
             ResultSet rs = ResultSetFactory.copyResults(qe.execSelect());
             while (rs.hasNext()) {
                 QuerySolution qs = rs.next();
-                while (qs.varNames().hasNext()) {
-                    String field = qs.varNames().next();
+                Iterator<String> iter = qs.varNames();
+                sb.append(StringUtils.repeat("-", 50)).append("\n");
+                while (iter.hasNext()) {
+                    String field = iter.next();
                     sb.append(field).append(": ").append(qs.get(field)).append("\n");
                 }
             }
@@ -111,13 +114,13 @@ public class WikidataRemoteAPIModel {
      * Fetches from DBPedia the article abstract for an author in a certain
      * language
      *
-     * @param author - the queried author
-     * @param language - the language that abstract should be in (if string is
+     * @param author The queried author
+     * @param language The language that abstract should be in (if string is
      * null or empty, will default to 'en')
      * 
      * @return The article abstract text string
      */
-    public String getWikipediaAbstract(String author, String language) {
+    public String getWikipediaAbstractByName(String author, String language) {
         if (author == null || author.isEmpty()) {
             return null;
         }

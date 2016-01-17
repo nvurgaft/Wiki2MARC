@@ -11,6 +11,7 @@ import java.util.Map;
 public class Author implements Serializable{
     private Map<String, String> names;
     private URL wikipediaUrl;
+    private String wikipediaArticleAbstract;
     private String viafId;
     private String nliId;
     private String years;
@@ -31,6 +32,14 @@ public class Author implements Serializable{
 
     public void setWikipediaUrl(URL wikipediaUrl) {
         this.wikipediaUrl = wikipediaUrl;
+    }
+
+    public String getWikipediaArticleAbstract() {
+        return wikipediaArticleAbstract;
+    }
+
+    public void setWikipediaArticleAbstract(String wikipediaArticleAbstract) {
+        this.wikipediaArticleAbstract = wikipediaArticleAbstract;
     }
     
      public String getViafId() {

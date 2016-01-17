@@ -12,15 +12,21 @@
                 <div class="form-group">
                     <button type="button" 
                             ng-click="vm.send()"
-                            ng-disabled="vm.aceModel.length===0"
+                            ng-disabled="vm.aceModel.length===0 || vm.runningQuery"
                             class="btn btn-info">
                         Send
                     </button>
                     <button type="button" 
                             ng-click="vm.clear()"
+                            ng-disabled="vm.runningQuery"
                             class="btn btn-default">
                         Clear
                     </button>
+                </div>
+                <div class="alert alert-info" 
+                     ng-show="vm.runningQuery"
+                     role="alert">
+                    Processing query .. 
                 </div>
             </div>
         </div>

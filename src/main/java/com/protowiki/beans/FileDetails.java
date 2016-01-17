@@ -30,8 +30,10 @@ public class FileDetails implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-        String[] ss = name.split(".");
-        this.extension = ss[ss.length-1];
+        int i = this.name.lastIndexOf('.');
+        if (i>0) {
+            this.extension = this.name.substring(i+1);
+        }
     }
 
     public Integer getSize() {

@@ -55,6 +55,7 @@ public class WikidataRemoteAPIModelTest {
         , "\n");
         WikidataRemoteAPIModel instance = new WikidataRemoteAPIModel();
         String results = instance.runQueryOnWikidata(minimumViableQuery, null);
+        System.out.println(results);
         assertNotNull(results);
     }
 
@@ -62,12 +63,12 @@ public class WikidataRemoteAPIModelTest {
      * Test of getWikipediaAbstract method, of class WikidataRemoteAPIModel.
      */
     @Test
-    public void testGetWikipediaAbstract() {
+    public void testGetWikipediaAbstractByName() {
         logger.info("getWikipediaAbstract");
         String author = "Mark Twain";
         String language = "en";
         WikidataRemoteAPIModel instance = new WikidataRemoteAPIModel();
-        String articleAbstract = instance.getWikipediaAbstract(author, language);
+        String articleAbstract = instance.getWikipediaAbstractByName(author, language);
         assertNotNull(articleAbstract);
         assertTrue(articleAbstract.length() > 0);
     }
