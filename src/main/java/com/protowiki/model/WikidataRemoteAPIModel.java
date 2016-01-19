@@ -9,7 +9,6 @@ import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.query.ResultSetFactory;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.protowiki.beans.Author;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -167,7 +166,7 @@ public class WikidataRemoteAPIModel {
                 RDFNode _enName = qs.get("enName");
                 RDFNode _heName = qs.get("heName");
                 Author author = new Author();
-                author.setWikipediaUrl(new URL(_s.toString()));
+                author.setWikipediaUri(_s.toString());
                 author.setViafId(_viaf.toString());
                 author.setNliId(_nli.toString());
                 author.setNames(new HashMap<>());
@@ -209,7 +208,7 @@ public class WikidataRemoteAPIModel {
                 RDFNode _enName = qs.get("enName");
                 RDFNode _heName = qs.get("heName");
                 Author author = new Author();
-                author.setWikipediaUrl(new URL(_s.toString()));
+                author.setWikipediaUri(_s.toString());
                 author.setViafId(_viaf.toString());
                 author.setNliId(_nli.toString());
                 author.setNames(new HashMap<>());

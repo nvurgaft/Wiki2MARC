@@ -2,6 +2,7 @@ package com.protowiki.utils;
 
 import com.protowiki.beans.Author;
 import com.protowiki.beans.Record;
+import com.protowiki.core.DataTransformer;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -60,8 +61,9 @@ public class RecordHandlerTest {
     @Test
     public void testRecordToAuthorTransformation() {
         RecordSAXParser parser = new RecordSAXParser();
+        DataTransformer optimus = new DataTransformer();
         List<Record> records = parser.parseXMLFileForRecords(testXMLFileName);
-        List<Author> authorsList = parser.transformRecordsListToAuthors(records);
+        List<Author> authorsList = optimus.transformRecordsListToAuthors(records);
         authorsList.stream().forEach(System.out::println);
     }
 }

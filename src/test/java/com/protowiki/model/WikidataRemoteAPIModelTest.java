@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Nick
  */
-//@Ignore
+@Ignore
 public class WikidataRemoteAPIModelTest {
 
     public static Logger logger = LoggerFactory.getLogger(WikidataRemoteAPIModelTest.class);
@@ -55,7 +55,6 @@ public class WikidataRemoteAPIModelTest {
         , "\n");
         WikidataRemoteAPIModel instance = new WikidataRemoteAPIModel();
         String results = instance.runQueryOnWikidata(minimumViableQuery, null);
-        System.out.println(results);
         assertNotNull(results);
     }
 

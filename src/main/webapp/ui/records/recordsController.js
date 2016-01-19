@@ -9,8 +9,12 @@ function recordsController($log, recordsService) {
         $log.error(response);
     });
     
-    vm.parseXMLFile = function(fileDetail) {
-        
+    vm.parseXMLFile = function(fileName) {
+        recordsService.store(fileName).then(function(response) {
+            
+        }, function(response) {
+            $log.error(response);
+        });
     };
 };
 

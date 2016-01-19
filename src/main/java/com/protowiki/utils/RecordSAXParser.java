@@ -1,15 +1,11 @@
 package com.protowiki.utils;
 
-import com.protowiki.beans.Author;
-import com.protowiki.beans.Datafield;
 import com.protowiki.beans.Record;
-import com.protowiki.beans.Subfield;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -48,58 +44,22 @@ public class RecordSAXParser {
         }
         return handler.getRecords();
     }
-
+    
     /**
-     *  Takes a list of Record objects and transforms it into a list of Author objects
-     * @param recordsList
-     * @return List of authors
+     *  Goes over 
+     * 
+     * @param articleAbstracts
+     * @return 
      */
-    public List<Author> transformRecordsListToAuthors(List<Record> recordsList) {
-
-        if (recordsList == null || recordsList.isEmpty()) {
-            return null;
+    public boolean generateMARCXMLFile(List<String> articleAbstracts) {
+        if (articleAbstracts==null || articleAbstracts.isEmpty()) {
+            return false;
         }
-
-        List<Author> authorsList = recordsList.stream()
-                .map(r -> {
-                    Author author = new Author();
-                    author.setNames(new HashMap<>());
-                    for (Datafield df : r.getDatafields()) {
-                        switch (df.getTag()) {
-                            case "100":
-                            case "400":
-                                String lang = "",
-                                 name = "";
-                                for (Subfield sf : df.getSubfields()) {
-                                    if (sf.getCode().equals("a")) {
-                                        name = sf.getValue();
-                                    } else if (sf.getCode().equals("9")) {
-                                        lang = sf.getValue();
-                                    } else if (sf.getCode().equals("d")) {
-                                        author.setYears(sf.getValue());
-                                    }
-                                }
-                                if (!name.isEmpty() && !lang.isEmpty()) {
-                                    author.getNames().put(lang, name);
-                                }
-                                break;
-                            case "901":
-                                for (Subfield sf : df.getSubfields()) {
-                                    if (sf.getCode().equals("a")) {
-                                        author.setViafId(sf.getValue());
-                                        break;
-                                    }
-                                }
-                                break;
-                            default:
-
-                        }
-                    }
-                    return author;
-                })
-                .collect(Collectors.toList());
-
-        return authorsList;
+        
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        
+        
+        return false;
     }
 
 }

@@ -10,10 +10,19 @@ public class RDFStatement implements Cloneable {
     private String predicate;
     private String object;
     
+    /**
+     *  Initialize a new RDFStatement object
+     */
     public RDFStatement() {
         super();
     }
     
+    /**
+     *  Initialize a new RDFStatement object
+     * @param subject Subject name
+     * @param predicate Predicate name
+     * @param object Object name
+     */
     public RDFStatement(String subject, String predicate, String object) {
         super();
         this.subject = subject;
@@ -21,30 +30,54 @@ public class RDFStatement implements Cloneable {
         this.object = object;
     }
 
+    /**
+     *  Subject getter method
+     * @return Subject
+     */
     public String getSubject() {
         return subject;
     }
 
+    /**
+     *  Subject setter method
+     * @param subject
+     */
     public void setSubject(String subject) {
         this.subject = subject;
     }
 
+    /**
+     *  Predicate getter method
+     * @return
+     */
     public String getPredicate() {
         return predicate;
     }
 
+    /**
+     *  Predicate setter method
+     * @param predicate
+     */
     public void setPredicate(String predicate) {
         this.predicate = predicate;
     }
 
+    /**
+     *  Object getter method
+     * @return
+     */
     public String getObject() {
         return object;
     }
 
+    /**
+     *  Object setter method
+     * @param object
+     */
     public void setObject(String object) {
         this.object = object;
     }
-
+    
     @Override
     public boolean equals(Object obj) {
         if (obj==null || !(obj instanceof RDFStatement)) {
@@ -59,6 +92,11 @@ public class RDFStatement implements Cloneable {
         return super.clone();
     }
 
+    /**
+     *  This method returns a human readable textual representation of the statement
+     * 
+     * @return Description string
+     */
     public String description() {
         return "Subject: " + subject + ", Predicate: " + predicate + ", Object: " + object;
     }

@@ -7,12 +7,12 @@
                     <div class="list-group">
                         <div class="list-group-item" 
                              style="cursor: pointer;"
-                             ng-click="vm.selectedFile = record"
-                             ng-repeat="record in vm.data">{{record.name}}
+                             ng-click="vm.selectedFile = file"
+                             ng-repeat="file in vm.data">{{file.name}}
                             <div class="pull-right">
                                 <button class="btn btn-info btn-xs" 
-                                        ng-click="vm.parseXMLFile(record)"
-                                        ng-show="record.extension==='xml'">Parse XML</button>
+                                        ng-click="vm.parseXMLFile(file.name)"
+                                        ng-show="file.extension==='xml'">Parse XML</button>
                             </div>
                         </div>
                     </div>
@@ -30,7 +30,7 @@
                 <ul>
                     <li><label class="control-label">Name:</label>&nbsp{{vm.selectedFile.name}}</li>
                     <li><label class="control-label">Size:</label>&nbsp{{vm.selectedFile.size / 1024 / 1024}} MB</li>
-                    <li><textarea class="form-control" rows="6">{{vm.selectedFile.content}}</textarea></li>
+                    <li><textarea class="form-control" rows="24">{{vm.selectedFile.content}}</textarea></li>
                 </ul>
             </div>
         </div>

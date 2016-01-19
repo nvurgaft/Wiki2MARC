@@ -1,4 +1,4 @@
-package com.protowiki.db;
+package com.protowiki.model;
 
 import com.hp.hpl.jena.graph.Graph;
 import com.hp.hpl.jena.graph.Node;
@@ -20,7 +20,9 @@ import virtuoso.jena.driver.VirtuosoUpdateFactory;
 import virtuoso.jena.driver.VirtuosoUpdateRequest;
 
 /**
- *
+ *  This is simple data access implementation, that reads, writes and deletes 
+ *  records into a local Virtuoso RDF database.
+ * 
  * @author Nick
  */
 public class QueryHandler {
@@ -42,7 +44,7 @@ public class QueryHandler {
     
     /**
      *  Returns a collection of RDFStatements that match the described subject
-     * @param subject
+     * @param subject Subject
      * @return collection of RDFStatements
      */
     public Collection<RDFStatement> getStatements(String subject) {
@@ -67,9 +69,9 @@ public class QueryHandler {
 
     /**
      *  Inserts a statement into the graph
-     * @param s
-     * @param p
-     * @param o
+     * @param s Subject
+     * @param p Predicate
+     * @param o Object
      * @return true if and only if the query execution was successful
      */
     public boolean insertStatement(String s, String p, String o) {
@@ -78,7 +80,7 @@ public class QueryHandler {
 
     /**
      *  Inserts a statement into the graph
-     * @param stmt
+     * @param stmt Statement (RDFStatement triple)
      * @return true if and only if the query execution was successful
      */
     public boolean insertStatement(RDFStatement stmt) {
@@ -119,9 +121,9 @@ public class QueryHandler {
 
     /**
      *  Delete a statement from a graph
-     * @param s
-     * @param p
-     * @param o
+     * @param s Subject
+     * @param p Predicate
+     * @param o Object
      * @return true if and only if the query execution was successful
      */
     public boolean deleteStatement(String s, String p, String o) {
@@ -130,7 +132,7 @@ public class QueryHandler {
 
     /**
      *  Delete a statement from a graph
-     * @param stmt
+     * @param stmt (RDFStatement triple)
      * @return true if and only if the query execution was successful
      */
     public boolean deleteStatement(RDFStatement stmt) {
@@ -148,7 +150,7 @@ public class QueryHandler {
     
     /**
      *  Batch delete statements from the graph
-     * @param statements
+     * @param statements (RDFStatement triple)
      * @return true if and only if the query execution was successful
      */
     public boolean batchDeleteStatements(Collection <? extends RDFStatement> statements) {

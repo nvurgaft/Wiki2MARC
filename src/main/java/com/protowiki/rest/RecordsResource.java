@@ -3,6 +3,7 @@ package com.protowiki.rest;
 import com.protowiki.beans.Author;
 import com.protowiki.beans.FileDetails;
 import com.protowiki.beans.Record;
+import com.protowiki.core.DataTransformer;
 import com.protowiki.utils.FileUtils;
 import com.protowiki.utils.RecordSAXParser;
 import java.io.File;
@@ -36,7 +37,7 @@ public class RecordsResource {
 
         File file = new File("C://files//");
         File[] files = file.listFiles();
-        
+
         List<FileDetails> filesDetails = new ArrayList<>();
         for (File f : files) {
             FileDetails fd = new FileDetails();
@@ -55,17 +56,24 @@ public class RecordsResource {
         }
         return Response.status(Status.OK).entity(filesDetails).build();
     }
-    
+
     @POST
     @Path("xml-parse-file")
     @Produces(MediaType.APPLICATION_JSON)
     public Response xmlParseFile(@QueryParam("file") String fileName) {
-        
+
         RecordSAXParser parser = new RecordSAXParser();
-        
-         List<Record> recordsList = parser.parseXMLFileForRecords(fileName);
-         List<Author> authorsList = parser.transformRecordsListToAuthors(recordsList);
-        
+        DataTransformer prime = new DataTransformer();
+        List<Record> recordsList = null;
+        List<Author> authorsList = null;
+        try {
+            recordsList = parser.parseXMLFileForRecords(fileName);
+            authorsList = prime.transformRecordsListToAuthors(recordsList);
+        } catch (Exception ex) {
+            logger.error("Exception in servlet while parsing MARC XML file", ex);
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex).build();
+        }
+
         return Response.status(Status.OK).entity(authorsList).build();
     }
 
