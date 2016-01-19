@@ -18,13 +18,13 @@ public class AuthorModel {
     public static Logger logger = LoggerFactory.getLogger(AuthorModel.class);
     
     // default virtuoso login credentials 
-    private static String GRAPH_NAME = "http://authors";
+    private static final String GRAPH_NAME = "http://authors";
 
     
     /**
      * 
      * @param authorsList
-     * @return 
+     * @return was the transaction successful
      */
     public boolean insertAuthorsIntoDB(List<Author> authorsList) {
         
@@ -50,6 +50,16 @@ public class AuthorModel {
             
         });
         
+        
+        return false;
+    }
+    
+    public boolean fetchAuthorsFromDB() {
+        
+        VirtGraph graph = new RDFConnectionManager(GRAPH_NAME).getGraphConnection(false);
+        QueryHandler qh = new QueryHandler(graph, GRAPH_NAME);
+        
+        // TODO
         
         return false;
     }
