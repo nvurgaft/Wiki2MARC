@@ -107,9 +107,12 @@ public class QueryHandler {
         try {
             StringBuilder sb = new StringBuilder();
             statements.stream().forEach(s -> {
-                sb.append(s.toString()).append(".");
+                sb.append(s.toString()).append(" . ");
             });
-            String queryString = "INSERT INTO <" + this.graphName + "> { " + sb.toString() + " }";
+            String queryString = "INSERT INTO GRAPH <" + this.graphName + "> { " + sb.toString() + " }";
+            
+            logger.info("Running query: \n\n" + queryString + " \n\n");
+            
             VirtuosoUpdateRequest vur = VirtuosoUpdateFactory.create(queryString, this.graph);
             vur.exec();
             return true;

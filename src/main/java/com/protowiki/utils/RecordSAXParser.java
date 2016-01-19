@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
@@ -22,8 +21,9 @@ public class RecordSAXParser {
     public static Logger logger = LoggerFactory.getLogger(RecordSAXParser.class);
 
     /**
-     *  Provided an XML file path, this method invokes a native Java SAX parser
-     *  handler implementation and maps the data unto a list of Record objects.
+     * Provided an XML file path, this method invokes a native Java SAX parser
+     * handler implementation and maps the data unto a list of Record objects.
+     *
      * @param fileName
      * @return List of records
      */
@@ -43,23 +43,6 @@ public class RecordSAXParser {
             logger.error("Exception while parsing file " + fileName, err);
         }
         return handler.getRecords();
-    }
-    
-    /**
-     *  Goes over 
-     * 
-     * @param articleAbstracts
-     * @return 
-     */
-    public boolean generateMARCXMLFile(List<String> articleAbstracts) {
-        if (articleAbstracts==null || articleAbstracts.isEmpty()) {
-            return false;
-        }
-        
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        
-        
-        return false;
     }
 
 }

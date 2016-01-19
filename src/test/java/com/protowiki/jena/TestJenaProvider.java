@@ -6,6 +6,9 @@ import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.protowiki.entities.RDFStatement;
+import com.protowiki.model.QueryHandler;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -50,6 +53,42 @@ public class TestJenaProvider {
             RDFNode o = qs.get("o");
             RDFStatement stmt = new RDFStatement(s.toString(), p.toString(), o.toString());
             logger.info(stmt.toString());
+        }
+    }
+    
+    @Test
+    public void testClusterMaking() {
+        
+        VirtGraph graph = new VirtGraph(connection_string, login, password);
+        
+        // CLEAR the graph
+        String clearGraphQuery = "CLEAR GRAPH <http://test_author>";
+        logger.info("execute: " + clearGraphQuery);
+        VirtuosoUpdateRequest vur = VirtuosoUpdateFactory.create(clearGraphQuery, graph);
+        vur.exec();
+        
+        List<RDFStatement> stmts = new ArrayList<>();
+        stmts.add(new RDFStatement("Author_URI", "rdf:enName", "john smith"));
+        stmts.add(new RDFStatement("Author_URI", "rdf:auName", "john smyth"));
+        stmts.add(new RDFStatement("Author_URI", "rdf:brName", "jon smiff"));
+        stmts.add(new RDFStatement("Author_URI", "rdf:latName", "john smith"));
+        
+        QueryHandler qh = new QueryHandler(graph, "http://test_author");
+        qh.batchInsertStatements(stmts);
+        
+        // SELECT data from the graph and print it
+        String selectQueryString = "SELECT * FROM <http://test_author> WHERE { ?s ?p ?o }";
+        logger.info("execute: " + selectQueryString);
+        Query sparqlQuery = QueryFactory.create(selectQueryString);
+        VirtuosoQueryExecution vqe = VirtuosoQueryExecutionFactory.create(sparqlQuery, graph);
+
+        ResultSet rs = vqe.execSelect();
+        while (rs.hasNext()) {
+            QuerySolution qs = rs.nextSolution();
+            RDFNode s = qs.get("s");
+            RDFNode p = qs.get("p");
+            RDFNode o = qs.get("o");
+            logger.info("Subject: " + s.toString() + ", Predicate: " + p.toString() + ", Object: " + o.toString());
         }
     }
 

@@ -44,7 +44,7 @@ public class RDFConnectionManager {
      * @return VirtGraph graph
      */
     public VirtGraph getGraphConnection() {
-        return new VirtGraph(String.format(this.connectionString, this.host, this.port), username, password);
+        return new VirtGraph(this.connectionString, username, password);
     }
     
     /**

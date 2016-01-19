@@ -9,12 +9,31 @@ import com.protowiki.beans.Subfield;
 import com.protowiki.db.RDFConnectionManager;
 import com.protowiki.entities.RDFStatement;
 import com.protowiki.model.QueryHandler;
+import static com.protowiki.utils.RecordSAXParser.logger;
+import java.io.File;
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
+import org.xml.sax.SAXException;
 import virtuoso.jena.driver.VirtGraph;
 
 /**
@@ -40,14 +59,12 @@ public class DataTransformer {
         List<Author> authorsList = recordsList.stream()
                 .map(r -> {
                     Author author = new Author();
-                    
                     for (Controlfield cf : r.getControlfields()) {
                         if (cf.getTag().equals("001")) {
                             author.setMarcId(cf.getValue());
                             break;
                         }
                     }
-                    
                     author.setNames(new HashMap<>());
                     for (Datafield df : r.getDatafields()) {
                         switch (df.getTag()) {
@@ -77,13 +94,10 @@ public class DataTransformer {
                                 }
                                 break;
                             default:
-
                         }
                     }
                     return author;
-                })
-                .collect(Collectors.toList());
-
+                }).collect(Collectors.toList());
         return authorsList;
     }
     
@@ -119,5 +133,76 @@ public class DataTransformer {
             });
             handler.batchInsertStatements(queryStatement);
         });
+    }
+    
+    
+    /**
+     * Goes over the articleAbstracts list and appends the abstracts as property 999
+     * on the MARX XML 
+     *
+     * @param filePath
+     * @param articleAbstracts
+     * @return
+     */
+    public boolean generateMARCXMLFile(String filePath, List<String> articleAbstracts) {
+        // sanity checking the file path
+        if (filePath == null || filePath.isEmpty()) {
+            return false;
+        }
+        // sanity checking the abstracts collection
+        if (articleAbstracts == null || articleAbstracts.isEmpty()) {
+            return false;
+        }
+
+        DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
+        domFactory.setIgnoringComments(true);
+        DocumentBuilder builder = null;
+        Document doc = null;
+        
+        try {
+            builder = domFactory.newDocumentBuilder();
+            doc = builder.parse(new File(filePath));
+            NodeList nodes = doc.getElementsByTagName("record");
+
+            for (int i = 0; i < nodes.getLength(); i++) {
+                Node currentNode = nodes.item(i);
+
+                Element sfElem = doc.createElement("subfield");
+                sfElem.setAttribute("code", "a");
+                Text abstractText = doc.createTextNode(articleAbstracts.get(0));
+                sfElem.appendChild(abstractText);
+
+                Element dfElem = doc.createElement("datafield");
+                dfElem.setAttribute("tag", "999");
+                dfElem.appendChild(sfElem);
+
+                currentNode.getParentNode().appendChild(currentNode);
+            }
+
+        } catch (ParserConfigurationException | SAXException | IOException | DOMException ex) {
+            logger.error("Exception while updating XML MARC file", ex);
+        }
+        
+        if (doc==null) {
+            logger.error("Exception doc is empty");
+            return false;
+        }
+
+        try {
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+
+            StreamResult result = new StreamResult(new StringWriter());
+            DOMSource source = new DOMSource(doc);
+            transformer.transform(source, result);
+
+            String xmlOutput = result.getWriter().toString();
+            logger.info(xmlOutput);
+
+        } catch (Exception ex) {
+            logger.error("Exception while transforming XML MARC file", ex);
+        }
+
+        return false;
     }
 }
