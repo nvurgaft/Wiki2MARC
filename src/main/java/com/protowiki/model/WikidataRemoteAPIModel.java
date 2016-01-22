@@ -32,7 +32,7 @@ public class WikidataRemoteAPIModel {
     static String login = "dba";
     static String password = "dba";
 
-    private static final String GET_WIKIPEDIA_ABSTRACT_FOR_LABEL = StringUtils.join(
+    private static final String GET_WIKIPEDIA_ABSTRACT_USING_LABEL = StringUtils.join(
             new String[]{
                 "PREFIX ontology: <http://dbpedia.org/ontology/>",
                 "PREFIX property: <http://dbpedia.org/property/>",
@@ -40,9 +40,22 @@ public class WikidataRemoteAPIModel {
                 "SELECT ?name ?abstract WHERE {",
                 "?name rdfs:label \"%s\"@%s.",
                 "?name ontology:abstract ?abstract",
-                "FILTER (langMatches(lang(?abstract), \"en\"))",
+                "FILTER (LANG(?abstractEn)='%s')",
                 "}"
             }, "\n");
+
+    private static final String GET_WIKIPEDIA_ABSTRACT_USING_VIAF = StringUtils.join(
+            new String[]{
+                "PREFIX ontology: <http://dbpedia.org/ontology/>",
+                "PREFIX property: <http://dbpedia.org/property/>",
+                "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>",
+                "SELECT ?name ?abstract WHERE {",
+                "?name <http://dbpedia.org/property/viaf> \"%s\"^^<http://www.w3.org/2001/XMLSchema#integer> .",
+                "?name ontology:abstract ?abstract",
+                "FILTER (LANG(?abstractEn)='%s')",
+                "}"
+            }, "\n"
+    );
 
     private static final String GET_VIAF_FROM_HEBREW_AUTHORS = StringUtils.join(
             new String[]{
@@ -70,8 +83,8 @@ public class WikidataRemoteAPIModel {
      * Runs a user provided SPARQL query on the Wikidata endpoint
      *
      * @param queryString The query string
-     * @param sparqlServiceUrl The SPARQL endpoint ULR, if null or empty
-     * string, will default to "https://query.wikidata.org/sparql"
+     * @param sparqlServiceUrl The SPARQL endpoint ULR, if null or empty string,
+     * will default to "https://query.wikidata.org/sparql"
      * @return the query results in a string
      */
     public String runQueryOnWikidata(String queryString, String sparqlServiceUrl) {
@@ -110,13 +123,13 @@ public class WikidataRemoteAPIModel {
     }
 
     /**
-     * Fetches from DBPedia the article abstract for an author in a certain
-     * language
+     * Fetches (by label) from DBPedia the article abstract for an author in a
+     * certain language
      *
      * @param author The queried author
      * @param language The language that abstract should be in (if string is
      * null or empty, will default to 'en')
-     * 
+     *
      * @return The article abstract text string
      */
     public String getWikipediaAbstractByName(String author, String language) {
@@ -127,7 +140,40 @@ public class WikidataRemoteAPIModel {
             language = "en";
         }
 
-        String queryString = String.format(GET_WIKIPEDIA_ABSTRACT_FOR_LABEL, author, language);
+        String queryString = String.format(GET_WIKIPEDIA_ABSTRACT_USING_LABEL, author, language, language);
+        Query query = QueryFactory.create(queryString);
+        QueryExecution qe = QueryExecutionFactory.sparqlService("http://dbpedia.org/sparql", query);
+        String result = null;
+        ResultSet rs = ResultSetFactory.copyResults(qe.execSelect());
+        while (rs.hasNext()) {
+            QuerySolution qs = rs.nextSolution();
+            RDFNode _name = qs.get("name");
+            RDFNode _abstract = qs.get("abstract");
+            logger.info("Name: " + _name + ", Abstract: " + _abstract);
+            result = _abstract.toString();
+        }
+        return result;
+    }
+    
+    /**
+     * Fetches (by viaf id) from DBPedia the article abstract for an author in 
+     * a certain language
+     *
+     * @param author The queried author
+     * @param language The language that abstract should be in (if string is
+     * null or empty, will default to 'en')
+     *
+     * @return The article abstract text string
+     */
+    public String getWikipediaAbstractByViafId(String author, String language) {
+        if (author == null || author.isEmpty()) {
+            return null;
+        }
+        if (language == null || language.isEmpty()) {
+            language = "en";
+        }
+
+        String queryString = String.format(GET_WIKIPEDIA_ABSTRACT_USING_VIAF, author, language, language);
         Query query = QueryFactory.create(queryString);
         QueryExecution qe = QueryExecutionFactory.sparqlService("http://dbpedia.org/sparql", query);
         String result = null;

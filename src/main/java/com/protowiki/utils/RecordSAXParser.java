@@ -1,6 +1,7 @@
 package com.protowiki.utils;
 
 import com.protowiki.beans.Record;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,6 +20,17 @@ import org.xml.sax.SAXException;
 public class RecordSAXParser {
 
     public static Logger logger = LoggerFactory.getLogger(RecordSAXParser.class);
+    
+    /**
+     * Provided an XML file, this method invokes a native Java SAX parser
+     * handler implementation and maps the data unto a list of Record objects.
+     * 
+     * @param file
+     * @return 
+     */
+    public List<Record> parseXMLFileForRecords(File file) {
+        return this.parseXMLFileForRecords(file.getAbsolutePath());
+    }
 
     /**
      * Provided an XML file path, this method invokes a native Java SAX parser

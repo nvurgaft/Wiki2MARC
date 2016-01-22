@@ -58,32 +58,47 @@ public class QueryHandler {
         if (subject == null || subject.isEmpty()) {
             return null;
         }
-        // define a describe query
-        Query sparqlQuery = QueryFactory.create("DESCRIBE " + subject + " FROM " + this.graphName);
-        VirtuosoQueryExecution vqe = VirtuosoQueryExecutionFactory.create(sparqlQuery, this.graph);
-        // execute the query and get the graph
-        Model model = vqe.execDescribe();
-        Graph queriedGraph = model.getGraph();
-        // itreate over the retrieved triples, and place them inside a list
-        ExtendedIterator<Triple> iter = queriedGraph.find(Node.ANY, Node.ANY, Node.ANY);
-        List<RDFStatement> statement = new ArrayList<>();
-        while (iter.hasNext()) {
-            Triple t = (Triple) iter.next();
-            RDFStatement stmt = new RDFStatement(t.getSubject().toString(), t.getPredicate().toString(), t.getObject().toString());
-            statement.add(stmt);
+        List<RDFStatement> statement = null;
+        try {
+            // define a describe query
+            Query sparqlQuery = QueryFactory.create("DESCRIBE " + subject + " FROM " + this.graphName);
+            VirtuosoQueryExecution vqe = VirtuosoQueryExecutionFactory.create(sparqlQuery, this.graph);
+            // execute the query and get the graph
+            Model model = vqe.execDescribe();
+            Graph queriedGraph = model.getGraph();
+            // itreate over the retrieved triples, and place them inside a list
+            ExtendedIterator<Triple> iter = queriedGraph.find(Node.ANY, Node.ANY, Node.ANY);
+            statement = new ArrayList<>();
+            while (iter.hasNext()) {
+                Triple t = (Triple) iter.next();
+                RDFStatement stmt = new RDFStatement(t.getSubject().toString(), t.getPredicate().toString(), t.getObject().toString());
+                statement.add(stmt);
+            }
+        } catch (Exception ex) {
+            logger.error("Exception occured while querying for statements", ex);
         }
         return statement;
     }
 
-    public void selectTriples(String s, String p, String o) {
-        selectTriples(new RDFStatement(s, p, o));
-    }
+    /**
+     * Selects a triple by providing an RDFStatement object collection
+     * @param stmts
+     * @return Query result
+     */
+    public List<RDFStatement> selectTriples(Collection<? extends RDFStatement> stmts) {
 
-    public void selectTriples(RDFStatement statement) {
+        if (stmts == null || stmts.isEmpty()) {
+            return null;
+        }
 
-        String query = "SELECT * FROM <http://test1> WHERE {?s ?p ?o}";
+        StringBuilder sb = new StringBuilder();
+        stmts.stream().forEach(s -> {
+            sb.append(s.getSubject()).append(" ").append(s.getPredicate()).append(" ").append(s.getObject()).append(" .\n");
+        });
+        String query = "SELECT * FROM <http://test1> WHERE { " + sb.toString() + " }";
         Query sparqlQuery = QueryFactory.create(query);
         VirtuosoQueryExecution vqe = VirtuosoQueryExecutionFactory.create(sparqlQuery, this.graph);
+        List<RDFStatement> stmtsList = new ArrayList<>();
         ResultSet rs = vqe.execSelect();
         while (rs.hasNext()) {
             QuerySolution qs = rs.nextSolution();
@@ -91,11 +106,32 @@ public class QueryHandler {
             RDFNode p = qs.get("p");
             RDFNode o = qs.get("o");
             RDFStatement stmt = new RDFStatement(s.toString(), p.toString(), o.toString());
-            logger.info(stmt.toString());
+            stmtsList.add(stmt);
+            logger.info("fetched: " + stmt.toString());
         }
-        
-        
-        // TODO
+        return stmtsList;
+    }
+    
+    /**
+     * Selects a triple by providing an RDFStatement object
+     * @param statement
+     * @return Query result
+     */
+    public List<RDFStatement> selectTriples(RDFStatement statement) {
+        List<RDFStatement> stmts = new ArrayList<>();
+        stmts.add(statement);
+        return this.selectTriples(stmts);
+    }
+
+    /**
+     * Selects a triple by providing statement literals
+     * @param s Subject
+     * @param p Predicate
+     * @param o Object
+     * @return Query result
+     */
+    public List<RDFStatement> selectTriples(String s, String p, String o) {
+        return selectTriples(new RDFStatement(s, p, o));
     }
 
     /**
