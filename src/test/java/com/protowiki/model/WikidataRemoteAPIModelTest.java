@@ -1,10 +1,12 @@
 package com.protowiki.model;
 
 import com.protowiki.beans.Author;
+import java.util.Arrays;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
@@ -18,7 +20,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Nick
  */
-@Ignore
+//@Ignore
 public class WikidataRemoteAPIModelTest {
 
     public static Logger logger = LoggerFactory.getLogger(WikidataRemoteAPIModelTest.class);
@@ -70,6 +72,35 @@ public class WikidataRemoteAPIModelTest {
         String articleAbstract = instance.getWikipediaAbstractByName(author, language);
         assertNotNull(articleAbstract);
         assertTrue(articleAbstract.length() > 0);
+    }
+
+    /**
+     * Test of testGetWikipediaAbstractByViafId method, of class WikidataRemoteAPIModel.
+     */
+    @Test
+    public void testGetWikipediaAbstractByViafId() {
+        logger.info("getWikipediaAbstract");
+        String viafId = "50566653";
+        String language = "en";
+        WikidataRemoteAPIModel instance = new WikidataRemoteAPIModel();
+        String articleAbstract = instance.getWikipediaAbstractByViafId(viafId, language);
+        assertNotNull(articleAbstract);
+        assertTrue(articleAbstract.length() > 0);
+    }
+    
+    /**
+     * Test of testGetWikipediaAbstractByViafId method, of class WikidataRemoteAPIModel.
+     */
+    @Test
+    public void testGetMultipleWikipediaAbstractByViafIds() {
+        logger.info("getWikipediaAbstract");
+        List<String> vids = Arrays.asList("50566653", "113230702");
+        String language = "en";
+        WikidataRemoteAPIModel instance = new WikidataRemoteAPIModel();
+        String articleAbstract = instance.getMultipleWikipediaAbstractByViafIds(vids, language);
+        
+        assertNotNull("Should not by null", articleAbstract);
+        assertEquals("Should returns 2 objects", articleAbstract.length(), 2);
     }
 
     /**

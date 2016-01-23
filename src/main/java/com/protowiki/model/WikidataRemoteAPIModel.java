@@ -50,12 +50,24 @@ public class WikidataRemoteAPIModel {
                 "PREFIX property: <http://dbpedia.org/property/>",
                 "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>",
                 "SELECT ?name ?abstract WHERE {",
-                "?name <http://dbpedia.org/property/viaf> \"%s\"^^<http://www.w3.org/2001/XMLSchema#integer> .",
+                "?name <http://dbpedia.org/property/viaf> %s .",
                 "?name ontology:abstract ?abstract",
-                "FILTER (LANG(?abstractEn)='%s')",
+                "FILTER (LANG(?abstract)='%s')",
                 "}"
-            }, "\n"
-    );
+            }, "\n");
+
+    private static final String GET_MULTIPLE_WIKIPEDIA_ABSTRACT_BY_VIAF = StringUtils.join(
+            new String[]{
+                "PREFIX ontology: <http://dbpedia.org/ontology/>",
+                "PREFIX property: <http://dbpedia.org/property/>",
+                "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>",
+                "SELECT ?name ?abstract WHERE {",
+                "VALUES ?value { %s }",
+                "?name <http://dbpedia.org/property/viaf> ?value.",
+                "?name ontology:abstract ?abstract .",
+                "FILTER (LANG(?abstract)='en')",
+                "}"
+            }, "\n");
 
     private static final String GET_VIAF_FROM_HEBREW_AUTHORS = StringUtils.join(
             new String[]{
@@ -154,26 +166,62 @@ public class WikidataRemoteAPIModel {
         }
         return result;
     }
-    
+
     /**
-     * Fetches (by viaf id) from DBPedia the article abstract for an author in 
-     * a certain language
+     * Fetches (by viaf id) from DBPedia the article abstract for an author in a
+     * certain language
      *
-     * @param author The queried author
+     * @param viafId The author's viaf ID
      * @param language The language that abstract should be in (if string is
      * null or empty, will default to 'en')
      *
      * @return The article abstract text string
      */
-    public String getWikipediaAbstractByViafId(String author, String language) {
-        if (author == null || author.isEmpty()) {
+    public String getWikipediaAbstractByViafId(String viafId, String language) {
+        if (viafId == null || viafId.isEmpty()) {
             return null;
         }
         if (language == null || language.isEmpty()) {
             language = "en";
         }
 
-        String queryString = String.format(GET_WIKIPEDIA_ABSTRACT_USING_VIAF, author, language, language);
+        String queryString = String.format(GET_WIKIPEDIA_ABSTRACT_USING_VIAF, viafId, language);
+        Query query = QueryFactory.create(queryString);
+        QueryExecution qe = QueryExecutionFactory.sparqlService("http://dbpedia.org/sparql", query);
+        String result = null;
+        ResultSet rs = ResultSetFactory.copyResults(qe.execSelect());
+        while (rs.hasNext()) {
+            QuerySolution qs = rs.nextSolution();
+            RDFNode _name = qs.get("name");
+            RDFNode _abstract = qs.get("abstract");
+            logger.info("Name: " + _name + ", Abstract: " + _abstract);
+            result = _abstract.toString();
+        }
+        return result;
+    }
+
+    /**
+     * Fetches (by viaf id) from DBPedia the article abstract for an author in a
+     * certain language
+     *
+     * @param viafIds viaf id's
+     * @param language The language that abstract should be in (if string is
+     * null or empty, will default to 'en')
+     *
+     * @return The article abstract text string
+     */
+    public String getMultipleWikipediaAbstractByViafIds(List<String> viafIds, String language) {
+        if (viafIds == null || viafIds.isEmpty()) {
+            return null;
+        }
+        if (language == null || language.isEmpty()) {
+            language = "en";
+        }
+
+        String joinedViafs = StringUtils.join(viafIds, " ");
+
+        String queryString = String.format(GET_MULTIPLE_WIKIPEDIA_ABSTRACT_BY_VIAF, joinedViafs, language);
+        System.out.println("Query string: " + queryString);
         Query query = QueryFactory.create(queryString);
         QueryExecution qe = QueryExecutionFactory.sparqlService("http://dbpedia.org/sparql", query);
         String result = null;
@@ -219,12 +267,10 @@ public class WikidataRemoteAPIModel {
                 author.getNames().put("en", _enName.toString());
                 author.getNames().put("he", _heName.toString());
                 authors.add(author);
-                logger.debug("s: " + _s + ", VIAF ID: " + _viaf + ", NLI: " + _nli + ", English name: " + _enName + ", Hebrew name: " + _heName);
             }
         } catch (Exception ex) {
             logger.error("Exception while marshalling authors list from local VOS RDF", ex);
         }
-
         return authors;
     }
 
@@ -261,12 +307,10 @@ public class WikidataRemoteAPIModel {
                 author.getNames().put("en", _enName.toString());
                 author.getNames().put("he", _heName.toString());
                 authors.add(author);
-                logger.debug("s: " + _s + ", VIAF ID: " + _viaf + ", NLI: " + _nli + ", English name: " + _enName + ", Hebrew name: " + _heName);
             }
         } catch (Exception ex) {
             logger.error("Exception while marshalling authors list from remote SPARQL API", ex);
         }
-
         return authors;
     }
 }

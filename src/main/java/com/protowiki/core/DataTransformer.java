@@ -8,8 +8,12 @@ import com.protowiki.beans.Subfield;
 import com.protowiki.db.RDFConnectionManager;
 import com.protowiki.entities.RDFStatement;
 import com.protowiki.model.QueryHandler;
+import com.protowiki.model.WikidataRemoteAPIModel;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -241,48 +245,57 @@ public class DataTransformer {
                     NamedNodeMap attrMap = datafield.getAttributes();
                     if (attrMap != null) {
                         if (attrMap.getNamedItem("tag") != null && attrMap.getNamedItem("tag").getNodeValue().equals("901")) {
-                            System.out.println("viaf: " + datafield.getTextContent());
-                                // TODO
-                        }
 
+                            String viafId = datafield.getTextContent().trim();
+                            WikidataRemoteAPIModel ram = new WikidataRemoteAPIModel();
+                            String queriedAbstract = ram.getWikipediaAbstractByViafId(viafId, "en");
+                            Element sfElem = doc.createElement("subfield");
+                            sfElem.setAttribute("code", "a");
+                            Text abstractText = doc.createTextNode(queriedAbstract);
+                            sfElem.appendChild(abstractText);
+                            Element dfElem = doc.createElement("datafield");
+                            dfElem.setAttribute("tag", "999");
+                            dfElem.setAttribute("ind1", " ");
+                            dfElem.setAttribute("ind2", " ");
+                            dfElem.appendChild(sfElem);
+                            records.item(i).appendChild(dfElem);
+                        }
                     }
                 }
             }
 
-//            Element sfElem = doc.createElement("subfield");
-//            sfElem.setAttribute("code", "a");
-//            Text abstractText = doc.createTextNode("TEST TEXT PLEASE IGNORE");
-//            sfElem.appendChild(abstractText);
-//
-//            Element dfElem = doc.createElement("datafield");
-//            dfElem.setAttribute("tag", "999");
-//            dfElem.appendChild(sfElem);
-//
-//            currentNode.getParentNode().appendChild(currentNode);
         } catch (ParserConfigurationException | SAXException | IOException | DOMException ex) {
             logger.error("Exception while updating XML MARC file", ex);
         }
 
-//        if (doc
-//                == null) {
-//            logger.error("Exception doc is empty");
-//            return false;
-//        }
-//
-//        try {
-//            Transformer transformer = TransformerFactory.newInstance().newTransformer();
-//            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-//
-//            StreamResult result = new StreamResult(new StringWriter());
-//            DOMSource source = new DOMSource(doc);
-//            transformer.transform(source, result);
-//
-//            String xmlOutput = result.getWriter().toString();
-//            logger.info(xmlOutput);
-//
-//        } catch (IllegalArgumentException | TransformerException ex) {
-//            logger.error("Exception while transforming XML MARC file", ex);
-//        }
-        return false;
+        if (doc == null) {
+            logger.error("Exception doc is empty");
+            return false;
+        }
+
+        try {
+            Transformer transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+
+            StreamResult result = new StreamResult(new StringWriter());
+            DOMSource source = new DOMSource(doc);
+            transformer.transform(source, result);
+
+            String xmlOutput = result.getWriter().toString();
+            //System.out.println(xmlOutput);
+            File file = new File(filePath + ".updated");
+            if (file.createNewFile()) {
+                FileOutputStream fStream = new FileOutputStream(file.getAbsolutePath());
+                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fStream, "UTF-8");
+                try (BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter)) {
+                    bufferedWriter.write(xmlOutput);
+                }
+            }
+
+        } catch (IllegalArgumentException | TransformerException | IOException ex) {
+            logger.error("Exception while transforming XML MARC file", ex);
+            return false;
+        }
+        return true;
     }
 }
