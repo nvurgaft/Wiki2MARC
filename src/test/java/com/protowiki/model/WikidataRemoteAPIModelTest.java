@@ -3,6 +3,7 @@ package com.protowiki.model;
 import com.protowiki.beans.Author;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -97,10 +98,30 @@ public class WikidataRemoteAPIModelTest {
         List<String> vids = Arrays.asList("50566653", "113230702");
         String language = "en";
         WikidataRemoteAPIModel instance = new WikidataRemoteAPIModel();
-        String articleAbstract = instance.getMultipleWikipediaAbstractByViafIds(vids, language);
+        Map<String, String> absMap = instance.getMultipleWikipediaAbstractByViafIds(vids, language);
         
-        assertNotNull("Should not by null", articleAbstract);
-        assertEquals("Should returns 2 objects", articleAbstract.length(), 2);
+        for (String key : absMap.keySet()) {
+            System.out.println("Key: " + key + ", value: " + absMap.get(key));
+        }
+        
+        assertNotNull("Should not by null", absMap);
+        assertEquals("Should returns 2 objects", absMap.keySet().size(), 2);
+    }
+    
+    /**
+     * Test of testGetWikipediaAbstractByViafId method, of class WikidataRemoteAPIModel.
+     */
+    @Test
+    public void testGetMultipleWikipediaAbstractByViafs() {
+        logger.info("getWikipediaAbstract");
+        List<String> vids = Arrays.asList("50566653", "113230702");
+        
+        String language = "en";
+        WikidataRemoteAPIModel instance = new WikidataRemoteAPIModel();
+        Map<String, String> absMap = instance.getMultipleWikipediaAbstractByViafIds(vids, language);
+        
+        assertNotNull("Should not by null", absMap);
+        assertEquals("Should returns 2 objects", absMap.keySet().size(), 2);
     }
 
     /**

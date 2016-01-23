@@ -9,10 +9,12 @@ import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.query.ResultSetFactory;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.protowiki.beans.Author;
+import com.protowiki.utils.RDFUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,9 +63,9 @@ public class WikidataRemoteAPIModel {
                 "PREFIX ontology: <http://dbpedia.org/ontology/>",
                 "PREFIX property: <http://dbpedia.org/property/>",
                 "PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>",
-                "SELECT ?name ?abstract WHERE {",
-                "VALUES ?value { %s }",
-                "?name <http://dbpedia.org/property/viaf> ?value.",
+                "SELECT ?name ?viaf ?abstract WHERE {",
+                "VALUES ?viaf { %s }",
+                "?name <http://dbpedia.org/property/viaf> ?viaf.",
                 "?name ontology:abstract ?abstract .",
                 "FILTER (LANG(?abstract)='en')",
                 "}"
@@ -210,7 +212,7 @@ public class WikidataRemoteAPIModel {
      *
      * @return The article abstract text string
      */
-    public String getMultipleWikipediaAbstractByViafIds(List<String> viafIds, String language) {
+    public Map<String, String> getMultipleWikipediaAbstractByViafIds(List<String> viafIds, String language) {
         if (viafIds == null || viafIds.isEmpty()) {
             return null;
         }
@@ -224,16 +226,18 @@ public class WikidataRemoteAPIModel {
         System.out.println("Query string: " + queryString);
         Query query = QueryFactory.create(queryString);
         QueryExecution qe = QueryExecutionFactory.sparqlService("http://dbpedia.org/sparql", query);
-        String result = null;
+        Map<String, String> resultMap = new HashMap<>();
         ResultSet rs = ResultSetFactory.copyResults(qe.execSelect());
         while (rs.hasNext()) {
             QuerySolution qs = rs.nextSolution();
             RDFNode _name = qs.get("name");
+            RDFNode _viaf = qs.get("viaf");
             RDFNode _abstract = qs.get("abstract");
-            logger.info("Name: " + _name + ", Abstract: " + _abstract);
-            result = _abstract.toString();
+            String viaf = RDFUtils.spliceLiteralType(_viaf.toString());
+            String abs = RDFUtils.spliceLiteralLaguageTag(_abstract.toString());
+            resultMap.put(viaf, abs);
         }
-        return result;
+        return resultMap;
     }
 
     /**

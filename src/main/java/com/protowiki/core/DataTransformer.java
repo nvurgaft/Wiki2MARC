@@ -18,6 +18,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -148,7 +149,7 @@ public class DataTransformer {
      * @param articleAbstracts the abstracts as a list of strings
      * @return the modified XML MARC file
      */
-    public boolean generateMARCXMLFile(File file, List<String> articleAbstracts) {
+    public boolean generateMARCXMLFile(File file, Map<String, String> articleAbstracts) {
         return this.generateMARCXMLFile(file.getAbsolutePath(), articleAbstracts);
     }
 
@@ -160,7 +161,7 @@ public class DataTransformer {
      * @param articleAbstracts the abstracts as a list of strings
      * @return the modified XML MARC file
      */
-    public boolean generateMARCXMLFile(String filePath, List<String> articleAbstracts) {
+    public boolean generateMARCXMLFile(String filePath, Map<String, String> articleAbstracts) {
         // sanity checking the file path
         if (filePath == null || filePath.isEmpty()) {
             return false;
@@ -178,21 +179,34 @@ public class DataTransformer {
         try {
             builder = domFactory.newDocumentBuilder();
             doc = builder.parse(new File(filePath));
-            NodeList nodes = doc.getElementsByTagName("record");
+            NodeList records = doc.getElementsByTagName("record");
 
-            for (int i = 0; i < nodes.getLength(); i++) {
-                Node currentNode = nodes.item(i);
+            for (int i = 0; i < records.getLength(); i++) {
+                NodeList datafieldNodes = records.item(i).getChildNodes();
+                for (int j = 0; j < datafieldNodes.getLength(); j++) {
+                    Node datafield = datafieldNodes.item(j);
+                    NamedNodeMap attrMap = datafield.getAttributes();
+                    if (attrMap != null) {
+                        if (attrMap.getNamedItem("tag") != null && attrMap.getNamedItem("tag").getNodeValue().equals("901")) {
 
-                Element sfElem = doc.createElement("subfield");
-                sfElem.setAttribute("code", "a");
-                Text abstractText = doc.createTextNode(articleAbstracts.get(0));
-                sfElem.appendChild(abstractText);
-
-                Element dfElem = doc.createElement("datafield");
-                dfElem.setAttribute("tag", "999");
-                dfElem.appendChild(sfElem);
-
-                currentNode.getParentNode().appendChild(currentNode);
+                            String viafId = datafield.getTextContent().trim();
+                            
+//                            WikidataRemoteAPIModel ram = new WikidataRemoteAPIModel();
+//                            String queriedAbstract = ram.getWikipediaAbstractByViafId(viafId, "en");
+//                            Element sfElem = doc.createElement("subfield");
+//                            sfElem.setAttribute("code", "a");
+//                            Text abstractText = doc.createTextNode(queriedAbstract);
+//                            
+//                            sfElem.appendChild(abstractText);
+//                            Element dfElem = doc.createElement("datafield");
+//                            dfElem.setAttribute("tag", "999");
+//                            dfElem.setAttribute("ind1", " ");
+//                            dfElem.setAttribute("ind2", " ");
+//                            dfElem.appendChild(sfElem);
+//                            records.item(i).appendChild(dfElem);
+                        }
+                    }
+                }
             }
 
         } catch (ParserConfigurationException | SAXException | IOException | DOMException ex) {
