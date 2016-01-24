@@ -1,9 +1,13 @@
 package com.protowiki.model;
 
 import com.protowiki.beans.Author;
+import com.protowiki.beans.Record;
+import com.protowiki.core.DataTransformer;
+import com.protowiki.utils.RecordSAXParser;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -94,7 +98,7 @@ public class WikidataRemoteAPIModelTest {
      */
     @Test
     public void testGetMultipleWikipediaAbstractByViafIds() {
-        logger.info("getWikipediaAbstract");
+        logger.info("getMultipleWikipediaAbstractByViafIds");
         List<String> vids = Arrays.asList("50566653", "113230702");
         String language = "en";
         WikidataRemoteAPIModel instance = new WikidataRemoteAPIModel();
@@ -104,7 +108,7 @@ public class WikidataRemoteAPIModelTest {
             System.out.println("Key: " + key + ", value: " + absMap.get(key));
         }
         
-        assertNotNull("Should not by null", absMap);
+        assertNotNull("Should not be null", absMap);
         assertEquals("Should returns 2 objects", absMap.keySet().size(), 2);
     }
     
@@ -113,15 +117,22 @@ public class WikidataRemoteAPIModelTest {
      */
     @Test
     public void testGetMultipleWikipediaAbstractByViafs() {
-        logger.info("getWikipediaAbstract");
-        List<String> vids = Arrays.asList("50566653", "113230702");
+        logger.info("getMultipleWikipediaAbstractByViafs");
         
-        String language = "en";
+        RecordSAXParser parser = new RecordSAXParser();
+        DataTransformer optimus = new DataTransformer();
+        List<Record> records = parser.parseXMLFileForRecords("C://files//authbzi.xml");
+        List<Author> authorsList = optimus.transformRecordsListToAuthors(records);
+        
+        List<String> viafs = authorsList.stream().map(a -> {
+            return a.getViafId().trim();
+        }).collect(Collectors.toList());
+        
         WikidataRemoteAPIModel instance = new WikidataRemoteAPIModel();
-        Map<String, String> absMap = instance.getMultipleWikipediaAbstractByViafIds(vids, language);
+        Map<String, String> absMap = instance.getMultipleWikipediaAbstractByViafIds(viafs, "en");
         
-        assertNotNull("Should not by null", absMap);
-        assertEquals("Should returns 2 objects", absMap.keySet().size(), 2);
+        assertNotNull("Should not be null", absMap);
+        assertTrue("Should returns multiple objects", absMap.keySet().size()>0);
     }
 
     /**

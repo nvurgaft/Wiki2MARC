@@ -14,6 +14,7 @@ import com.protowiki.entities.RDFStatement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import virtuoso.jena.driver.VirtGraph;
@@ -32,8 +33,10 @@ public class QueryHandler {
 
     public static Logger logger = LoggerFactory.getLogger(QueryHandler.class);
 
-    String graphName;
-    VirtGraph graph;
+    protected String defaultPrefices;
+
+    private String graphName;
+    private VirtGraph graph;
 
     /**
      * Constructs the handler object using a given Graph name and a Virtuoso
@@ -45,6 +48,28 @@ public class QueryHandler {
     public QueryHandler(VirtGraph graph, String graphName) {
         this.graphName = graphName;
         this.graph = graph;
+
+        this.defaultPrefices = StringUtils.join(
+                "PREFIX rdf: <http://www.w3.org/2000/01/rdf-schema#>", " ", "\n");
+    }
+    
+    /**
+     * Clears the working graph
+     * @return true if the clearing process ran without throwing exceptions. 
+     * Note that it doesn't mean the graph was actually cleared as the driver
+     * passes no such information in the API.
+     */
+    public boolean clearGraph() {
+
+        if (this.graph != null) {
+            try {
+                this.graph.clear();
+            } catch (Exception ex) {
+                logger.error("Exception while clearing graph " + this.graphName, ex);
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -61,7 +86,9 @@ public class QueryHandler {
         List<RDFStatement> statement = null;
         try {
             // define a describe query
-            Query sparqlQuery = QueryFactory.create("DESCRIBE " + subject + " FROM " + this.graphName);
+            String query = defaultPrefices + "DESCRIBE " + subject + " FROM " + this.graphName;
+
+            Query sparqlQuery = QueryFactory.create(query);
             VirtuosoQueryExecution vqe = VirtuosoQueryExecutionFactory.create(sparqlQuery, this.graph);
             // execute the query and get the graph
             Model model = vqe.execDescribe();
@@ -82,6 +109,7 @@ public class QueryHandler {
 
     /**
      * Selects a triple by providing an RDFStatement object collection
+     *
      * @param stmts
      * @return Query result
      */
@@ -91,29 +119,37 @@ public class QueryHandler {
             return null;
         }
 
+        RDFStatement rdfs = stmts.stream().findFirst().get();
+        String si = rdfs.getSubject(), pi = rdfs.getPredicate(), oi = rdfs.getObject(); // doesnt get value
+
         StringBuilder sb = new StringBuilder();
         stmts.stream().forEach(s -> {
             sb.append(s.getSubject()).append(" ").append(s.getPredicate()).append(" ").append(s.getObject()).append(" .\n");
         });
-        String query = "SELECT * FROM <http://test1> WHERE { " + sb.toString() + " }";
+        String query = this.defaultPrefices + "SELECT * FROM <" + this.graphName + "> WHERE { " + sb.toString() + " }";
         Query sparqlQuery = QueryFactory.create(query);
         VirtuosoQueryExecution vqe = VirtuosoQueryExecutionFactory.create(sparqlQuery, this.graph);
         List<RDFStatement> stmtsList = new ArrayList<>();
         ResultSet rs = vqe.execSelect();
         while (rs.hasNext()) {
             QuerySolution qs = rs.nextSolution();
-            RDFNode s = qs.get("s");
-            RDFNode p = qs.get("p");
-            RDFNode o = qs.get("o");
-            RDFStatement stmt = new RDFStatement(s.toString(), p.toString(), o.toString());
+            RDFNode s = qs.get(si);
+            RDFNode p = qs.get(pi);
+            RDFNode o = qs.get(oi);
+            RDFStatement stmt = new RDFStatement(
+                    s != null ? s.toString() : "null",
+                    p != null ? p.toString() : "null",
+                    o != null ? o.toString() : "null"
+            );
             stmtsList.add(stmt);
             logger.info("fetched: " + stmt.toString());
         }
         return stmtsList;
     }
-    
+
     /**
      * Selects a triple by providing an RDFStatement object
+     *
      * @param statement
      * @return Query result
      */
@@ -125,6 +161,7 @@ public class QueryHandler {
 
     /**
      * Selects a triple by providing statement literals
+     *
      * @param s Subject
      * @param p Predicate
      * @param o Object
@@ -157,12 +194,12 @@ public class QueryHandler {
             return false;
         }
         try {
-            String query = "INSERT INTO GRAPH <" + this.graphName + "> { " + stmt.toString() + "}";
+            String query = this.defaultPrefices + "INSERT INTO GRAPH <" + this.graphName + "> { " + stmt.toString() + "}";
             VirtuosoUpdateRequest vur = VirtuosoUpdateFactory.create(query, this.graph);
             vur.exec();
             return true;
         } catch (Exception ex) {
-            logger.error("Exception while deleting a statement", ex);
+            logger.error("Exception while inserting a statement", ex);
         }
         return false;
     }
@@ -183,7 +220,7 @@ public class QueryHandler {
             statements.stream().forEach(s -> {
                 sb.append(s.toString()).append(" . ");
             });
-            String queryString = "INSERT INTO GRAPH <" + this.graphName + "> { " + sb.toString() + " }";
+            String queryString = this.defaultPrefices + "INSERT INTO GRAPH <" + this.graphName + "> { " + sb.toString() + " }";
 
             logger.info("Running query: \n\n" + queryString + " \n\n");
 
@@ -219,7 +256,7 @@ public class QueryHandler {
             return false;
         }
         try {
-            String query = "DELETE FROM GRAPH <" + this.graphName + "> { " + stmt.toString() + " }";
+            String query = this.defaultPrefices + "DELETE FROM GRAPH <" + this.graphName + "> { " + stmt.toString() + " }";
             VirtuosoUpdateRequest vur = VirtuosoUpdateFactory.create(query, this.graph);
             vur.exec();
             return true;
@@ -245,12 +282,12 @@ public class QueryHandler {
             statements.stream().forEach(s -> {
                 sb.append(s.toString()).append(" . ");
             });
-            String queryString = "DELETE FROM GRAPH < " + this.graphName + "> { " + sb.toString() + "}";
+            String queryString = this.defaultPrefices + "DELETE FROM GRAPH < " + this.graphName + "> { " + sb.toString() + "}";
             VirtuosoUpdateRequest vur = VirtuosoUpdateFactory.create(queryString, this.graph);
             vur.exec();
             return true;
         } catch (Exception ex) {
-            logger.error("Exception while batch inserting statements", ex);
+            logger.error("Exception while batch deleting statements", ex);
         }
         return false;
     }

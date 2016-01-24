@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -62,48 +63,47 @@ public class DataTransformer {
             return null;
         }
 
-        List<Author> authorsList = recordsList.stream()
-                .map(r -> {
-                    Author author = new Author();
-                    for (Controlfield cf : r.getControlfields()) {
-                        if (cf.getTag().equals("001")) {
-                            author.setMarcId(cf.getValue());
-                            break;
+        List<Author> authorsList = recordsList.stream().map(r -> {
+            Author author = new Author();
+            for (Controlfield cf : r.getControlfields()) {
+                if (cf.getTag().equals("001")) {
+                    author.setMarcId(cf.getValue());
+                    break;
+                }
+            }
+            author.setNames(new HashMap<>());
+            for (Datafield df : r.getDatafields()) {
+                switch (df.getTag()) {
+                    case "100":
+                    case "400":
+                        String lang = "",
+                         name = "";
+                        for (Subfield sf : df.getSubfields()) {
+                            if (sf.getCode().equals("a")) {
+                                name = sf.getValue();
+                            } else if (sf.getCode().equals("9")) {
+                                lang = sf.getValue();
+                            } else if (sf.getCode().equals("d")) {
+                                author.setYears(sf.getValue());
+                            }
                         }
-                    }
-                    author.setNames(new HashMap<>());
-                    for (Datafield df : r.getDatafields()) {
-                        switch (df.getTag()) {
-                            case "100":
-                            case "400":
-                                String lang = "",
-                                 name = "";
-                                for (Subfield sf : df.getSubfields()) {
-                                    if (sf.getCode().equals("a")) {
-                                        name = sf.getValue();
-                                    } else if (sf.getCode().equals("9")) {
-                                        lang = sf.getValue();
-                                    } else if (sf.getCode().equals("d")) {
-                                        author.setYears(sf.getValue());
-                                    }
-                                }
-                                if (!name.isEmpty() && !lang.isEmpty()) {
-                                    author.getNames().put(lang, name);
-                                }
-                                break;
-                            case "901":
-                                for (Subfield sf : df.getSubfields()) {
-                                    if (sf.getCode().equals("a")) {
-                                        author.setViafId(sf.getValue());
-                                        break;
-                                    }
-                                }
-                                break;
-                            default:
+                        if (!name.isEmpty() && !lang.isEmpty()) {
+                            author.getNames().put(lang, name);
                         }
-                    }
-                    return author;
-                }).collect(Collectors.toList());
+                        break;
+                    case "901":
+                        for (Subfield sf : df.getSubfields()) {
+                            if (sf.getCode().equals("a")) {
+                                author.setViafId(sf.getValue());
+                                break;
+                            }
+                        }
+                        break;
+                    default:
+                }
+            }
+            return author;
+        }).collect(Collectors.toList());
         return authorsList;
     }
 
@@ -190,20 +190,20 @@ public class DataTransformer {
                         if (attrMap.getNamedItem("tag") != null && attrMap.getNamedItem("tag").getNodeValue().equals("901")) {
 
                             String viafId = datafield.getTextContent().trim();
+                            System.out.println("viafId : " + viafId);
+                            String wpAbstract = articleAbstracts.get(viafId);
                             
-//                            WikidataRemoteAPIModel ram = new WikidataRemoteAPIModel();
-//                            String queriedAbstract = ram.getWikipediaAbstractByViafId(viafId, "en");
-//                            Element sfElem = doc.createElement("subfield");
-//                            sfElem.setAttribute("code", "a");
-//                            Text abstractText = doc.createTextNode(queriedAbstract);
-//                            
-//                            sfElem.appendChild(abstractText);
-//                            Element dfElem = doc.createElement("datafield");
-//                            dfElem.setAttribute("tag", "999");
-//                            dfElem.setAttribute("ind1", " ");
-//                            dfElem.setAttribute("ind2", " ");
-//                            dfElem.appendChild(sfElem);
-//                            records.item(i).appendChild(dfElem);
+                            Element sfElem = doc.createElement("subfield");
+                            sfElem.setAttribute("code", "a");
+                            Text abstractText = doc.createTextNode(wpAbstract);
+
+                            sfElem.appendChild(abstractText);
+                            Element dfElem = doc.createElement("datafield");
+                            dfElem.setAttribute("tag", "999");
+                            dfElem.setAttribute("ind1", " ");
+                            dfElem.setAttribute("ind2", " ");
+                            dfElem.appendChild(sfElem);
+                            records.item(i).appendChild(dfElem);
                         }
                     }
                 }
@@ -236,6 +236,12 @@ public class DataTransformer {
         return false;
     }
 
+    /**
+     * Attempts to generate an updated MARC XML file by querying from remote
+     * SPARQL end point
+     * @param filePath
+     * @return true if and only if the entire process was successful
+     */
     public boolean dynamicallyGenerateMARCXMLFile(String filePath) {
         // sanity checking the file path
         if (filePath == null || filePath.isEmpty()) {
@@ -261,8 +267,10 @@ public class DataTransformer {
                         if (attrMap.getNamedItem("tag") != null && attrMap.getNamedItem("tag").getNodeValue().equals("901")) {
 
                             String viafId = datafield.getTextContent().trim();
+
                             WikidataRemoteAPIModel ram = new WikidataRemoteAPIModel();
                             String queriedAbstract = ram.getWikipediaAbstractByViafId(viafId, "en");
+
                             Element sfElem = doc.createElement("subfield");
                             sfElem.setAttribute("code", "a");
                             Text abstractText = doc.createTextNode(queriedAbstract);

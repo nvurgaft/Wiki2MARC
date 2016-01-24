@@ -213,6 +213,31 @@ public class WikidataRemoteAPIModel {
      * @return The article abstract text string
      */
     public Map<String, String> getMultipleWikipediaAbstractByViafIds(List<String> viafIds, String language) {
+        
+        // buffer each remote query with up to 50 viaf ids per request
+        if (viafIds.size()>50) {
+            List<String> stack = new ArrayList<>();
+            Map<String, String> bufferedResult = new HashMap<>();
+            for (String viaf : viafIds) {
+                stack.add(viaf);
+                if (stack.size()==50) {
+                    Map<String, String> temp = this.getMultipleWikipediaAbstractByViafIdsInner(stack, language);
+                    bufferedResult.putAll(temp);
+                    stack.clear();
+                }
+            }
+            if (!stack.isEmpty()) {
+                this.getMultipleWikipediaAbstractByViafIdsInner(stack, language);
+                stack.clear();
+            }
+            return bufferedResult;
+        } else {
+            return this.getMultipleWikipediaAbstractByViafIdsInner(viafIds, language);
+        }
+    }
+    
+    
+    private Map<String, String> getMultipleWikipediaAbstractByViafIdsInner(List<String> viafIds, String language) {
         if (viafIds == null || viafIds.isEmpty()) {
             return null;
         }
