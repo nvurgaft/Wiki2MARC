@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -27,13 +26,15 @@ import org.slf4j.LoggerFactory;
 public class RecordsResource {
 
     public static Logger logger = LoggerFactory.getLogger(RecordsResource.class);
+    
+    private static final String FILE_PATH = "C://files//";
 
     @GET
     @Path("get-files")
     @Produces(MediaType.APPLICATION_JSON)
     public Response scanAndGetFiles() {
 
-        File file = new File("C://files//");
+        File file = new File(FILE_PATH);
         File[] files = file.listFiles();
 
         List<FileDetails> filesDetails = new ArrayList<>();
@@ -61,8 +62,8 @@ public class RecordsResource {
     public Response xmlParseFile(@QueryParam("file") String fileName) {
 
         MainProcess proc = new MainProcess();
-        
-        int result = proc.runProcess(fileName);
+        System.out.println("File path is : " + FILE_PATH + fileName);
+        int result = proc.runProcess(FILE_PATH + fileName);
         ResponseMessage rm = new ResponseMessage();
         if (result==0) {
             rm.setStatus(0).setData("File generation was successful");
