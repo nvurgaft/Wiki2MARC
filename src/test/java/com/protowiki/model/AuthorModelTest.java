@@ -48,13 +48,13 @@ public class AuthorModelTest {
         AuthorModel instance = new AuthorModel();
         instance.clearGraph();
         // after the graph is cleared, try fetching data from it
-        List<RDFStatement> results = instance.getAuthorsViafAndAbstracts();
+        Map<String, String> results = instance.getAuthorsViafAndAbstracts();
         if (results != null) {
             if (results.isEmpty()) {
                 System.out.println("results list is empty");
             }
-            results.stream().forEach(r -> {
-                System.out.println(r);
+            results.keySet().stream().forEach(k -> {
+                System.out.println(k + " : " + results.get(k));
             });
         } else {
             System.out.println("results is null");
@@ -89,13 +89,13 @@ public class AuthorModelTest {
     public void testGetAuthorsViafAndAbstracts() {
         logger.info("getAuthorsViafAndAbstracts");
         AuthorModel instance = new AuthorModel();
-        List<RDFStatement> results = instance.getAuthorsViafAndAbstracts();
+        Map<String, String> results = instance.getAuthorsViafAndAbstracts();
         if (results != null) {
             if (results.isEmpty()) {
                 System.out.println("results list is empty");
             }
-            results.stream().forEach(r -> {
-                System.out.println(r);
+            results.keySet().stream().forEach(k -> {
+                System.out.println(k + " : " + results.get(k));
             });
         } else {
             System.out.println("results is null");

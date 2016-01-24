@@ -20,6 +20,11 @@
                 <div ng-hide="vm.data.length > 0">
                     <label class="control-label"><span class="fa fa-spinner fa-pulse fa-2x"></span> Loading ..</label>
                 </div>
+                
+                <div ng-show="vm.processComplete" 
+                     ng-class="{'alert-info': vm.respStatus.status===0, 'alert-danger': vm.respStatus.status===-1}"
+                     class="alert" role="alert">{{vm.respStatus.data}}</div>
+                
             </div>
         </div>
     </div>

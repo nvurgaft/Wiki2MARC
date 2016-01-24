@@ -8,8 +8,11 @@ import com.protowiki.utils.RecordSAXParser;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import static org.junit.Assert.assertTrue;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *  These tests act as Integration tests between the various components in this
@@ -20,9 +23,10 @@ import org.junit.Test;
  */
 @Ignore
 public class ProcessTest {
+    
+    public static Logger logger = LoggerFactory.getLogger(ProcessTest.class);
 
     private static final String FILE_PATH = "C://files//authbzi.xml";
-    private static final String GRAPH_NAME = "http://authors";
 
     @Test
     public void testFetchRemoteAbstracts() {
@@ -30,19 +34,19 @@ public class ProcessTest {
         DataTransformer optimus = new DataTransformer();
         List<Record> records = parser.parseXMLFileForRecords(FILE_PATH);
         List<Author> authorsList = optimus.transformRecordsListToAuthors(records);
-        System.out.println("scan the authors list and get a list of viaf ids");
+        logger.info("scan the authors list and get a list of viaf ids");
         List<String> viafs = authorsList.stream().filter(a -> {
             return a.getViafId() != null;
         }).map(a -> {
             System.out.println(a.getViafId());
             return a.getViafId().trim();
         }).collect(Collectors.toList());
-        System.out.println("connect remotly and query abstracts for these viaf ids");
+        logger.info("connect remotly and query abstracts for these viaf ids");
         WikidataRemoteAPIModel remoteApi = new WikidataRemoteAPIModel();
         Map<String, String> absMap = remoteApi.getMultipleWikipediaAbstractByViafIds(viafs, "en");
-        System.out.println("insert locally");
+        logger.info("insert locally");
         AuthorModel authorModel = new AuthorModel();
-
+        
         for (String key : absMap.keySet()) {
             authorModel.insertAuthorsViafAndAbstracts(key, absMap.get(key));
         }
@@ -50,28 +54,14 @@ public class ProcessTest {
 
     @Test
     public void testEntireProcess() {
-        RecordSAXParser parser = new RecordSAXParser();
         DataTransformer optimus = new DataTransformer();
-        List<Record> records = parser.parseXMLFileForRecords(FILE_PATH);
-        List<Author> authorsList = optimus.transformRecordsListToAuthors(records);
-        System.out.println("scan the authors list and get a list of viaf ids");
-        List<String> viafs = authorsList.stream().filter(a -> {
-            return a.getViafId() != null;
-        }).map(a -> {
-            System.out.println(a.getViafId());
-            return a.getViafId().trim();
 
-        }).collect(Collectors.toList());
-        System.out.println("connect remotly and query abstracts for these viaf ids");
-        WikidataRemoteAPIModel model = new WikidataRemoteAPIModel();
-        Map<String, String> map = model.getMultipleWikipediaAbstractByViafIds(viafs, "en");
+        logger.info("connect remotly and query abstracts for these viaf ids");
+        AuthorModel authorModel = new AuthorModel();
+        Map<String, String> rdfList = authorModel.getAuthorsViafAndAbstracts();
 
-        for (String key : map.keySet()) {
-            System.out.println(key + " : " + map.get(key));
-        }
-
-        System.out.println("generate the updated MARC file");
-        boolean result = optimus.generateMARCXMLFile(FILE_PATH, map);
-        //assertTrue("Should be true if process was successful", result);
+        logger.info("generate the updated MARC file");
+        boolean result = optimus.generateMARCXMLFile(FILE_PATH, rdfList);
+        assertTrue("Should be successful", result);
     }
 }

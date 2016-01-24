@@ -1,11 +1,9 @@
 package com.protowiki.rest;
 
-import com.protowiki.beans.Author;
 import com.protowiki.beans.FileDetails;
-import com.protowiki.beans.Record;
-import com.protowiki.core.DataTransformer;
+import com.protowiki.beans.ResponseMessage;
+import com.protowiki.core.MainProcess;
 import com.protowiki.utils.FileUtils;
-import com.protowiki.utils.RecordSAXParser;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -57,24 +55,22 @@ public class RecordsResource {
         return Response.status(Status.OK).entity(filesDetails).build();
     }
 
-    @POST
+    @GET
     @Path("xml-parse-file")
     @Produces(MediaType.APPLICATION_JSON)
     public Response xmlParseFile(@QueryParam("file") String fileName) {
 
-        RecordSAXParser parser = new RecordSAXParser();
-        DataTransformer prime = new DataTransformer();
-        List<Record> recordsList = null;
-        List<Author> authorsList = null;
-        try {
-            recordsList = parser.parseXMLFileForRecords(fileName);
-            authorsList = prime.transformRecordsListToAuthors(recordsList);
-        } catch (Exception ex) {
-            logger.error("Exception in servlet while parsing MARC XML file", ex);
-            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex).build();
+        MainProcess proc = new MainProcess();
+        
+        int result = proc.runProcess(fileName);
+        ResponseMessage rm = new ResponseMessage();
+        if (result==0) {
+            rm.setStatus(0).setData("File generation was successful");
+            return Response.status(Status.OK).entity(rm).build();
+        } else {
+            rm.setStatus(-1).setData("File generation was interrupted");
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(rm).build();
         }
-
-        return Response.status(Status.OK).entity(authorsList).build();
     }
 
 }

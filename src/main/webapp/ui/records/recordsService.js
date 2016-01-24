@@ -5,7 +5,7 @@ function recordsService($http, $q, $log) {
     
     return {
         getFiles: function() {
-            $log.info("Fetching stored files details");
+            $log.debug("Fetching stored files details");
             return $http.get(path + 'get-files').then(function(response) {
                 return response.data;
             }, function(response) {
@@ -13,10 +13,15 @@ function recordsService($http, $q, $log) {
             });
         },
         postXMLFileDetails: function(fileDetails) {
-            return $http.post(path + '/parse-xml', fileDetails).then(function(response) {
-                return response;
+            $log.debug("Posting XML file to be processed: " + fileDetails);
+            return $http.get(path + 'xml-parse-file', {
+                params: {
+                    file: fileDetails
+                }
+            }).then(function(response) {
+                return response.data;
             }, function(response) {
-                return $q.reject(response.status + " : " + response.data);
+                return $q.reject(response.data);
             });
         }
     };

@@ -120,13 +120,17 @@ public class AuthorModel {
      *
      * @return
      */
-    public List<RDFStatement> getAuthorsViafAndAbstracts() {
+    public Map<String, String> getAuthorsViafAndAbstracts() {
         List<RDFStatement> resultList = null;
+        Map<String, String> resultMap = new HashMap<>();
         try {
             resultList = qh.selectTriples("?viaf", "rdf:abstract", "?abstract");
+            resultList.stream().forEach(r -> {
+                resultMap.put(r.getSubject().trim(), r.getObject().trim());
+            });
         } catch (Exception ex) {
             logger.error("Exception while fetching author abstracts from model", ex);
         }
-        return resultList;
+        return resultMap;
     }
 }

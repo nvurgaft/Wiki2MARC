@@ -56,4 +56,21 @@ public class RDFUtils {
     public static String escapeTextLiteral(String text) {
         return StringEscapeUtils.escapeJava(text);
     }
+    
+    /**
+     * "Normalizes a full name (as found in MARC 100 fields)
+     * into a name that would be easily read and queried in wikipedia/dbPedia
+     * Example: a name string such as "Doe, John"
+     * would become "John Doe"
+     * @param marcName the name string
+     * @return the "normalized" name
+     */
+    public static String normalizeMARCName(String marcName) {
+        if (marcName==null) {
+            return null;
+        }
+        
+        String[] fname = marcName.split(",");
+        return (fname[1].trim() + " " + fname[0].trim());
+    }
 }

@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -190,9 +189,11 @@ public class DataTransformer {
                         if (attrMap.getNamedItem("tag") != null && attrMap.getNamedItem("tag").getNodeValue().equals("901")) {
 
                             String viafId = datafield.getTextContent().trim();
-                            System.out.println("viafId : " + viafId);
                             String wpAbstract = articleAbstracts.get(viafId);
-                            
+                            if (wpAbstract == null) {
+                                wpAbstract = "null";
+                            }
+
                             Element sfElem = doc.createElement("subfield");
                             sfElem.setAttribute("code", "a");
                             Text abstractText = doc.createTextNode(wpAbstract);
@@ -219,6 +220,7 @@ public class DataTransformer {
         }
 
         try {
+            logger.info("Transforming data to new XML content");
             Transformer transformer = TransformerFactory.newInstance().newTransformer();
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 
@@ -227,18 +229,27 @@ public class DataTransformer {
             transformer.transform(source, result);
 
             String xmlOutput = result.getWriter().toString();
-            logger.info(xmlOutput);
-
-        } catch (IllegalArgumentException | TransformerException ex) {
+            logger.info("Writing content to XML file");
+            File file = new File(filePath + ".updated");
+            if (file.createNewFile()) {
+                FileOutputStream fStream = new FileOutputStream(file.getAbsolutePath());
+                OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fStream, "UTF-8");
+                try (BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter)) {
+                    bufferedWriter.write(xmlOutput);
+                }
+            }
+            logger.info("Done!!!");
+        } catch (IllegalArgumentException | TransformerException | IOException ex) {
             logger.error("Exception while transforming XML MARC file", ex);
         }
 
-        return false;
+        return true;
     }
 
     /**
      * Attempts to generate an updated MARC XML file by querying from remote
      * SPARQL end point
+     *
      * @param filePath
      * @return true if and only if the entire process was successful
      */

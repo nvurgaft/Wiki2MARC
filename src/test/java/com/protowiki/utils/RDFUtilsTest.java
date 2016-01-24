@@ -74,4 +74,12 @@ public class RDFUtilsTest {
         assertEquals("Should be equal after stripping the @lang tag", expResult, result);
     }
     
+    @Test
+    public void testNormalizeMARCName() {
+        logger.info("normalizeMARCName");
+        String name = RDFUtils.normalizeMARCName("Doe, John");
+        String expResult = "John Doe";
+        assertEquals("Should be equal", name, expResult);
+    }
+    
 }
