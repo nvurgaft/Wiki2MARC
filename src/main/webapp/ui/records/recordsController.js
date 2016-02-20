@@ -19,10 +19,14 @@ function recordsController($log, recordsService) {
     });
     
     vm.parseXMLFile = function(fileName) {
-        recordsService.store(fileName).then(function(response) {
-            
+        vm.processComplete = false;
+        recordsService.postXMLFileDetails(fileName).then(function(response) {
+            vm.respStatus = response.status;
         }, function(response) {
+            vm.respStatus = response.status;
             $log.error(response);
+        })['finally'](function() {
+            vm.processComplete = true;
         });
     };
 };

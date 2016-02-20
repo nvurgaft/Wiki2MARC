@@ -32,17 +32,18 @@ public class TestJenaProvider {
     static String connection_string = "jdbc:virtuoso://localhost:1111/CHARSET=UTF-8/log_enable=2";
     static String login = "dba";
     static String password = "dba";
+    static final String GRAPH_NAME = "http://test1";
 
     @Test
     public void showStatements() {
 
         VirtGraph g = new VirtGraph(connection_string, login, password);
         
-        String insertStatementQuery = "INSERT INTO GRAPH <http://test1> { <testSubject> <testPredicate> 'testLiteral'}";
+        String insertStatementQuery = "INSERT INTO GRAPH <" + GRAPH_NAME + "> { <testSubject> <testPredicate> 'testLiteral'}";
         VirtuosoUpdateRequest vur = VirtuosoUpdateFactory.create(insertStatementQuery, g);
         vur.exec();
 
-        String query = "SELECT * FROM <http://test1> WHERE {?s ?p ?o}";
+        String query = "SELECT * FROM <" + GRAPH_NAME + "> WHERE {?s ?p ?o}";
         Query sparqlQuery = QueryFactory.create(query);
         VirtuosoQueryExecution vqe = VirtuosoQueryExecutionFactory.create(sparqlQuery, g);
         ResultSet rs = vqe.execSelect();
@@ -98,19 +99,19 @@ public class TestJenaProvider {
         VirtGraph graph = new VirtGraph(connection_string, login, password);
 
         // CLEAR the graph
-        String clearGraphQuery = "CLEAR GRAPH <http://test1>";
+        String clearGraphQuery = "CLEAR GRAPH <" + GRAPH_NAME + ">";
         logger.info("execute: " + clearGraphQuery);
         VirtuosoUpdateRequest vur = VirtuosoUpdateFactory.create(clearGraphQuery, graph);
         vur.exec();
 
         // INSERT data into the graph
-        String insertStatementQuery = "INSERT INTO GRAPH <http://test1> { <aa> <bb> 'cc' . <aa1> <bb1> 123. }";
+        String insertStatementQuery = "INSERT INTO GRAPH <" + GRAPH_NAME + "> { <aa> <bb> 'cc' . <aa1> <bb1> 123. }";
         logger.info("execute: " + insertStatementQuery);
         vur = VirtuosoUpdateFactory.create(insertStatementQuery, graph);
         vur.exec();
 
         // SELECT data from the graph and print it
-        String selectQueryString = "SELECT * FROM <http://test1> WHERE { ?s ?p ?o }";
+        String selectQueryString = "SELECT * FROM <" + GRAPH_NAME + "> WHERE { ?s ?p ?o }";
         logger.info("execute: " + selectQueryString);
         Query sparqlQuery = QueryFactory.create(selectQueryString);
         VirtuosoQueryExecution vqe = VirtuosoQueryExecutionFactory.create(sparqlQuery, graph);
@@ -125,7 +126,7 @@ public class TestJenaProvider {
         }
 
         // DELETE statement from graph
-        String deleteQuery = "DELETE FROM GRAPH <http://test1> { <aa> <bb> 'cc' }";
+        String deleteQuery = "DELETE FROM GRAPH <" + GRAPH_NAME + "> { <aa> <bb> 'cc' }";
         logger.info("execute: " + deleteQuery);
         vur = VirtuosoUpdateFactory.create(deleteQuery, graph);
         vur.exec();

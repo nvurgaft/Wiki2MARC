@@ -20,7 +20,7 @@ public class FileUtils {
 
     /**
      *  Checks the file exists in the specified path
-     * @param path
+     * @param path string absolute path to file
      * @return true if file exists
      */
     public static boolean exists(String path) {
@@ -32,7 +32,7 @@ public class FileUtils {
 
     /**
      *  Creates a file in the specified path
-     * @param path
+     * @param path string absolute path to file
      * @return true if file was successfully created 
      */
     public static boolean createFile(String path) {
@@ -51,7 +51,7 @@ public class FileUtils {
 
     /**
      *  Creates a directory in the specified path
-     * @param path
+     * @param path string absolute path to file
      * @return true if directory was successfully created
      */
     public static boolean createDir(String path) {
@@ -65,8 +65,8 @@ public class FileUtils {
 
     /**
      *  Reads an input stream and writes it's data into a file on the specified fileLocation
-     * @param inputStream
-     * @param fileLocation
+     * @param inputStream input stream 
+     * @param fileLocation string absolute path to file
      * @return true is stream was successfully read and the file was created
      */
     public static boolean saveFile(InputStream inputStream, String fileLocation) {
@@ -89,7 +89,7 @@ public class FileUtils {
     
     /**
      *  Reads a file from the provided file path and returns it's content
-     * @param file
+     * @param file the file to read
      * @return the file's content as a string
      * @throws IOException
      */

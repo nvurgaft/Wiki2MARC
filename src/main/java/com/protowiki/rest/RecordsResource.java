@@ -1,17 +1,14 @@
 package com.protowiki.rest;
 
-import com.protowiki.beans.Author;
 import com.protowiki.beans.FileDetails;
-import com.protowiki.beans.Record;
-import com.protowiki.logic.DataTransformer;
+import com.protowiki.beans.ResponseMessage;
+import com.protowiki.core.MainProcess;
 import com.protowiki.utils.FileUtils;
-import com.protowiki.utils.RecordSAXParser;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -29,13 +26,15 @@ import org.slf4j.LoggerFactory;
 public class RecordsResource {
 
     public static Logger logger = LoggerFactory.getLogger(RecordsResource.class);
+    
+    private static final String FILE_PATH = "C://files//";
 
     @GET
     @Path("get-files")
     @Produces(MediaType.APPLICATION_JSON)
     public Response scanAndGetFiles() {
 
-        File file = new File("C://files//");
+        File file = new File(FILE_PATH);
         File[] files = file.listFiles();
 
         List<FileDetails> filesDetails = new ArrayList<>();
@@ -56,24 +55,22 @@ public class RecordsResource {
         return Response.status(Status.OK).entity(filesDetails).build();
     }
 
-    @POST
+    @GET
     @Path("xml-parse-file")
     @Produces(MediaType.APPLICATION_JSON)
     public Response xmlParseFile(@QueryParam("file") String fileName) {
 
-        RecordSAXParser parser = new RecordSAXParser();
-        DataTransformer prime = new DataTransformer();
-        List<Record> recordsList = null;
-        List<Author> authorsList = null;
-        try {
-            recordsList = parser.parseXMLFileForRecords(fileName);
-            authorsList = prime.transformRecordsListToAuthors(recordsList);
-        } catch (Exception ex) {
-            logger.error("Exception in servlet while parsing MARC XML file", ex);
-            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(ex).build();
+        MainProcess proc = new MainProcess();
+        System.out.println("File path is : " + FILE_PATH + fileName);
+        int result = proc.runProcess(FILE_PATH + fileName);
+        ResponseMessage rm = new ResponseMessage();
+        if (result==0) {
+            rm.setStatus(0).setData("File generation was successful");
+            return Response.status(Status.OK).entity(rm).build();
+        } else {
+            rm.setStatus(-1).setData("File generation was interrupted");
+            return Response.status(Status.INTERNAL_SERVER_ERROR).entity(rm).build();
         }
-
-        return Response.status(Status.OK).entity(authorsList).build();
     }
 
 }

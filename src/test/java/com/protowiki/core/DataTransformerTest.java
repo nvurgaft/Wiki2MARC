@@ -6,9 +6,12 @@ import com.protowiki.beans.Record;
 import com.protowiki.utils.RecordSAXParser;
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
@@ -87,13 +90,12 @@ public class DataTransformerTest {
     @Test
     public void testGenerateMARCXMLFile() {
         logger.info("generateMARCXMLFile");
-        String filePath = "";
-        List<String> articleAbstracts = null;
+        String filePath = "c://files//authbzi.xml";
+        
         DataTransformer instance = new DataTransformer();
-        instance.generateMARCXMLFile(filePath, articleAbstracts);
-
+        //Map<String, String> articleAbstracts = instance.generateMARCXMLFile(filePath, articleAbstracts);
     }
-    
+
     /**
      * Test of generateMARCXMLFile method, of class DataTransformer.
      */
@@ -102,35 +104,31 @@ public class DataTransformerTest {
         logger.info("generateMARCXMLFile");
         String filePath = "c://files//authbzi.xml";
         DataTransformer instance = new DataTransformer();
-        instance.dynamicallyGenerateMARCXMLFile(filePath);
-
+        boolean result = instance.dynamicallyGenerateMARCXMLFile(filePath);
+        assertTrue("Should return true if method was successful", result);
     }
 
     @Test
     public void testProcess() {
         logger.info("testing process");
-
+        List<Author> authors = null;
+        List<Author> filteredAuthors = null;
         try {
-
             File file = new File("c://files//authbzi.xml");
-            
             RecordSAXParser parse = new RecordSAXParser();
             List<Record> records = parse.parseXMLFileForRecords(file);
-            
             DataTransformer transformer = new DataTransformer();
-            List<Author> authors = transformer.transformRecordsListToAuthors(records);
-            
-            List<Author> filteredAuthors = authors.stream().filter(a -> {
-                return ((a.getNames().get("heb")!=null || a.getNames().get("lat")!=null) && a.getViafId()!=null);
+            authors = transformer.transformRecordsListToAuthors(records);
+            filteredAuthors = authors.stream().filter(a -> {
+                return ((a.getNames().get("heb") != null || a.getNames().get("lat") != null) && a.getViafId() != null);
             }).collect(Collectors.toList());
-            
-            System.out.println("authors: " + authors.size());
-            System.out.println("filteredAuthors: " + filteredAuthors.size());
-            
-            
         } catch (Exception ex) {
             logger.error("Exception in testProcess", ex);
         }
+
+        assertNotNull("Objects should have been initialized", authors);
+        assertNotNull("Objects should have been initialized", filteredAuthors);
+        assertTrue("Filtered authors size should not exceed original authors size", filteredAuthors.size() <= authors.size());
     }
 
 }

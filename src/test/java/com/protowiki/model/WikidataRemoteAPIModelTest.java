@@ -2,10 +2,17 @@ package com.protowiki.model;
 
 import com.protowiki.dal.WikidataRemoteAPIModel;
 import com.protowiki.beans.Author;
+import com.protowiki.beans.Record;
+import com.protowiki.core.DataTransformer;
+import com.protowiki.utils.RecordSAXParser;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.AfterClass;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
@@ -72,6 +79,62 @@ public class WikidataRemoteAPIModelTest {
         assertNotNull(articleAbstract);
         assertTrue(articleAbstract.length() > 0);
     }
+
+    /**
+     * Test of testGetWikipediaAbstractByViafId method, of class WikidataRemoteAPIModel.
+     */
+    @Test
+    public void testGetWikipediaAbstractByViafId() {
+        logger.info("getWikipediaAbstract");
+        String viafId = "50566653";
+        String language = "en";
+        WikidataRemoteAPIModel instance = new WikidataRemoteAPIModel();
+        String articleAbstract = instance.getWikipediaAbstractByViafId(viafId, language);
+        assertNotNull(articleAbstract);
+        assertTrue(articleAbstract.length() > 0);
+    }
+    
+//    /**
+//     * Test of testGetWikipediaAbstractByViafId method, of class WikidataRemoteAPIModel.
+//     */
+//    @Test
+//    public void testGetMultipleWikipediaAbstractByViafIds() {
+//        logger.info("getMultipleWikipediaAbstractByViafIds");
+//        List<String> vids = Arrays.asList("50566653", "113230702");
+//        String language = "en";
+//        WikidataRemoteAPIModel instance = new WikidataRemoteAPIModel();
+//        Map<String, String> absMap = instance.getMultipleWikipediaAbstractByViafIds(vids, language);
+//        
+//        for (String key : absMap.keySet()) {
+//            System.out.println("Key: " + key + ", value: " + absMap.get(key));
+//        }
+//        
+//        assertNotNull("Should not be null", absMap);
+//        assertEquals("Should returns 2 objects", absMap.keySet().size(), 2);
+//    }
+//    
+//    /**
+//     * Test of testGetWikipediaAbstractByViafId method, of class WikidataRemoteAPIModel.
+//     */
+//    @Test
+//    public void testGetMultipleWikipediaAbstractByViafs() {
+//        logger.info("getMultipleWikipediaAbstractByViafs");
+//        
+//        RecordSAXParser parser = new RecordSAXParser();
+//        DataTransformer optimus = new DataTransformer();
+//        List<Record> records = parser.parseXMLFileForRecords("C://files//authbzi.xml");
+//        List<Author> authorsList = optimus.transformRecordsListToAuthors(records);
+//        
+//        List<String> viafs = authorsList.stream().map(a -> {
+//            return a.getViafId().trim();
+//        }).collect(Collectors.toList());
+//        
+//        WikidataRemoteAPIModel instance = new WikidataRemoteAPIModel();
+//        Map<String, String> absMap = instance.getMultipleWikipediaAbstractByViafIds(viafs, "en");
+//        
+//        assertNotNull("Should not be null", absMap);
+//        assertTrue("Should returns multiple objects", absMap.keySet().size()>0);
+//    }
 
     /**
      * Test of getViafFromAuthors method, of class WikidataRemoteAPIModel.
