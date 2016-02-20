@@ -1,5 +1,6 @@
 package com.protowiki.core;
 
+import com.protowiki.logic.DataTransformer;
 import com.protowiki.beans.Author;
 import com.protowiki.beans.Record;
 import com.protowiki.utils.RecordSAXParser;
@@ -10,6 +11,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +20,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Nick
  */
+@Ignore
 public class DataTransformerTest {
 
     public Logger logger = LoggerFactory.getLogger(DataTransformerTest.class);

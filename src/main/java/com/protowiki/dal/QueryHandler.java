@@ -1,4 +1,4 @@
-package com.protowiki.model;
+package com.protowiki.dal;
 
 import com.hp.hpl.jena.graph.Graph;
 import com.hp.hpl.jena.graph.Node;

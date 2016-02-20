@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="protowiki">
     <head>
-        <title>ProtoWiki client</title>
+        <title>Data2MARCFile</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
         <!-- dependencies -->
@@ -10,7 +10,7 @@
         
         <link href="ui/dependencies/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <!--<link href="ui/dependencies/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css"/>-->
-        <script src="ui/dependencies/ui-bootstrap/ui-bootstrap-tpls-0.14.3.min.js" type="text/javascript"></script>
+        <script src="ui/dependencies/ui-bootstrap/ui-bootstrap-tpls-1.1.2.min.js" type="text/javascript"></script>
         <script src="ui/dependencies/ui-router/angular-ui-router.min.js" type="text/javascript"></script>
         <link href="ui/dependencies/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
         
@@ -41,6 +41,10 @@
         <script src="ui/import/importController.js" type="text/javascript"></script>
         <script src="ui/import/importService.js" type="text/javascript"></script>
         <script src="ui/mainService.js" type="text/javascript"></script>
+        
+        <script src="ui/filters/startAt.js" type="text/javascript"></script>
+        <script src="ui/filters/decimalFilter.js" type="text/javascript"></script>
+        
     </head>
     <body>
         <div ui-view></div>       

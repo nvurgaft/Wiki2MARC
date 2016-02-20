@@ -8,14 +8,29 @@
                         <div class="list-group-item" 
                              style="cursor: pointer;"
                              ng-click="vm.selectedFile = file"
-                             ng-repeat="file in vm.data">{{file.name}}
+                             ng-class="{'active': vm.selectedFile === file}"
+                             ng-repeat="file in vm.data | startAt: (vm.currentPage - 1) * vm.itemsPerPage:vm.itemsPerPage">{{file.name}}
                             <div class="pull-right">
-                                <button class="btn btn-info btn-xs" 
+                                <button class="btn btn-xs"
+                                        ng-mouseover="onHover = true"
+                                        ng-mouseleave="onHover = false"
+                                        ng-class="{'btn-info': onHover, 'btn-default': !onHover}"
                                         ng-click="vm.parseXMLFile(file.name)"
-                                        ng-show="file.extension==='xml'">Parse XML</button>
+                                        ng-show="file.extension === 'xml'">Parse XML</button>
                             </div>
                         </div>
                     </div>
+                    <uib-pagination boundary-links="true" 
+                                    total-items="vm.totalFiles" 
+                                    ng-model="vm.currentPage" 
+                                    items-per-page="vm.itemsPerPage"
+                                    class="pagination-sm" 
+                                    ng-change="vm.onPageSelected(vm.currentPage)"
+                                    previous-text="&lsaquo;" 
+                                    next-text="&rsaquo;" 
+                                    first-text="&laquo;" 
+                                    last-text="&raquo;">
+                    </uib-pagination>
                 </div>
                 <div ng-hide="vm.data.length > 0">
                     <label class="control-label"><span class="fa fa-spinner fa-pulse fa-2x"></span> Loading ..</label>
@@ -29,8 +44,7 @@
             <div class="panel-body">
                 <ul>
                     <li><label class="control-label">Name:</label>&nbsp{{vm.selectedFile.name}}</li>
-                    <li><label class="control-label">Size:</label>&nbsp{{vm.selectedFile.size / 1024 / 1024}} MB</li>
-                    <li><textarea class="form-control" rows="24">{{vm.selectedFile.content}}</textarea></li>
+                    <li><label class="control-label">Size:</label>&nbsp{{vm.selectedFile.size / 1024 /1024 | decimalFilter:2}} MB</li>
                 </ul>
             </div>
         </div>

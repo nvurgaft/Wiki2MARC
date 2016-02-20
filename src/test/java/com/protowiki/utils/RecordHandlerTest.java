@@ -2,7 +2,7 @@ package com.protowiki.utils;
 
 import com.protowiki.beans.Author;
 import com.protowiki.beans.Record;
-import com.protowiki.core.DataTransformer;
+import com.protowiki.logic.DataTransformer;
 import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -22,7 +22,7 @@ public class RecordHandlerTest {
 
     public static Logger logger = LoggerFactory.getLogger(RecordHandlerTest.class);
     
-    private String testXMLFileName = "C:\\files\\authbzi.xml";
+    private final String testXMLFileName = "C:\\files\\authbzi.xml";
 
     public RecordHandlerTest() {
     }

@@ -1,5 +1,5 @@
 
-package com.protowiki.core;
+package com.protowiki.logic;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;

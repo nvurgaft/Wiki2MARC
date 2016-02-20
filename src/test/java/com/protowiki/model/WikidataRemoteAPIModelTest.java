@@ -1,5 +1,6 @@
 package com.protowiki.model;
 
+import com.protowiki.dal.WikidataRemoteAPIModel;
 import com.protowiki.beans.Author;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;

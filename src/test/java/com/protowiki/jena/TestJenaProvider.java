@@ -6,7 +6,7 @@ import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.protowiki.entities.RDFStatement;
-import com.protowiki.model.QueryHandler;
+import com.protowiki.dal.QueryHandler;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Ignore;

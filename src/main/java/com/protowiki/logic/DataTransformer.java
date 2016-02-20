@@ -1,13 +1,13 @@
-package com.protowiki.core;
+package com.protowiki.logic;
 
 import com.protowiki.beans.Author;
 import com.protowiki.beans.Controlfield;
 import com.protowiki.beans.Datafield;
 import com.protowiki.beans.Record;
 import com.protowiki.beans.Subfield;
-import com.protowiki.db.RDFConnectionManager;
+import com.protowiki.dal.RDFConnectionManager;
 import com.protowiki.entities.RDFStatement;
-import com.protowiki.model.QueryHandler;
+import com.protowiki.dal.QueryHandler;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;

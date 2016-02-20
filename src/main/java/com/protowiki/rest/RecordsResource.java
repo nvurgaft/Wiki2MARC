@@ -3,7 +3,7 @@ package com.protowiki.rest;
 import com.protowiki.beans.Author;
 import com.protowiki.beans.FileDetails;
 import com.protowiki.beans.Record;
-import com.protowiki.core.DataTransformer;
+import com.protowiki.logic.DataTransformer;
 import com.protowiki.utils.FileUtils;
 import com.protowiki.utils.RecordSAXParser;
 import java.io.File;
@@ -45,7 +45,6 @@ public class RecordsResource {
             int fileSize = 0;
             try {
                 String content = FileUtils.fileReader(f);
-                fd.setContent(content);
                 fileSize = content.length();
             } catch (IOException ioex) {
                 logger.error("IOException while reading file " + f.getName(), ioex);

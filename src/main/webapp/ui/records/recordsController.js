@@ -3,8 +3,17 @@ function recordsController($log, recordsService) {
     
     var vm = this;
     vm.data = [];
+    
+    vm.currentPage = 1;
+    vm.itemsPerPage = 10;
+    
+    vm.onPageSelected = function(pageNum) {
+        $log.debug("Selected page " + pageNum);
+    };
+    
     recordsService.getFiles().then(function(response) {
         vm.data = response;
+        vm.totalFiles = vm.data.length;
     }, function(response) {
         $log.error(response);
     });

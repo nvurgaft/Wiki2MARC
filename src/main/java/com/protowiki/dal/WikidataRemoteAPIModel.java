@@ -1,4 +1,4 @@
-package com.protowiki.model;
+package com.protowiki.dal;
 
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;

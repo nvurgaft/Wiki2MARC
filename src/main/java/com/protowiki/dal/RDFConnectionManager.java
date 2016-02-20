@@ -1,4 +1,4 @@
-package com.protowiki.db;
+package com.protowiki.dal;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,9 +14,7 @@ public class RDFConnectionManager {
 
     public static Logger logger = LoggerFactory.getLogger(RDFConnectionManager.class);
     
-    private String username;
-    private String password;
-    private String host;
+    private String username, password, host;
     private int port;
     private String graphName;
     

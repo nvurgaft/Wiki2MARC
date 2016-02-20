@@ -1,7 +1,6 @@
-package com.protowiki.model;
+package com.protowiki.dal;
 
 import com.protowiki.beans.Author;
-import com.protowiki.db.RDFConnectionManager;
 import com.protowiki.entities.RDFStatement;
 import java.util.ArrayList;
 import java.util.List;
