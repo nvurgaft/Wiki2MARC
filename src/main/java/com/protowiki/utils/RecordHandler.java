@@ -145,17 +145,6 @@ public class RecordHandler extends DefaultHandler {
         return this.elementStack.peek();
     }
 
-    private String currentElementParent() {
-        if (this.elementStack.size() < 2) {
-            return null;
-        }
-        return this.elementStack.get(this.elementStack.size() - 2);
-    }
-
-    private Object currentObject() {
-        return this.objectStack.peek();
-    }
-
     public List<Record> getRecords() {
         return this.records;
     }

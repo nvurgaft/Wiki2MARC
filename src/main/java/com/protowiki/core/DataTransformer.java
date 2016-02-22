@@ -5,7 +5,7 @@ import com.protowiki.beans.Controlfield;
 import com.protowiki.beans.Datafield;
 import com.protowiki.beans.Record;
 import com.protowiki.beans.Subfield;
-import com.protowiki.dal.RDFConnectionManager;
+import com.protowiki.model.RDFConnectionManager;
 import com.protowiki.entities.RDFStatement;
 import com.protowiki.model.QueryHandler;
 import com.protowiki.model.WikidataRemoteAPIModel;
@@ -104,40 +104,6 @@ public class DataTransformer {
             return author;
         }).collect(Collectors.toList());
         return authorsList;
-    }
-
-    /**
-     * Attempts to insert an Author RDF
-     *
-     * @param s Subject
-     * @param p Predicate
-     * @param o Object
-     * @return True if statement was successfully inserted to RDF DB
-     */
-    public boolean insertAuthorIntoDB(String s, String p, String o) {
-        VirtGraph g = new RDFConnectionManager("http://testdb").getGraphConnection();
-        QueryHandler handler = new QueryHandler(g, "http://testdb");
-
-        return handler.insertStatement(s, p, o);
-    }
-
-    /**
-     * Attempts to batch insert an Author RDF
-     *
-     * @param authors List of Author objects
-     */
-    public void batchInsertAuthorIntoDB(List<Author> authors) {
-        VirtGraph g = new RDFConnectionManager("http://testdb").getGraphConnection();
-        QueryHandler handler = new QueryHandler(g, "http://testdb");
-
-        authors.stream().forEach(author -> {
-            List<RDFStatement> queryStatement = new ArrayList<>();
-            queryStatement.add(new RDFStatement(author.getWikipediaUri(), "rdf:viaf", author.getViafId()));
-            author.getNames().keySet().stream().forEach(key -> {
-                queryStatement.add(new RDFStatement(author.getWikipediaUri(), "rdf:" + key + "Name", author.getNames().get(key)));
-            });
-            handler.batchInsertStatements(queryStatement);
-        });
     }
 
     /**

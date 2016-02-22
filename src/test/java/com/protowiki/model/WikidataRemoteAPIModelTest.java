@@ -1,6 +1,6 @@
 package com.protowiki.model;
 
-import com.protowiki.dal.WikidataRemoteAPIModel;
+import com.protowiki.model.WikidataRemoteAPIModel;
 import com.protowiki.beans.Author;
 import com.protowiki.beans.Record;
 import com.protowiki.core.DataTransformer;

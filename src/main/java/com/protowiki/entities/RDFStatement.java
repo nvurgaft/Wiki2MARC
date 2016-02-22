@@ -1,5 +1,7 @@
 package com.protowiki.entities;
 
+import java.util.Objects;
+
 /**
  *
  * @author Nick
@@ -85,6 +87,15 @@ public class RDFStatement implements Cloneable {
         }
         RDFStatement stmt = (RDFStatement) obj;
         return (this.object.equals(stmt.object) && this.predicate.equals(stmt.predicate) && this.subject.equals(stmt.subject));
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 97 * hash + Objects.hashCode(this.subject);
+        hash = 97 * hash + Objects.hashCode(this.predicate);
+        hash = 97 * hash + Objects.hashCode(this.object);
+        return hash;
     }
 
     @Override

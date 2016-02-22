@@ -3,7 +3,6 @@ package com.protowiki.model;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.protowiki.dal.WikipediaRemoteAPIModel;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,6 +11,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -22,6 +22,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.filter.LoggingFilter;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +31,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Nick
  */
+@Ignore
 public class JerseyClientTest {
 
     private static final String TRAGET_URL = "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=Potato";
@@ -87,14 +89,14 @@ public class JerseyClientTest {
 
         WikipediaRemoteAPIModel model = new WikipediaRemoteAPIModel();
 
-        List<String> s1 = model.getAbstractsByArticleNames("en", subjects);
-        s1.forEach(e -> {
+        Map<String, String> s1 = model.getAbstractsByArticleNames("en", subjects);
+        s1.keySet().forEach(e -> {
             logger.info("s: " + e);
         });
         
         List<String> heSubjects = Arrays.asList("נעמי שמר", "מנחם בגין", "בנימין זאב הרצל", "גולדה מאיר");
-        List<String> s2 = model.getAbstractsByArticleNames("he", heSubjects);
-        s2.forEach(e -> {
+        Map<String, String> s2 = model.getAbstractsByArticleNames("he", heSubjects);
+        s2.keySet().forEach(e -> {
             logger.info("s: " + e);
         });
     }

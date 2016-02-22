@@ -1,7 +1,6 @@
 package com.protowiki.model;
 
 import com.protowiki.beans.Author;
-import com.protowiki.dal.RDFConnectionManager;
 import com.protowiki.entities.RDFStatement;
 import com.protowiki.utils.RDFUtils;
 import java.util.ArrayList;
@@ -106,19 +105,18 @@ public class AuthorModel {
             return false;
         }
         try {
-            System.out.println("Inserting viaf: " + viaf);
-            System.out.println("Inserting abstract: " + articleAbstract);
-            
+            logger.info("Inserting viaf: " + viaf + ", and abstract: " + articleAbstract);
             qh.insertStatement(viaf, "rdf:abstract",  RDFUtils.escapeTextLiteral(articleAbstract));
         } catch (Exception ex) {
             logger.error("Exception while inserting abstracts to model", ex);
+            return false;
         }
         return true;
     }
 
     /**
      *
-     * @return
+     * @return a map of viad id keys and abstracts values
      */
     public Map<String, String> getAuthorsViafAndAbstracts() {
         List<RDFStatement> resultList = null;

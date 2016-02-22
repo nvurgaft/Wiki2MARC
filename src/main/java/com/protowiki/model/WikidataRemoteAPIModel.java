@@ -210,7 +210,7 @@ public class WikidataRemoteAPIModel {
      * @param language The language that abstract should be in (if string is
      * null or empty, will default to 'en')
      *
-     * @return The article abstract text string
+     * @return Map of viaf as keys and abstracts as values
      */
     public Map<String, String> getMultipleWikipediaAbstractByViafIds(List<String> viafIds, String language) {
         
@@ -236,7 +236,12 @@ public class WikidataRemoteAPIModel {
         }
     }
     
-    
+    /**
+     * 
+     * @param viafIds
+     * @param language
+     * @return Map of viaf as keys and abstracts as values
+     */
     private Map<String, String> getMultipleWikipediaAbstractByViafIdsInner(List<String> viafIds, String language) {
         if (viafIds == null || viafIds.isEmpty()) {
             return null;

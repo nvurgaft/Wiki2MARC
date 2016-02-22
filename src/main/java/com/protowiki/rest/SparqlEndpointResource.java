@@ -1,7 +1,7 @@
 
 package com.protowiki.rest;
 
-import com.protowiki.dal.WikidataRemoteAPIModel;
+import com.protowiki.model.WikidataRemoteAPIModel;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;

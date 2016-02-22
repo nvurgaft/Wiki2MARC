@@ -2,7 +2,7 @@ package com.protowiki.rest;
 
 import com.protowiki.beans.FileDetails;
 import com.protowiki.beans.ResponseMessage;
-import com.protowiki.core.MainProcess;
+import com.protowiki.core.MARCFileFactory;
 import com.protowiki.utils.FileUtils;
 import java.io.File;
 import java.io.IOException;
@@ -60,7 +60,7 @@ public class RecordsResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response xmlParseFile(@QueryParam("file") String fileName) {
 
-        MainProcess proc = new MainProcess();
+        MARCFileFactory proc = new MARCFileFactory();
         System.out.println("File path is : " + FILE_PATH + fileName);
         int result = proc.runProcess(FILE_PATH + fileName);
         ResponseMessage rm = new ResponseMessage();

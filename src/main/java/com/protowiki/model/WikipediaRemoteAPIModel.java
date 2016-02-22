@@ -1,4 +1,4 @@
-package com.protowiki.dal;
+package com.protowiki.model;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -9,9 +9,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -75,7 +75,7 @@ public class WikipediaRemoteAPIModel {
      * @param articleNames
      * @return
      */
-    public List<String> getAbstractsByArticleNames(String language, List<? extends String> articleNames) {
+    public Map<String, String> getAbstractsByArticleNames(String language, List<? extends String> articleNames) {
 
         if (language==null || language.isEmpty()) {
             logger.warn("No language token was provided");
@@ -86,12 +86,14 @@ public class WikipediaRemoteAPIModel {
             logger.warn("No article names were provided");
             return null;
         }
+        
+        Map<String, String> resultMap = new HashMap<>();
+        for (String name : articleNames) {
+            String abs = this.getAbstractByArticleName(language, name);
+            resultMap.put(name, abs);
+        }
 
-        List<String> abstracts = articleNames.stream().map(s -> {
-                return this.getAbstractByArticleName(language, s);
-        }).collect(Collectors.toList());
-
-        return abstracts;
+        return resultMap;
     }
 
     private JsonObject parseToJsonObject(String string) {
