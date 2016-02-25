@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -206,20 +207,24 @@ public class WikidataRemoteAPIModel {
      * Fetches (by viaf id) from DBPedia the article abstract for an author in a
      * certain language
      *
-     * @param viafIds viaf id's
+     * @param authors
      * @param language The language that abstract should be in (if string is
      * null or empty, will default to 'en')
      *
      * @return Map of viaf as keys and abstracts as values
      */
-    public Map<String, String> getMultipleWikipediaAbstractByViafIds(List<String> viafIds, String language) {
+    public Map<String, String> getMultipleWikipediaAbstractByViafIds(List<Author> authors, String language) {
         
         // buffer each remote query with up to 50 viaf ids per request
-        if (viafIds.size()>50) {
+        if (authors.size()>50) {
             List<String> stack = new ArrayList<>();
             Map<String, String> bufferedResult = new HashMap<>();
-            for (String viaf : viafIds) {
-                stack.add(viaf);
+            
+            for (Author author : authors) {
+                if (author.getViafId()==null || author.getViafId().isEmpty()) {
+                    continue;
+                }
+                stack.add(author.getViafId());
                 if (stack.size()==50) {
                     Map<String, String> temp = this.getMultipleWikipediaAbstractByViafIdsInner(stack, language);
                     bufferedResult.putAll(temp);
@@ -232,6 +237,9 @@ public class WikidataRemoteAPIModel {
             }
             return bufferedResult;
         } else {
+            List<String> viafIds = authors.stream().map(a -> {
+                return a.getViafId();
+            }).collect(Collectors.toList());
             return this.getMultipleWikipediaAbstractByViafIdsInner(viafIds, language);
         }
     }

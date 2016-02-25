@@ -85,20 +85,20 @@ public class JerseyClientTest {
     @Test
     public void testMultipleAbstractRequests() {
 
-        List<String> subjects = Arrays.asList("Stack Overflow", "Google", "Yahoo", "LinkedIn");
-
-        WikipediaRemoteAPIModel model = new WikipediaRemoteAPIModel();
-
-        Map<String, String> s1 = model.getAbstractsByArticleNames("en", subjects);
-        s1.keySet().forEach(e -> {
-            logger.info("s: " + e);
-        });
-        
-        List<String> heSubjects = Arrays.asList("נעמי שמר", "מנחם בגין", "בנימין זאב הרצל", "גולדה מאיר");
-        Map<String, String> s2 = model.getAbstractsByArticleNames("he", heSubjects);
-        s2.keySet().forEach(e -> {
-            logger.info("s: " + e);
-        });
+//        List<String> subjects = Arrays.asList("Stack Overflow", "Google", "Yahoo", "LinkedIn");
+//
+//        WikipediaRemoteAPIModel model = new WikipediaRemoteAPIModel();
+//
+//        Map<String, String> s1 = model.getAbstractsByArticleNames(subjects, "en");
+//        s1.keySet().forEach(e -> {
+//            logger.info("s: " + e);
+//        });
+//        
+//        List<String> heSubjects = Arrays.asList("נעמי שמר", "מנחם בגין", "בנימין זאב הרצל", "גולדה מאיר");
+//        Map<String, String> s2 = model.getAbstractsByArticleNames(heSubjects, "he");
+//        s2.keySet().forEach(e -> {
+//            logger.info("s: " + e);
+//        });
     }
 
     /**

@@ -7,7 +7,6 @@ import com.protowiki.model.WikidataRemoteAPIModel;
 import com.protowiki.utils.RecordSAXParser;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import static org.junit.Assert.assertTrue;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -31,19 +30,14 @@ public class ProcessTest {
     @Test
     public void testFetchRemoteAbstracts() {
         RecordSAXParser parser = new RecordSAXParser();
-        DataTransformer optimus = new DataTransformer();
+        DataTransformer transformer = new DataTransformer();
+        
         List<Record> records = parser.parseXMLFileForRecords(FILE_PATH);
-        List<Author> authorsList = optimus.transformRecordsListToAuthors(records);
-        logger.info("scan the authors list and get a list of viaf ids");
-        List<String> viafs = authorsList.stream().filter(a -> {
-            return a.getViafId() != null;
-        }).map(a -> {
-            System.out.println(a.getViafId());
-            return a.getViafId().trim();
-        }).collect(Collectors.toList());
+        List<Author> authorsList = transformer.transformRecordsListToAuthors(records);
+        
         logger.info("connect remotly and query abstracts for these viaf ids");
         WikidataRemoteAPIModel remoteApi = new WikidataRemoteAPIModel();
-        Map<String, String> absMap = remoteApi.getMultipleWikipediaAbstractByViafIds(viafs, "en");
+        Map<String, String> absMap = remoteApi.getMultipleWikipediaAbstractByViafIds(authorsList, "en");
         logger.info("insert locally");
         AuthorModel authorModel = new AuthorModel();
         

@@ -3,6 +3,7 @@ package com.protowiki.model;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.protowiki.beans.Author;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,6 +13,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +31,7 @@ public class WikipediaRemoteAPIModel {
      * @param articleName
      * @return
      */
-    public String getAbstractByArticleName(String language, String articleName) {
+    public String getAbstractByArticleName(String articleName, String language) {
         if (articleName == null || articleName.isEmpty()) {
             return null;
         }
@@ -71,31 +73,40 @@ public class WikipediaRemoteAPIModel {
 
     /**
      *
+     * @param authors
      * @param language
-     * @param articleNames
      * @return
      */
-    public Map<String, String> getAbstractsByArticleNames(String language, List<? extends String> articleNames) {
+    public Map<String, String> getAbstractsByArticleNames(List<Author> authors, String language) {
 
         if (language==null || language.isEmpty()) {
             logger.warn("No language token was provided");
             return null;
         }
         
-        if (articleNames == null || articleNames.isEmpty()) {
+        if (authors == null || authors.isEmpty()) {
             logger.warn("No article names were provided");
             return null;
         }
         
+        List<String> articleNames = authors.stream().map(n -> {
+            return n.getNames().get(language);
+        }).collect(Collectors.toList());
+        
         Map<String, String> resultMap = new HashMap<>();
-        for (String name : articleNames) {
-            String abs = this.getAbstractByArticleName(language, name);
-            resultMap.put(name, abs);
+        for (Author author : authors) {
+            String abs = this.getAbstractByArticleName(language, author.getNames().get(language));
+            resultMap.put(author.getViafId(), abs);
         }
 
         return resultMap;
     }
-
+    
+    /**
+     * 
+     * @param string
+     * @return 
+     */
     private JsonObject parseToJsonObject(String string) {
         return new JsonParser().parse(string).getAsJsonObject();
     }

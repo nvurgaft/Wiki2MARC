@@ -8,7 +8,6 @@ import com.protowiki.model.WikidataRemoteAPIModel;
 import com.protowiki.utils.RecordSAXParser;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,58 +18,76 @@ import org.slf4j.LoggerFactory;
 public class MARCFileFactory {
 
     public static Logger logger = LoggerFactory.getLogger(MARCFileFactory.class);
+    
+    private int totalRecords;
+    private int totalModified;
 
     /**
      *  Runs the main data mapping process
      * 
      * @param filePath
-     * @return 0 if the process was successful, otherwise -1
+     * @return 0 if the process was successful, otherwise 1
      */
     public int runProcess(String filePath) {
         if (filePath == null || filePath.isEmpty()) {
-            return -1;
+            return 1;
         }
-
+        
+        List<Author> authorsList = null;
         try {
-            this.fetchRemoteData(filePath);
+            
+            authorsList = this.parseMARCFileForAuthors(filePath);
+            
+            this.obtainAbstractsViaSPARQLAPI(authorsList);
+            this.obtainAbstractsViaWikipediaAPI(authorsList);
             this.generateNewFile(filePath);
         } catch (Exception ex) {
             logger.error("Exception while running mapping process", ex);
-            return -1;
+            return 1;
         }
         return 0;
     }
-
+    
     /**
-     *  Fetches remote wikipedia abstracts using the MARC XML file viaf id's
-     * @param filePath the MARC XML file path
+     * Load the MARC file to memory
+     * @param filePath
+     * @return 
      */
-    private void fetchRemoteData(String filePath) {
-        
+    private List<Author> parseMARCFileForAuthors(String filePath) throws Exception {
+
         RecordSAXParser parser = new RecordSAXParser();
         DataTransformer transformer = new DataTransformer();
         
         List<Record> records = parser.parseXMLFileForRecords(filePath);
-        List<Author> authorsList = transformer.transformRecordsListToAuthors(records);
+        return transformer.transformRecordsListToAuthors(records);
+    }
+    
+    /**
+     * 
+     * @param authorsList 
+     */
+    private void obtainAbstractsViaWikipediaAPI(List<Author> authorsList) throws Exception {
         
-        // scan the authors list and get a list of viaf ids
-        List<String> viafs = authorsList.stream().filter(a -> {
-            return a.getViafId() != null;
-        }).map(a -> {
-            return a.getViafId().trim();
-        }).collect(Collectors.toList());
+        // connect remotly and query abstracts for these article names
+        WikipediaRemoteAPIModel wikipediaRemoteApi = new WikipediaRemoteAPIModel();
+        Map<String, String> absMap = wikipediaRemoteApi.getAbstractsByArticleNames(authorsList, "he"); // list<viaf, abstracts>
+        
+        // insert locally
+        AuthorModel authorModel = new AuthorModel();
+        absMap.keySet().stream().forEach((key) -> {
+            authorModel.insertAuthorsViafAndAbstracts(key, absMap.get(key));
+        });
+    }
+
+    /**
+     *  Fetches remote Wikipedia abstracts using the MARC XML file viaf id's
+     * @param filePath the MARC XML file path
+     */
+    private void obtainAbstractsViaSPARQLAPI(List<Author> authorsList) throws Exception {
         
         // connect remotly and query abstracts for these viaf ids
         WikidataRemoteAPIModel wikidataRemoteApi = new WikidataRemoteAPIModel();
-        Map<String, String> absMap = wikidataRemoteApi.getMultipleWikipediaAbstractByViafIds(viafs, "en"); // map<viaf, abstract>
-        
-        List<String> hebrewNames = authorsList.stream().map(a-> {
-            return a.getNames().get("he");
-        }).collect(Collectors.toList());
-        
-        WikipediaRemoteAPIModel wikipediaRemoteApi = new WikipediaRemoteAPIModel();
-        Map<String, String> heAbstracts = wikipediaRemoteApi.getAbstractsByArticleNames("he", hebrewNames); // list<abstracts>
-
+        Map<String, String> absMap = wikidataRemoteApi.getMultipleWikipediaAbstractByViafIds(authorsList, "en"); // map<viaf, abstract>
         
         // insert locally
         AuthorModel authorModel = new AuthorModel();
@@ -85,7 +102,7 @@ public class MARCFileFactory {
      * @param filePath the MARC XML file path
      * @return true if file generation was successful
      */
-    private boolean generateNewFile(String filePath) {
+    private boolean generateNewFile(String filePath) throws Exception {
         DataTransformer transformer = new DataTransformer();
 
         logger.debug("connect remotly and query abstracts for these viaf ids");

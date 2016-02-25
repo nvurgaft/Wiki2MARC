@@ -1,12 +1,11 @@
 package com.protowiki.core;
 
-import com.protowiki.logic.DataTransformer;
+
 import com.protowiki.beans.Author;
 import com.protowiki.beans.Record;
 import com.protowiki.utils.RecordSAXParser;
 import java.io.File;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import org.junit.After;
 import org.junit.AfterClass;

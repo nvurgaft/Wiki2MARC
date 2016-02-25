@@ -5,9 +5,6 @@ import com.protowiki.beans.Controlfield;
 import com.protowiki.beans.Datafield;
 import com.protowiki.beans.Record;
 import com.protowiki.beans.Subfield;
-import com.protowiki.model.RDFConnectionManager;
-import com.protowiki.entities.RDFStatement;
-import com.protowiki.model.QueryHandler;
 import com.protowiki.model.WikidataRemoteAPIModel;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -15,7 +12,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +35,6 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
-import virtuoso.jena.driver.VirtGraph;
 
 /**
  *
