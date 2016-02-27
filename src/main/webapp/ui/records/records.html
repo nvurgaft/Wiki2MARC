@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">       
-        <div class="panel panel-default">
-            <div class="panel-heading">Stored records</div>
+        <div class="panel panel-info">
+            <div class="panel-heading primary">Stored records</div>
             <div class="panel-body">
                 <div ng-show="vm.data.length > 0">
                     <div class="list-group">
@@ -9,18 +9,30 @@
                              style="cursor: pointer;"
                              ng-click="vm.selectedFile = file"
                              ng-class="{'active': vm.selectedFile === file}"
-                             ng-repeat="file in vm.data | startAt: (vm.currentPage - 1) * vm.itemsPerPage:vm.itemsPerPage">{{file.name}}
+                             ng-repeat="file in vm.data| startAt: (vm.currentPage - 1) * vm.itemsPerPage:vm.itemsPerPage">{{file.name}}
                             <div class="pull-right">
                                 <button class="btn btn-xs"
                                         ng-mouseover="onHover = true"
                                         ng-mouseleave="onHover = false"
                                         ng-class="{'btn-info': onHover, 'btn-default': !onHover}"
                                         ng-click="vm.parseXMLFile(file.name)"
-                                        ng-show="file.extension === 'xml'">Parse XML</button>
+                                        ng-show="file.extension === 'xml'">
+                                    Parse XML
+                                </button>
+                                <button class="btn btn-xs" 
+                                        uib-tooltip="Remove File"
+                                        tooltip-append-to-body="true"
+                                        ng-mouseover="onHoverDelete = true"
+                                        ng-mouseleave="onHoverDelete = false"
+                                        ng-class="{'btn-danger': onHoverDelete, 'btn-default': !onHoverDelete}"
+                                        ng-click="vm.deleteFile(file.name)">
+                                    <span class="fa fa-remove"></span>
+                                </button>
                             </div>
                         </div>
                     </div>
-                    <uib-pagination boundary-links="true" 
+                    <uib-pagination ng-show="vm.data.length > vm.itemsPerPage"
+                                    boundary-links="true" 
                                     total-items="vm.totalFiles" 
                                     ng-model="vm.currentPage" 
                                     items-per-page="vm.itemsPerPage"
@@ -35,11 +47,11 @@
                 <div ng-hide="vm.data.length > 0">
                     <label class="control-label"><span class="fa fa-spinner fa-pulse fa-2x"></span> Loading ..</label>
                 </div>
-                
+
                 <div ng-show="vm.processComplete" 
-                     ng-class="{'alert-info': vm.respStatus.status===0, 'alert-danger': vm.respStatus.status===-1}"
+                     ng-class="{'alert-info': vm.respStatus.status === 0, 'alert-danger': vm.respStatus.status === -1}"
                      class="alert" role="alert">{{vm.respStatus.data}}</div>
-                
+
             </div>
         </div>
     </div>
@@ -49,7 +61,7 @@
             <div class="panel-body">
                 <ul>
                     <li><label class="control-label">Name:</label>&nbsp{{vm.selectedFile.name}}</li>
-                    <li><label class="control-label">Size:</label>&nbsp{{vm.selectedFile.size / 1024 /1024 | decimalFilter:2}} MB</li>
+                    <li><label class="control-label">Size:</label>&nbsp{{vm.selectedFile.size / 1024 / 1024| decimalFilter:2}} MB</li>
                 </ul>
             </div>
         </div>

@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -26,7 +27,7 @@ import org.slf4j.LoggerFactory;
 public class RecordsResource {
 
     public static Logger logger = LoggerFactory.getLogger(RecordsResource.class);
-    
+
     private static final String FILE_PATH = "C://files//";
 
     @GET
@@ -61,10 +62,10 @@ public class RecordsResource {
     public Response xmlParseFile(@QueryParam("file") String fileName) {
 
         MARCFileFactory proc = new MARCFileFactory();
-        System.out.println("File path is : " + FILE_PATH + fileName);
+        logger.debug("File path is : " + FILE_PATH + fileName);
         int result = proc.runProcess(FILE_PATH + fileName);
         ResponseMessage rm = new ResponseMessage();
-        if (result==0) {
+        if (result == 0) {
             rm.setStatus(0).setData("File generation was successful");
             return Response.status(Status.OK).entity(rm).build();
         } else {
@@ -73,4 +74,25 @@ public class RecordsResource {
         }
     }
 
+    @DELETE
+    @Path("remove-file")
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response removeFile(@QueryParam("fileName") String fileName) {
+
+        File file = new File(FILE_PATH + fileName);
+
+        try {
+            if (file.exists()) {
+                file.delete();
+            }
+        } catch (Exception e) {
+            logger.error("An exception occured while attempting to delete the file: " + file.toString(), e);
+            return Response
+                    .status(Status.INTERNAL_SERVER_ERROR)
+                    .entity("An exception occured while attempting to delete the file")
+                    .build();
+        }
+
+        return Response.ok("File deleted").build();
+    }
 }

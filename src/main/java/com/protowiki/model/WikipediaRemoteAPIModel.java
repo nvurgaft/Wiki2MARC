@@ -33,6 +33,12 @@ public class WikipediaRemoteAPIModel {
      */
     public String getAbstractByArticleName(String articleName, String language) {
         if (articleName == null || articleName.isEmpty()) {
+            logger.warn("No article name was provided");
+            return null;
+        }
+        
+        if (language == null || language.isEmpty()) {
+            logger.warn("No language tag was provided");
             return null;
         }
 

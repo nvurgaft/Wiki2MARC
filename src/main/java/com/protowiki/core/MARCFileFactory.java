@@ -19,8 +19,13 @@ public class MARCFileFactory {
 
     public static Logger logger = LoggerFactory.getLogger(MARCFileFactory.class);
     
+    AuthorModel authorModel;
     private int totalRecords;
     private int totalModified;
+    
+    public MARCFileFactory() {
+        authorModel = new AuthorModel();
+    }
 
     /**
      *  Runs the main data mapping process
@@ -73,7 +78,6 @@ public class MARCFileFactory {
         Map<String, String> absMap = wikipediaRemoteApi.getAbstractsByArticleNames(authorsList, "he"); // list<viaf, abstracts>
         
         // insert locally
-        AuthorModel authorModel = new AuthorModel();
         absMap.keySet().stream().forEach((key) -> {
             authorModel.insertAuthorsViafAndAbstracts(key, absMap.get(key));
         });
@@ -90,7 +94,6 @@ public class MARCFileFactory {
         Map<String, String> absMap = wikidataRemoteApi.getMultipleWikipediaAbstractByViafIds(authorsList, "en"); // map<viaf, abstract>
         
         // insert locally
-        AuthorModel authorModel = new AuthorModel();
         absMap.keySet().stream().forEach((key) -> {
             authorModel.insertAuthorsViafAndAbstracts(key, absMap.get(key));
         });
@@ -106,7 +109,6 @@ public class MARCFileFactory {
         DataTransformer transformer = new DataTransformer();
 
         logger.debug("connect remotly and query abstracts for these viaf ids");
-        AuthorModel authorModel = new AuthorModel();
         Map<String, String> rdfList = authorModel.getAuthorsViafAndAbstracts();
 
         logger.debug("generate the updated MARC file");

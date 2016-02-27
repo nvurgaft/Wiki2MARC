@@ -1,5 +1,5 @@
 
-function config($stateProvider, $urlRouterProvider) {
+function config($stateProvider, $urlRouterProvider, confirmProvider) {
     $urlRouterProvider.otherwise("/main");
     $stateProvider
             .state('main', {
@@ -22,11 +22,14 @@ function config($stateProvider, $urlRouterProvider) {
                 controller: "importController as vm",
                 templateUrl: "ui/import/import.html"
             });
+            
+            confirmProvider.setSize('sm');
+
 }
 
 function run() { }
 
-angular.module('protowiki', ['ui.bootstrap', 'ui.router', 'smart-table', 'ui.ace', 
-    'angularFileUpload' ,'ui.select', 'ngSanitize'])
+angular.module('protowiki', ['ui.bootstrap', 'ui.router', 'smart-table', 'ui.ace',
+    'angularFileUpload', 'ui.select', 'ngSanitize', 'confirm'])
         .config(config)
         .run(run);
