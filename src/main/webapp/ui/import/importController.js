@@ -38,4 +38,4 @@ function importController($log, FileUploader) {
     };
 }
 
-angular.module('protowiki').controller('importController', importController);
+angular.module('app').controller('importController', importController);

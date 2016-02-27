@@ -39,4 +39,4 @@ function recordsService($http, $q, $log) {
     };
 }
 
-angular.module('protowiki').factory('recordsService', recordsService);
+angular.module('app').factory('recordsService', recordsService);

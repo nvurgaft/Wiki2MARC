@@ -29,4 +29,4 @@ function importService($http, $q, $log) {
     };
 }
 
-angular.module('protowiki').factory('importService', importService);
+angular.module('app').factory('importService', importService);

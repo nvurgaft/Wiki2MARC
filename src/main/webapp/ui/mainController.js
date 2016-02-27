@@ -12,4 +12,4 @@ function mainController(mainService) {
     });
 }
 
-angular.module('protowiki').controller('mainController', mainController);
+angular.module('app').controller('mainController', mainController);

@@ -24,12 +24,11 @@ function config($stateProvider, $urlRouterProvider, confirmProvider) {
             });
             
             confirmProvider.setSize('sm');
-
 }
 
 function run() { }
 
-angular.module('protowiki', ['ui.bootstrap', 'ui.router', 'smart-table', 'ui.ace',
+angular.module('app', ['ui.bootstrap', 'ui.router', 'smart-table', 'ui.ace',
     'angularFileUpload', 'ui.select', 'ngSanitize', 'confirm'])
         .config(config)
         .run(run);

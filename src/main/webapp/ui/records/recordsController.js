@@ -61,4 +61,4 @@ function recordsController($log, confirm, recordsService) {
 }
 ;
 
-angular.module('protowiki').controller('recordsController', recordsController);
+angular.module('app').controller('recordsController', recordsController);

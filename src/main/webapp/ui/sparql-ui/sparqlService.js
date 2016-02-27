@@ -20,4 +20,4 @@ function sparqlService($http, $log) {
     };
 }
 
-angular.module("protowiki").factory('sparqlService', sparqlService);
+angular.module("app").factory('sparqlService', sparqlService);

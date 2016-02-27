@@ -22,4 +22,4 @@ function mainService($log, $q, $http) {
     };
 }
 
-angular.module('protowiki').factory('mainService', mainService);
+angular.module('app').factory('mainService', mainService);

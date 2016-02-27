@@ -51,4 +51,4 @@ function sparqlController($log, sparqlService) {
     };
 }
 
-angular.module('protowiki').controller('sparqlController', sparqlController);
+angular.module('app').controller('sparqlController', sparqlController);

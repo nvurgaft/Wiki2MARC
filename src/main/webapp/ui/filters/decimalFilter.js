@@ -11,4 +11,4 @@ function decimalFilter() {
     };
 }
 
-angular.module('protowiki').filter('decimalFilter', decimalFilter);
+angular.module('app').filter('decimalFilter', decimalFilter);
