@@ -48,7 +48,7 @@ public class WikipediaRemoteAPIModel {
         StringBuilder sb = new StringBuilder();
         sb.append("https://")
                 .append(language)
-                .append(".wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=")
+                .append(".wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&redirects=1&titles=")
                 .append(articleName);
         String response = null;
         try {
@@ -100,10 +100,11 @@ public class WikipediaRemoteAPIModel {
         }).collect(Collectors.toList());
         
         Map<String, String> resultMap = new HashMap<>();
-        for (Author author : authors) {
-            String abs = this.getAbstractByArticleName(language, author.getNames().get(language));
-            resultMap.put(author.getViafId(), abs);
-        }
+        
+        authors.stream().forEach(a -> {
+            String abs = this.getAbstractByArticleName(language, a.getNames().get(language));
+            resultMap.put(a.getViafId(), abs);
+        });
 
         return resultMap;
     }

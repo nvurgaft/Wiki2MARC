@@ -6,6 +6,7 @@ import com.protowiki.beans.Datafield;
 import com.protowiki.beans.Record;
 import com.protowiki.beans.Subfield;
 import com.protowiki.model.WikidataRemoteAPIModel;
+import com.protowiki.model.WikipediaRemoteAPIModel;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -25,6 +26,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.DOMException;
@@ -43,6 +45,10 @@ import org.xml.sax.SAXException;
 public class DataTransformer {
 
     public static Logger logger = LoggerFactory.getLogger(DataTransformer.class);
+    
+    public static final String VIAF_ID = "901";
+    public static final String AUTHOR_NAME = "100";
+    public static final String SUBJECT_NAME = "400";
 
     /**
      * Takes a list of Record objects and transforms it into a list of Author
@@ -236,23 +242,56 @@ public class DataTransformer {
                     Node datafield = datafieldNodes.item(j);
                     NamedNodeMap attrMap = datafield.getAttributes();
                     if (attrMap != null) {
-                        if (attrMap.getNamedItem("tag") != null && attrMap.getNamedItem("tag").getNodeValue().equals("901")) {
+                        if (attrMap.getNamedItem("tag") != null && attrMap.getNamedItem("tag").getNodeValue().equals(VIAF_ID)) {
 
                             String viafId = datafield.getTextContent().trim();
 
                             WikidataRemoteAPIModel ram = new WikidataRemoteAPIModel();
-                            String queriedAbstract = ram.getWikipediaAbstractByViafId(viafId, "en");
-
-                            Element sfElem = doc.createElement("subfield");
-                            sfElem.setAttribute("code", "a");
-                            Text abstractText = doc.createTextNode(queriedAbstract);
-                            sfElem.appendChild(abstractText);
-                            Element dfElem = doc.createElement("datafield");
-                            dfElem.setAttribute("tag", "999");
-                            dfElem.setAttribute("ind1", " ");
-                            dfElem.setAttribute("ind2", " ");
-                            dfElem.appendChild(sfElem);
-                            records.item(i).appendChild(dfElem);
+                            String queriedEnglishAbstracts = ram.getWikipediaAbstractByViafId(viafId, "en");
+                            
+                            // create new subfield
+                            Element valueSubField = doc.createElement("subfield");
+                            valueSubField.setAttribute("code", "a");
+                            valueSubField.appendChild(doc.createTextNode(queriedEnglishAbstracts));
+                            
+                            Element keySubField = doc.createElement("subfield");
+                            keySubField.setAttribute("code", "9");
+                            keySubField.appendChild(doc.createTextNode("lat"));
+                            
+                            // create new datafield and append subfield into it
+                            Element dataField = doc.createElement("datafield");
+                            dataField.setAttribute("tag", "999");
+                            dataField.setAttribute("ind1", " ");
+                            dataField.setAttribute("ind2", " ");
+                            dataField.appendChild(keySubField);
+                            dataField.appendChild(valueSubField);
+                            records.item(i).appendChild(valueSubField);
+                        }
+                        
+                        if (attrMap.getNamedItem("tag") != null && attrMap.getNamedItem("tag").getNodeValue().equals(AUTHOR_NAME)) {
+                            
+                            String authorName = datafield.getTextContent().trim();
+                            
+                            WikipediaRemoteAPIModel wrm = new WikipediaRemoteAPIModel();
+                            String queriedHebrewAbstracts = wrm.getAbstractByArticleName(authorName, "he");
+                            
+                            // create new subfield
+                            Element valueSubField = doc.createElement("subfield");
+                            valueSubField.setAttribute("code", "a");
+                            valueSubField.appendChild(doc.createTextNode(queriedHebrewAbstracts));
+                            
+                            Element keySubField = doc.createElement("subfield");
+                            keySubField.setAttribute("code", "9");
+                            keySubField.appendChild(doc.createTextNode("heb"));
+                            
+                            // create new datafield and append subfield into it
+                            Element dataField = doc.createElement("datafield");
+                            dataField.setAttribute("tag", "999");
+                            dataField.setAttribute("ind1", " ");
+                            dataField.setAttribute("ind2", " ");
+                            dataField.appendChild(keySubField);
+                            dataField.appendChild(valueSubField);
+                            records.item(i).appendChild(valueSubField);
                         }
                     }
                 }
