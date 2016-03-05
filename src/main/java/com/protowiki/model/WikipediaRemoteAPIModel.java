@@ -18,7 +18,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ *  This model is responsible for the interaction with the Wikipedia article 
+ *  content API.
+ * 
+ *  We use this class to get article content such as the article's abstracts, 
+ *  as long as an article exists.
+ * 
  * @author Nick
  */
 public class WikipediaRemoteAPIModel {
@@ -119,9 +124,9 @@ public class WikipediaRemoteAPIModel {
     }
 
     /**
-     *
+     *  This method extracts the article content abstract from the response JSON
      * @param jsonObject
-     * @return
+     * @return String object holding the abstract
      */
     private String extractAbstractFromJson(JsonObject jsonObject) {
         String result = null;
@@ -133,8 +138,6 @@ public class WikipediaRemoteAPIModel {
             }
             if (v != null) {
                 result = v.getAsJsonPrimitive("extract").toString();
-            } else {
-                return null;
             }
         } catch (Exception ex) {
             logger.error("Exception occured while attempting to extract article abstract from result json", ex);

@@ -24,12 +24,11 @@ import virtuoso.jena.driver.VirtuosoQueryExecution;
 import virtuoso.jena.driver.VirtuosoQueryExecutionFactory;
 
 /**
- *  TODO
- * 
- *  1. parse xml for viaf id's
- *  2. for each viaf id query wikidata for hebrew and english label
- *  3. take labels and fetch abstracts using the wikipedia api
- * 
+ * TODO
+ *
+ * 1. parse xml for viaf id's 2. for each viaf id query wikidata for hebrew and
+ * english label 3. take labels and fetch abstracts using the wikipedia api
+ *
  * @author Nick
  */
 public class WikidataRemoteAPIModel {
@@ -43,11 +42,11 @@ public class WikidataRemoteAPIModel {
     private static final String GET_AUTHOR_LABEL_BY_VIAF = StringUtils.join(
             new String[]{
                 Prefixes.WIKIBASE, Prefixes.WD, Prefixes.WDT, Prefixes.RDFS, Prefixes.BD,
-                "SELECT ?name ?transted WHERE {",
-                "?name wdt:P214 '50566653'",
+                "SELECT ?name ?translated WHERE {",
+                "?name wdt:P214 '%s'", // a numerical value, ex: 50566653
                 "SERVICE wikibase:label {",
-                "bd:serviceParam wikibase:language 'he' .",
-                "?name rdfs:label ?transted",
+                "bd:serviceParam wikibase:language '%s' .",
+                "?name rdfs:label ?translated",
                 "}",
                 "}"
             }, "\n");
@@ -56,7 +55,7 @@ public class WikidataRemoteAPIModel {
             new String[]{
                 Prefixes.ONTOLOGY, Prefixes.PROPERTY, Prefixes.RDFS,
                 "SELECT ?name ?abstract WHERE {",
-                "?name rdfs:label \"%s\"@%s.",
+                "?name rdfs:label '%s'@%s.",
                 "?name ontology:abstract ?abstract",
                 "FILTER (LANG(?abstract)='%s')",
                 "}"
@@ -91,11 +90,11 @@ public class WikidataRemoteAPIModel {
                 "?s wdt:P949 ?nli .",
                 "?s wdt:P214 $viaf .",
                 "SERVICE wikibase:label {",
-                "bd:serviceParam wikibase:language \"he\" .",
+                "bd:serviceParam wikibase:language 'he' .",
                 "?s rdfs:label ?heName .",
                 "}",
                 "SERVICE wikibase:label {",
-                "bd:serviceParam wikibase:language \"en\" .",
+                "bd:serviceParam wikibase:language 'en' .",
                 "?s rdfs:label ?enName .",
                 "}",
                 "}"
@@ -142,6 +141,35 @@ public class WikidataRemoteAPIModel {
                     .toString();
         }
         return sb.toString();
+    }
+
+    /**
+     *
+     * @param viafId
+     * @param language
+     * @return
+     */
+    public String getAuthorLabelByViaf(String viafId, String language) {
+        if (viafId == null || viafId.isEmpty()) {
+            return null;
+        }
+        if (language == null || language.isEmpty()) {
+            language = "en";
+        }
+
+        String queryString = String.format(GET_AUTHOR_LABEL_BY_VIAF, viafId, language);
+        Query query = QueryFactory.create(queryString);
+        QueryExecution qe = QueryExecutionFactory.sparqlService("https://query.wikidata.org/", query);
+        String result = null;
+        ResultSet rs = ResultSetFactory.copyResults(qe.execSelect());
+        while (rs.hasNext()) {
+            QuerySolution qs = rs.nextSolution();
+            RDFNode _name = qs.get("name");
+            RDFNode _translated = qs.get("translated");
+            logger.info("Label: " + _name + ", Translated: " + _translated);
+            result = _translated.toString();
+        }
+        return result;
     }
 
     /**

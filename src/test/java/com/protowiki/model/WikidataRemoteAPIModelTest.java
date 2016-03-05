@@ -1,24 +1,18 @@
 package com.protowiki.model;
 
-import com.protowiki.model.WikidataRemoteAPIModel;
 import com.protowiki.beans.Author;
-import com.protowiki.beans.Record;
-import com.protowiki.core.DataTransformer;
-import com.protowiki.utils.RecordSAXParser;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.AfterClass;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,14 +20,14 @@ import org.slf4j.LoggerFactory;
  *
  * @author Nick
  */
-@Ignore
+//@Ignore
 public class WikidataRemoteAPIModelTest {
 
     public static Logger logger = LoggerFactory.getLogger(WikidataRemoteAPIModelTest.class);
 
-    public WikidataRemoteAPIModelTest() {
-    }
-
+    @Rule
+    public TestName testName = new TestName();
+    
     @BeforeClass
     public static void setUpClass() {
     }
@@ -44,6 +38,7 @@ public class WikidataRemoteAPIModelTest {
 
     @Before
     public void setUp() {
+        logger.info(testName.getMethodName());
     }
 
     @After
@@ -65,13 +60,24 @@ public class WikidataRemoteAPIModelTest {
         String results = instance.runQueryOnWikidata(minimumViableQuery, null);
         assertNotNull(results);
     }
+    
+    @Test
+    public void testGetAuthorLabelByViaf() {
+        
+        String viafId = "113230702";
+        String language = "en";
+        WikidataRemoteAPIModel instance = new WikidataRemoteAPIModel();
+        String result = instance.getAuthorLabelByViaf(viafId, language);
+        
+        logger.info("result: " + result);
+    }
 
     /**
      * Test of getWikipediaAbstract method, of class WikidataRemoteAPIModel.
      */
     @Test
     public void testGetWikipediaAbstractByName() {
-        logger.info("getWikipediaAbstract");
+        
         String author = "Mark Twain";
         String language = "en";
         WikidataRemoteAPIModel instance = new WikidataRemoteAPIModel();
@@ -85,7 +91,7 @@ public class WikidataRemoteAPIModelTest {
      */
     @Test
     public void testGetWikipediaAbstractByViafId() {
-        logger.info("getWikipediaAbstract");
+        
         String viafId = "50566653";
         String language = "en";
         WikidataRemoteAPIModel instance = new WikidataRemoteAPIModel();
@@ -142,7 +148,7 @@ public class WikidataRemoteAPIModelTest {
     @Test
     @Ignore
     public void testGetAuthorsWithVIAF() {
-        logger.info("getViafFromAuthors");
+
         WikidataRemoteAPIModel instance = new WikidataRemoteAPIModel();
         List<Author> authors = instance.getAuthorsWithVIAF();
         assertNotNull(authors);
@@ -154,7 +160,7 @@ public class WikidataRemoteAPIModelTest {
      */
     @Test
     public void testGetAuthorsWithVIAFRemote() {
-        logger.info("getViafFromAuthorsRemote");
+
         WikidataRemoteAPIModel instance = new WikidataRemoteAPIModel();
         List<Author> authors = instance.getAuthorsWithVIAFRemote();
         assertNotNull(authors);
