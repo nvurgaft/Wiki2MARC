@@ -76,9 +76,9 @@ public class MARCFileFactory {
         // connect remotly and query abstracts for these article names
         WikipediaRemoteAPIModel wikipediaRemoteApi = new WikipediaRemoteAPIModel();
         Map<String, String> absMap = wikipediaRemoteApi.getAbstractsByArticleNames(authorsList, "he"); // list<viaf, abstracts>
-        
         // insert locally
         absMap.keySet().stream().forEach((key) -> {
+            logger.info("Key: " + key + ", Value: " + absMap.get(key));
             authorModel.insertAuthorsViafAndAbstracts(key, absMap.get(key));
         });
     }

@@ -173,6 +173,32 @@ public class DataTransformer {
                             dfElem.appendChild(sfElem);
                             records.item(i).appendChild(dfElem);
                         }
+                        
+                        if (attrMap.getNamedItem("tag") != null && attrMap.getNamedItem("tag").getNodeValue().equals(AUTHOR_NAME)) {
+                            
+                            String authorName = datafield.getTextContent().trim();
+                            
+                            WikipediaRemoteAPIModel wrm = new WikipediaRemoteAPIModel();
+                            String queriedHebrewAbstracts = wrm.getAbstractByArticleName(authorName, "he");
+                            
+                            // create new subfield
+                            Element valueSubField = doc.createElement("subfield");
+                            valueSubField.setAttribute("code", "a");
+                            valueSubField.appendChild(doc.createTextNode(queriedHebrewAbstracts));
+                            
+                            Element keySubField = doc.createElement("subfield");
+                            keySubField.setAttribute("code", "9");
+                            keySubField.appendChild(doc.createTextNode("heb"));
+                            
+                            // create new datafield and append subfield into it
+                            Element dataField = doc.createElement("datafield");
+                            dataField.setAttribute("tag", "999");
+                            dataField.setAttribute("ind1", " ");
+                            dataField.setAttribute("ind2", " ");
+                            dataField.appendChild(keySubField);
+                            dataField.appendChild(valueSubField);
+                            records.item(i).appendChild(valueSubField);
+                        }
                     }
                 }
             }
