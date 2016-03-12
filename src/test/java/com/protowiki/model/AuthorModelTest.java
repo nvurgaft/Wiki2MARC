@@ -1,15 +1,9 @@
 package com.protowiki.model;
 
-import com.protowiki.entities.RDFStatement;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import static org.junit.Assert.assertEquals;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.junit.Ignore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,25 +17,6 @@ public class AuthorModelTest {
     
     public static Logger logger = LoggerFactory.getLogger(AuthorModelTest.class);
 
-    public AuthorModelTest() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() {
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-    }
-
-    @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
-    }
-    
     @Test
     public void testClerGraph() {
         logger.info("insertAuthorsViafAndAbstracts");
@@ -51,20 +26,20 @@ public class AuthorModelTest {
         Map<String, String> results = instance.getAuthorsViafAndAbstracts();
         if (results != null) {
             if (results.isEmpty()) {
-                System.out.println("results list is empty");
+                logger.info("results list is empty");
             }
             results.keySet().stream().forEach(k -> {
-                System.out.println(k + " : " + results.get(k));
+                logger.info(k + " : " + results.get(k));
             });
         } else {
-            System.out.println("results is null");
+            logger.info("results is null");
         }
     }
     
     @Test
     public void testPurgeGraph() {
         AuthorModel instance = new AuthorModel();
-        
+        instance.clearGraph();
     }
 
     /**
@@ -92,13 +67,13 @@ public class AuthorModelTest {
         Map<String, String> results = instance.getAuthorsViafAndAbstracts();
         if (results != null) {
             if (results.isEmpty()) {
-                System.out.println("results list is empty");
+                logger.info("results list is empty");
             }
             results.keySet().stream().forEach(k -> {
-                System.out.println(k + " : " + results.get(k));
+                logger.info(k + " : " + results.get(k));
             });
         } else {
-            System.out.println("results is null");
+            logger.info("results is null");
         }
     }
 

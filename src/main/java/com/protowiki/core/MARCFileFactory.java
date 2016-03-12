@@ -20,8 +20,6 @@ public class MARCFileFactory {
     public static Logger logger = LoggerFactory.getLogger(MARCFileFactory.class);
     
     AuthorModel authorModel;
-    private int totalRecords;
-    private int totalModified;
     
     public MARCFileFactory() {
         authorModel = new AuthorModel();

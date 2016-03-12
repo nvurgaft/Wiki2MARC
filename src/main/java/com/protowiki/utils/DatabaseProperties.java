@@ -11,41 +11,41 @@ import org.slf4j.LoggerFactory;
  *
  * @author Nick
  */
-public class PropertiesHandler {
+public class DatabaseProperties {
 
-    public static Logger logger = LoggerFactory.getLogger(PropertiesHandler.class);
+    public static Logger logger = LoggerFactory.getLogger(DatabaseProperties.class);
 
-    private Properties props;
+    private Properties properties;
     private String fileName;
 
     /**
      *  Constructs the PropertiesHandler using a file reference
      * @param propfile
      */
-    public PropertiesHandler(File propfile) {
+    public DatabaseProperties(File propfile) {
         this.fileName = propfile.getName();
-        this.props = this.readProperties(this.fileName);
+        this.properties = this.readProperties(this.fileName);
     }
 
     /**
      *  Constructs the PropertiesHandler using a file name
      * @param fileName
      */
-    public PropertiesHandler(String fileName) {
+    public DatabaseProperties(String fileName) {
         this.fileName = fileName;
-        this.props = this.readProperties(this.fileName);
+        this.properties = this.readProperties(this.fileName);
     }
 
     private Properties readProperties(String filename) {
-        props = new Properties();
+        properties = new Properties();
         try {
             ClassLoader loader = Thread.currentThread().getContextClassLoader();
             InputStream stream = loader.getResourceAsStream(filename);
-            props.load(stream);
+            properties.load(stream);
         } catch (IOException ioex) {
             logger.error("IOException in readProperties", ioex);
         }
-        return props;
+        return properties;
     }
 
     /**
@@ -53,7 +53,7 @@ public class PropertiesHandler {
      * @return the Properties file
      */
     public Properties getProperties() {
-        return props;
+        return properties;
     }
 
     /**
@@ -70,7 +70,7 @@ public class PropertiesHandler {
      * @return key's value
      */
     public String getProperty(String key) {
-        return this.props.getProperty(key);
+        return this.properties.getProperty(key);
     }
 
     /**
@@ -79,9 +79,9 @@ public class PropertiesHandler {
      */
     public String printProperties() {
         StringBuilder sb = new StringBuilder();
-        this.props.keySet().stream().forEach(o -> {
+        this.properties.keySet().stream().forEach(o -> {
             String s = (String) o;
-            sb.append("key: ").append(s).append(", value: ").append(this.props.getProperty(s)).append("\n");
+            sb.append("key: ").append(s).append(", value: ").append(this.properties.getProperty(s)).append("\n");
         });
         return sb.toString();
     }

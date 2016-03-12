@@ -16,4 +16,5 @@ public class Prefixes {
     
     public static final String ONTOLOGY     = "PREFIX ontology: <http://dbpedia.org/ontology/>";
     public static final String PROPERTY     = "PREFIX property: <http://dbpedia.org/property/>";
+    public static final String RDF          = "PREFIX rdf: <http://www.w3.org/2000/01/rdf-schema#>";
 }

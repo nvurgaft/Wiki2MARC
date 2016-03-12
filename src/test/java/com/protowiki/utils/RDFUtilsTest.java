@@ -18,26 +18,6 @@ import org.slf4j.LoggerFactory;
 public class RDFUtilsTest {
     
     public static Logger logger = LoggerFactory.getLogger(RDFUtilsTest.class);
-    
-    public RDFUtilsTest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
     /**
      * Test of spliceLiteralValue method, of class RDFUtils.
      */

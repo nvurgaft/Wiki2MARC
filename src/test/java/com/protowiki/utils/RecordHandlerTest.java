@@ -26,25 +26,6 @@ public class RecordHandlerTest {
     
     private final String testXMLFileName = "C:\\files\\authbzi.xml";
 
-    public RecordHandlerTest() {
-    }
-
-    @BeforeClass
-    public static void setUpClass() {
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-    }
-
-    @Before
-    public void setUp() {
-    }
-
-    @After
-    public void tearDown() {
-    }
-
     /**
      * testParseRecord
      *

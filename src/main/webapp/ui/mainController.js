@@ -1,14 +1,23 @@
 
 function mainController(mainService) {
     var vm = this;
+
     vm.serverStatus = "";
-    mainService.getServerHeartbeat().finally(function (status) {
-        vm.serverStatus = "[ " + status + " ]";
+    vm.serverStatusOK = false;
+    mainService.getServerHeartbeat().then(function (status) {
+        vm.serverStatusOK = true;
+        vm.serverStatus = status;
+    }, function (error) {
+        vm.serverStatusOK = false;
     });
-    
+
     vm.databaseStatus = "";
-    mainService.getDatabaseHeartbeat().finally(function(status) {
-        vm.databaseStatus + "[ " + status + " ]";
+    vm.databaseStatusOK = false;
+    mainService.getDatabaseHeartbeat().then(function (status) {
+        vm.databaseStatusOK = true;
+        vm.databaseStatus = status;
+    }, function (error) {
+        vm.databaseStatusOK = false;
     });
 }
 

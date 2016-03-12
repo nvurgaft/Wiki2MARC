@@ -49,8 +49,7 @@ public class QueryHandler {
         this.graphName = graphName;
         this.graph = graph;
 
-        this.defaultPrefices = StringUtils.join(
-                "PREFIX rdf: <http://www.w3.org/2000/01/rdf-schema#>", " ", "\n");
+        this.defaultPrefices = StringUtils.join(Prefixes.RDF, " ", "\n");
     }
     
     /**

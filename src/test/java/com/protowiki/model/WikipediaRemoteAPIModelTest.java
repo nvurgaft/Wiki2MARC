@@ -52,8 +52,7 @@ public class WikipediaRemoteAPIModelTest {
         String articleName = "Potato";
         String language = "en";
         WikipediaRemoteAPIModel instance = new WikipediaRemoteAPIModel();
-        String result = instance.getAbstractByArticleName(articleName, language);
-        
+        String result = instance.getAbstractByArticleName(articleName, language);   
         logger.info("Result: " + result);
     }
 
@@ -67,7 +66,9 @@ public class WikipediaRemoteAPIModelTest {
         String language = "he";
         WikipediaRemoteAPIModel instance = new WikipediaRemoteAPIModel();
         Map<String, String> result = instance.getAbstractsByArticleNames(authors, language);
-        
+        result.keySet().forEach(key -> {
+            logger.info("Key: " + key + ", Value: " + result.get(key));
+        });
     }
     
 }

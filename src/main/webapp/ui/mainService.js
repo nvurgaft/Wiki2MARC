@@ -3,7 +3,6 @@ function mainService($log, $q, $http) {
     return {
         getServerHeartbeat: function() {
             return $http.get("rest/heartbeat/server").then(function(response) {
-                $log.debug("got: " + response.status);
                 return response.status;
             }, function(response) {
                 $log.debug(response.status + " : " + response.data);
@@ -12,7 +11,6 @@ function mainService($log, $q, $http) {
         },
         getDatabaseHeartbeat: function() {
             return $http.get("rest/heartbeat/database").then(function(response) {
-                $log.debug("got: " + response.status);
                 return response.status;
             }, function(response) {
                 $log.error(response.status + " : " + response.data);
