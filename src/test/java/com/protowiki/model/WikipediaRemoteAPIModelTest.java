@@ -47,12 +47,26 @@ public class WikipediaRemoteAPIModelTest {
      * Test of getAbstractByArticleName method, of class WikipediaRemoteAPIModel.
      */
     @Test
-    public void testGetAbstractByArticleName() {
+    public void testGetAbstractByArticleNameEn() {
         
         String articleName = "Potato";
         String language = "en";
         WikipediaRemoteAPIModel instance = new WikipediaRemoteAPIModel();
         String result = instance.getAbstractByArticleName(articleName, language);   
+        logger.info("Result: " + result);
+    }
+    
+    /**
+     * Test of getAbstractByArticleName method, of class WikipediaRemoteAPIModel.
+     */
+    @Test
+    public void testGetAbstractByArticleNameHe() {
+        
+        String articleName = "תפוח אדמה";
+        String language = "he";
+        WikipediaRemoteAPIModel instance = new WikipediaRemoteAPIModel();
+        String result = instance.getAbstractByArticleName(articleName, language);
+        
         logger.info("Result: " + result);
     }
 
