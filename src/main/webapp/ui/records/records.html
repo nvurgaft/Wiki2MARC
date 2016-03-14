@@ -1,59 +1,144 @@
 <div class="row">
-    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">       
-        <div class="panel panel-info">
-            <div class="panel-heading primary">Stored records</div>
-            <div class="panel-body">
-                <div ng-show="vm.data.length > 0">
-                    <div class="list-group">
-                        <div class="list-group-item" 
-                             style="cursor: pointer;"
-                             ng-click="vm.selectedFile = file"
-                             ng-class="{'active': vm.selectedFile === file}"
-                             ng-repeat="file in vm.data| startAt: (vm.currentPage - 1) * vm.itemsPerPage:vm.itemsPerPage">{{file.name}}
-                            <div class="pull-right">
-                                <button class="btn btn-xs"
-                                        ng-mouseover="onHover = true"
-                                        ng-mouseleave="onHover = false"
-                                        ng-class="{'btn-info': onHover, 'btn-default': !onHover}"
-                                        ng-click="vm.parseXMLFile(file.name)"
-                                        ng-show="file.extension === 'xml'">
-                                    Parse XML
-                                </button>
-                                <button class="btn btn-xs" 
-                                        uib-tooltip="Remove File"
-                                        tooltip-append-to-body="true"
-                                        ng-mouseover="onHoverDelete = true"
-                                        ng-mouseleave="onHoverDelete = false"
-                                        ng-class="{'btn-danger': onHoverDelete, 'btn-default': !onHoverDelete}"
-                                        ng-click="vm.deleteFile(file.name)">
-                                    <span class="fa fa-remove"></span>
-                                </button>
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">      
+
+        <uib-tabset vertical="false">
+            <uib-tab index="0">
+                <uib-tab-heading>
+                    Records <label class="label label-primary">{{vm.data.length}}</label>
+                </uib-tab-heading>
+
+                <div class="panel panel-info">
+                    <div class="panel-heading primary">Stored records</div>
+                    <div class="panel-body">
+                        <div ng-show="vm.data.length > 0">
+                            <div class="list-group">
+                                <div class="list-group-item" 
+                                     style="cursor: pointer;"
+                                     ng-click="vm.selectedFile = file"
+                                     ng-class="{'active': vm.selectedFile === file}"
+                                     ng-repeat="file in vm.data| startAt: (vm.currentPage - 1) * vm.itemsPerPage:vm.itemsPerPage">{{file.name}}
+                                    <div class="pull-right">
+                                        <button class="btn btn-xs"
+                                                ng-mouseover="onHover = true"
+                                                ng-mouseleave="onHover = false"
+                                                ng-class="{'btn-info': onHover, 'btn-default': !onHover}"
+                                                ng-click="vm.parseXMLFile(file.name)"
+                                                ng-show="file.extension === 'xml'">
+                                            Parse XML
+                                        </button>
+                                        <button class="btn btn-xs"
+                                                ng-mouseover="onHoverDl = true"
+                                                ng-mouseleave="onHoverDl = false"
+                                                ng-class="{'btn-success': onHoverDl, 'btn-default': !onHoverDl}"
+                                                uib-tooltip="Download"
+                                                ng-click="vm.downloadFile(file.name)"
+                                                ng-show="file.extension === 'xml'">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                        <button class="btn btn-xs" 
+                                                uib-tooltip="Remove File"
+                                                tooltip-append-to-body="true"
+                                                ng-mouseover="onHoverDelete = true"
+                                                ng-mouseleave="onHoverDelete = false"
+                                                ng-class="{'btn-danger': onHoverDelete, 'btn-default': !onHoverDelete}"
+                                                ng-click="vm.deleteFile(file.name)">
+                                            <span class="fa fa-remove"></span>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
+                            <uib-pagination ng-show="vm.data.length > vm.itemsPerPage"
+                                            boundary-links="true" 
+                                            total-items="vm.totalFiles" 
+                                            ng-model="vm.currentPage" 
+                                            items-per-page="vm.itemsPerPage"
+                                            class="pagination-sm" 
+                                            ng-change="vm.onPageSelected(vm.currentPage)"
+                                            previous-text="&lsaquo;" 
+                                            next-text="&rsaquo;" 
+                                            first-text="&laquo;" 
+                                            last-text="&raquo;">
+                            </uib-pagination>
+                        </div>
+                        <div ng-hide="vm.data.length > 0 || vm.doneLoadingFiles===true">
+                            <label class="control-label">
+                                <span class="fa fa-spinner fa-pulse fa-2x"></span> Loading ..
+                            </label>
+                        </div>
+
+                        <div ng-show="vm.processComplete" 
+                             ng-class="{'alert-info': vm.respStatus.status === 0, 'alert-danger': vm.respStatus.status === -1}"
+                             class="alert" role="alert">{{vm.respStatus.data}}
                         </div>
                     </div>
-                    <uib-pagination ng-show="vm.data.length > vm.itemsPerPage"
-                                    boundary-links="true" 
-                                    total-items="vm.totalFiles" 
-                                    ng-model="vm.currentPage" 
-                                    items-per-page="vm.itemsPerPage"
-                                    class="pagination-sm" 
-                                    ng-change="vm.onPageSelected(vm.currentPage)"
-                                    previous-text="&lsaquo;" 
-                                    next-text="&rsaquo;" 
-                                    first-text="&laquo;" 
-                                    last-text="&raquo;">
-                    </uib-pagination>
-                </div>
-                <div ng-hide="vm.data.length > 0">
-                    <label class="control-label"><span class="fa fa-spinner fa-pulse fa-2x"></span> Loading ..</label>
                 </div>
 
-                <div ng-show="vm.processComplete" 
-                     ng-class="{'alert-info': vm.respStatus.status === 0, 'alert-danger': vm.respStatus.status === -1}"
-                     class="alert" role="alert">{{vm.respStatus.data}}</div>
+            </uib-tab>
+            <uib-tab index="1">
+                <uib-tab-heading>
+                    Logs <label class="label label-primary">{{vm.logs.length}}</label>
+                </uib-tab-heading>
 
-            </div>
-        </div>
+                <div class="panel panel-info">
+                    <div class="panel-heading primary">Logs</div>
+                    <div class="panel-body">
+                        <div ng-show="vm.logs.length > 0">
+                            <div class="list-group">
+                                <div class="list-group-item" 
+                                     style="cursor: pointer;"
+                                     ng-click="vm.selectedFile = logfile"
+                                     ng-class="{'active': vm.selectedFile === logfile}"
+                                     ng-repeat="logfile in vm.logs| startAt: (vm.currentPage - 1) * vm.itemsPerPage:vm.itemsPerPage">{{file.name}}
+                                    <div class="pull-right">
+                                        <button class="btn btn-xs"
+                                                ng-mouseover="onHoverDl = true"
+                                                ng-mouseleave="onHoverDl = false"
+                                                ng-class="{'btn-success': onHoverDl, 'btn-default': !onHoverDl}"
+                                                uib-tooltip="Download"
+                                                ng-click="vm.downloadFile(logfile.name)"
+                                                ng-show="logfile.extension === 'xml'">
+                                            <i class="fa fa-download"></i>
+                                        </button>
+                                        <button class="btn btn-xs" 
+                                                uib-tooltip="Remove File"
+                                                tooltip-append-to-body="true"
+                                                ng-mouseover="onHoverDelete = true"
+                                                ng-mouseleave="onHoverDelete = false"
+                                                ng-class="{'btn-danger': onHoverDelete, 'btn-default': !onHoverDelete}"
+                                                ng-click="vm.deleteFile(logfile.name)">
+                                            <span class="fa fa-remove"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <uib-pagination ng-show="vm.logs.length > vm.itemsPerPage"
+                                            boundary-links="true" 
+                                            total-items="vm.totalLogFiles" 
+                                            ng-model="vm.currentPage" 
+                                            items-per-page="vm.itemsPerPage"
+                                            class="pagination-sm" 
+                                            ng-change="vm.onPageSelected(vm.currentPage)"
+                                            previous-text="&lsaquo;" 
+                                            next-text="&rsaquo;" 
+                                            first-text="&laquo;" 
+                                            last-text="&raquo;">
+                            </uib-pagination>
+                        </div>
+                        <div ng-hide="vm.logs.length > 0 || vm.doneLoadingLogFiles===true">
+                            <label class="control-label">
+                                <span class="fa fa-spinner fa-pulse fa-2x"></span> Loading ..
+                            </label>
+                        </div>
+
+                        <div ng-show="vm.processComplete" 
+                             ng-class="{'alert-info': vm.respStatus.status === 0, 'alert-danger': vm.respStatus.status === -1}"
+                             class="alert" role="alert">{{vm.respStatus.data}}
+                        </div>
+                    </div>
+                </div>
+            </uib-tab>
+        </uib-tabset>
+
     </div>
     <div class="col-lg-8 col-md-8 col-sm-6 col-xs-12">
         <div class="panel panel-default" ng-show="vm.selectedFile">
@@ -63,6 +148,21 @@
                     <li><label class="control-label">Name:</label>&nbsp{{vm.selectedFile.name}}</li>
                     <li><label class="control-label">Size:</label>&nbsp{{vm.selectedFile.size / 1024 / 1024| decimalFilter:2}} MB</li>
                 </ul>
+
+                <section>
+                    <label class="control-label">File content</label>
+                    <div ui-ace="vm.aceOptions" ng-model="vm.aceModel"></div>
+                    <div ng-model="vm.mode"></div>
+                </section>
+                
+                <div class="form-inline">
+                    <button class="btn btn-primary" ng-click="vm.saveFileChanges(vm.selectedFile)">
+                        <i class="fa fa-floppy-o"></i> Save changes
+                    </button>
+                    <button class="btn btn-default" ng-click="vm.revertFileChanges(vm.selectedFile)">
+                        <i class="fa fa-undo"></i> Revert changes
+                    </button>
+                </div>
             </div>
         </div>
     </div>

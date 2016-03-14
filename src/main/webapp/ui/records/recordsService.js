@@ -12,6 +12,9 @@ function recordsService($http, $q, $log) {
                 return $q.reject(response.status + " : " + response.data);
             });
         },
+        getLogs: function() {
+            return $q.when([]);
+        },
         postXMLFileDetails: function (fileDetails) {
             $log.debug("Posting XML file to be processed: " + fileDetails);
             return $http.get(path + 'xml-parse-file', {
