@@ -24,15 +24,17 @@ import org.slf4j.LoggerFactory;
 public class ProcessTest {
 
     public static Logger logger = LoggerFactory.getLogger(ProcessTest.class);
-
-    private static final String FILE_PATH = "C://files//authbzi.xml";
+    
+    private static final String FILE_PATH = "//content//";
 
     @Test
     public void testFetchRemoteAbstracts() {
+        
+        String fileName = "authbzi.xml";
         RecordSAXParser parser = new RecordSAXParser();
         DataTransformer transformer = new DataTransformer();
 
-        List<Record> records = parser.parseXMLFileForRecords(FILE_PATH);
+        List<Record> records = parser.parseXMLFileForRecords(FILE_PATH + fileName);
         List<Author> authorsList = transformer.transformRecordsListToAuthors(records);
 
         logger.info("connect remotly and query abstracts for these viaf ids");
@@ -48,15 +50,18 @@ public class ProcessTest {
 
     @Test
     public void testRunProcess() {
-
+        
+        String fileName = "authbzi.xml";
         MARCFileFactory factory = new MARCFileFactory();
-        int result = factory.runProcess(FILE_PATH);
+        int result = factory.runProcess(FILE_PATH + fileName);
         
         logger.debug("Result: " + result);
     }
 
     @Test
     public void testEntireProcess() {
+        
+        String fileName = "authbzi.xml";
         DataTransformer optimus = new DataTransformer();
 
         logger.info("connect remotly and query abstracts for these viaf ids");

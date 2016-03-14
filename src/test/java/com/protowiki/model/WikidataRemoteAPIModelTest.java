@@ -128,7 +128,7 @@ public class WikidataRemoteAPIModelTest {
 //        
 //        RecordSAXParser parser = new RecordSAXParser();
 //        DataTransformer optimus = new DataTransformer();
-//        List<Record> records = parser.parseXMLFileForRecords("C://files//authbzi.xml");
+//        List<Record> records = parser.parseXMLFileForRecords("//content//authbzi.xml");
 //        List<Author> authorsList = optimus.transformRecordsListToAuthors(records);
 //        
 //        List<String> viafs = authorsList.stream().map(a -> {

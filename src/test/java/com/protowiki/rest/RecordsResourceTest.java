@@ -9,7 +9,9 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,8 +24,8 @@ public class RecordsResourceTest {
 
     public static Logger logger = LoggerFactory.getLogger(RecordsResourceTest.class);
 
-    public RecordsResourceTest() {
-    }
+    @Rule
+    private final TestName testName = new TestName();
 
     @BeforeClass
     public static void setUpClass() {
@@ -35,6 +37,7 @@ public class RecordsResourceTest {
 
     @Before
     public void setUp() {
+        logger.info(testName.getMethodName());
     }
 
     @After
@@ -46,7 +49,7 @@ public class RecordsResourceTest {
      */
     @Test
     public void testGetFiles() {
-        File file = new File("C://files//");
+        File file = new File("//content//");
         logger.debug("Scanning for files");
         File[] files = file.listFiles();
         for (File f : files) {

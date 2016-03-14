@@ -1,7 +1,6 @@
 
 package com.protowiki.logic;
 
-import com.protowiki.utils.DatabaseProperties;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import org.slf4j.Logger;

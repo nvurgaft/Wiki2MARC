@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 public class DataImportResource {
 
     public static Logger logger = LoggerFactory.getLogger(DataImportResource.class);
-    private static final String FILE_SAVE_PATH = "C://files//";
+    private static final String FILE_SAVE_PATH = "//content//";
 
     @POST
     @Path("xml_file")

@@ -1,6 +1,5 @@
 package com.protowiki.core;
 
-
 import com.protowiki.beans.Author;
 import com.protowiki.beans.Record;
 import com.protowiki.utils.RecordSAXParser;
@@ -14,7 +13,9 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,9 +27,11 @@ import org.slf4j.LoggerFactory;
 public class DataTransformerTest {
 
     public Logger logger = LoggerFactory.getLogger(DataTransformerTest.class);
-
-    public DataTransformerTest() {
-    }
+    
+    private final String PATH = "//content//";
+    
+    @Rule
+    public TestName testName = new TestName();
 
     @BeforeClass
     public static void setUpClass() {
@@ -40,6 +43,7 @@ public class DataTransformerTest {
 
     @Before
     public void setUp() {
+        logger.info(testName.getMethodName());
     }
 
     @After
@@ -51,7 +55,7 @@ public class DataTransformerTest {
      */
     @Test
     public void testTransformRecordsListToAuthors() {
-        logger.info("transformRecordsListToAuthors");
+        
         List<Record> recordsList = null;
         DataTransformer instance = new DataTransformer();
         List<Author> expResult = null;
@@ -64,7 +68,7 @@ public class DataTransformerTest {
      */
     @Test
     public void testInsertAuthorIntoDB() {
-        logger.info("insertAuthorIntoDB");
+
         String s = "";
         String p = "";
         String o = "";
@@ -77,7 +81,7 @@ public class DataTransformerTest {
      */
     @Test
     public void testBatchInsertAuthorIntoDB() {
-        logger.info("batchInsertAuthorIntoDB");
+
         List<Author> authors = null;
         DataTransformer instance = new DataTransformer();
 
@@ -88,8 +92,8 @@ public class DataTransformerTest {
      */
     @Test
     public void testGenerateMARCXMLFile() {
-        logger.info("generateMARCXMLFile");
-        String filePath = "c://files//authbzi.xml";
+
+        String filePath = PATH + "authbzi.xml";
         
         DataTransformer instance = new DataTransformer();
         //Map<String, String> articleAbstracts = instance.generateMARCXMLFile(filePath, articleAbstracts);
@@ -100,8 +104,8 @@ public class DataTransformerTest {
      */
     @Test
     public void testDynamicallyGenerateMARCXMLFile() {
-        logger.info("generateMARCXMLFile");
-        String filePath = "c://files//authbzi.xml";
+
+        String filePath = PATH + "authbzi.xml";
         DataTransformer instance = new DataTransformer();
         boolean result = instance.dynamicallyGenerateMARCXMLFile(filePath);
         assertTrue("Should return true if method was successful", result);
@@ -109,11 +113,12 @@ public class DataTransformerTest {
 
     @Test
     public void testProcess() {
+        
         logger.info("testing process");
         List<Author> authors = null;
         List<Author> filteredAuthors = null;
         try {
-            File file = new File("c://files//authbzi.xml");
+            File file = new File(PATH + "authbzi.xml");
             RecordSAXParser parse = new RecordSAXParser();
             List<Record> records = parse.parseXMLFileForRecords(file);
             DataTransformer transformer = new DataTransformer();

@@ -5,6 +5,7 @@ import com.protowiki.beans.Controlfield;
 import com.protowiki.beans.Datafield;
 import com.protowiki.beans.Record;
 import com.protowiki.beans.Subfield;
+import com.protowiki.model.MARCIdentifiers;
 import com.protowiki.model.WikidataRemoteAPIModel;
 import com.protowiki.model.WikipediaRemoteAPIModel;
 import java.io.BufferedWriter;
@@ -45,10 +46,6 @@ public class DataTransformer {
 
     public static Logger logger = LoggerFactory.getLogger(DataTransformer.class);
     
-    public static final String VIAF_ID = "901";
-    public static final String AUTHOR_NAME = "100";
-    public static final String SUBJECT_NAME = "400";
-
     /**
      * Takes a list of Record objects and transforms it into a list of Author
      * objects
@@ -173,7 +170,7 @@ public class DataTransformer {
                             records.item(i).appendChild(dfElem);
                         }
                         
-                        if (attrMap.getNamedItem("tag") != null && attrMap.getNamedItem("tag").getNodeValue().equals(AUTHOR_NAME)) {
+                        if (attrMap.getNamedItem("tag") != null && attrMap.getNamedItem("tag").getNodeValue().equals(MARCIdentifiers.AUTHOR_NAME)) {
                             
                             String authorName = datafield.getTextContent().trim();
                             
@@ -267,7 +264,7 @@ public class DataTransformer {
                     Node datafield = datafieldNodes.item(j);
                     NamedNodeMap attrMap = datafield.getAttributes();
                     if (attrMap != null) {
-                        if (attrMap.getNamedItem("tag") != null && attrMap.getNamedItem("tag").getNodeValue().equals(VIAF_ID)) {
+                        if (attrMap.getNamedItem("tag") != null && attrMap.getNamedItem("tag").getNodeValue().equals(MARCIdentifiers.VIAF_ID)) {
 
                             String viafId = datafield.getTextContent().trim();
 
@@ -293,7 +290,7 @@ public class DataTransformer {
                             records.item(i).appendChild(valueSubField);
                         }
                         
-                        if (attrMap.getNamedItem("tag") != null && attrMap.getNamedItem("tag").getNodeValue().equals(AUTHOR_NAME)) {
+                        if (attrMap.getNamedItem("tag") != null && attrMap.getNamedItem("tag").getNodeValue().equals(MARCIdentifiers.AUTHOR_NAME)) {
                             
                             String authorName = datafield.getTextContent().trim();
                             

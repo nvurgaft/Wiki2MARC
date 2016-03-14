@@ -19,7 +19,8 @@ public class DatabaseProperties {
     private String fileName;
 
     /**
-     *  Constructs the PropertiesHandler using a file reference
+     * Constructs the PropertiesHandler using a file reference
+     *
      * @param propfile
      */
     public DatabaseProperties(File propfile) {
@@ -28,12 +29,27 @@ public class DatabaseProperties {
     }
 
     /**
-     *  Constructs the PropertiesHandler using a file name
+     * Constructs the PropertiesHandler using a file name
+     *
      * @param fileName
      */
     public DatabaseProperties(String fileName) {
         this.fileName = fileName;
         this.properties = this.readProperties(this.fileName);
+    }
+
+    public void setProperties(File propfile) {
+        if (propfile != null && !propfile.isDirectory()) {
+            this.fileName = propfile.getName();
+            this.properties = this.readProperties(this.fileName);
+        }
+    }
+
+    public void setProperties(String fileName) {
+        if (fileName != null && !fileName.isEmpty()) {
+            this.fileName = fileName;
+            this.properties = this.readProperties(this.fileName);
+        }
     }
 
     private Properties readProperties(String filename) {
@@ -49,7 +65,8 @@ public class DatabaseProperties {
     }
 
     /**
-     *  Return the Properties file
+     * Return the Properties file
+     *
      * @return the Properties file
      */
     public Properties getProperties() {
@@ -57,15 +74,17 @@ public class DatabaseProperties {
     }
 
     /**
-     *  Return the file name
-     * @return the file name string 
+     * Return the file name
+     *
+     * @return the file name string
      */
     public String getFileName() {
         return fileName;
     }
 
     /**
-     *  Retrieves a property value using a property key
+     * Retrieves a property value using a property key
+     *
      * @param key property key
      * @return key's value
      */
@@ -74,8 +93,11 @@ public class DatabaseProperties {
     }
 
     /**
-     *  Iterates over the properties and appends all of them using a StringBuilder
-     * @return the string containing all the properties and their respective values
+     * Iterates over the properties and appends all of them using a
+     * StringBuilder
+     *
+     * @return the string containing all the properties and their respective
+     * values
      */
     public String printProperties() {
         StringBuilder sb = new StringBuilder();
