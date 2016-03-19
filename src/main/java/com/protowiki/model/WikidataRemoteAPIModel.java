@@ -1,5 +1,6 @@
 package com.protowiki.model;
 
+import com.protowiki.values.Prefixes;
 import com.hp.hpl.jena.query.Query;
 import com.hp.hpl.jena.query.QueryExecution;
 import com.hp.hpl.jena.query.QueryExecutionFactory;
@@ -9,6 +10,7 @@ import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.query.ResultSetFactory;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.protowiki.beans.Author;
+import com.protowiki.utils.DatabaseProperties;
 import com.protowiki.utils.RDFUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,9 +37,11 @@ public class WikidataRemoteAPIModel {
 
     public static Logger logger = LoggerFactory.getLogger(WikidataRemoteAPIModel.class);
 
-    static String connection_string = "jdbc:virtuoso://localhost:1111/CHARSET=UTF-8/log_enable=2";
-    static String login = "dba";
-    static String password = "dba";
+    private DatabaseProperties dbProps;
+    
+    private String connection_string;
+    private String login;
+    private String password;
 
     private static final String GET_AUTHOR_LABEL_BY_VIAF = StringUtils.join(
             new String[]{
@@ -100,6 +104,29 @@ public class WikidataRemoteAPIModel {
                 "}"
             }, "\n");
 
+    public WikidataRemoteAPIModel() {
+        this.dbProps = new DatabaseProperties("application.properties");
+        
+        login = this.dbProps.getProperty("login");
+        password = this.dbProps.getProperty("password");
+        String host = this.dbProps.getProperty("host");
+        String port = this.dbProps.getProperty("port");
+
+        //connection_string = "jdbc:virtuoso://localhost:1111/CHARSET=UTF-8/log_enable=2";
+        connection_string = new StringBuilder().append("jdbc:virtuoso://").append(host).append(":").append(port).append("/CHARSET=UTF-8/log_enable=2").toString();
+    }
+
+    /**
+     *
+     * @param queryString
+     * @param sparqlServiceUrl
+     * @return
+     */
+    public String runTestQuery(String queryString, String sparqlServiceUrl) {
+
+        return null;
+    }
+
     /**
      * Runs a user provided SPARQL query on the Wikidata endpoint
      *
@@ -108,10 +135,7 @@ public class WikidataRemoteAPIModel {
      * will default to "https://query.wikidata.org/sparql"
      * @return the query results in a string
      */
-    public String runQueryOnWikidata(String queryString, String sparqlServiceUrl) {
-        if (queryString == null || queryString.isEmpty()) {
-            return null;
-        }
+    public String runQueryOnWikidata(String sparqlServiceUrl) {
 
         if (sparqlServiceUrl == null || sparqlServiceUrl.isEmpty()) {
             sparqlServiceUrl = "https://query.wikidata.org/sparql";

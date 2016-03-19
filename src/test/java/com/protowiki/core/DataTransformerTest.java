@@ -3,6 +3,7 @@ package com.protowiki.core;
 import com.protowiki.beans.Author;
 import com.protowiki.beans.Record;
 import com.protowiki.utils.RecordSAXParser;
+import com.protowiki.values.Values;
 import java.io.File;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,8 +28,6 @@ import org.slf4j.LoggerFactory;
 public class DataTransformerTest {
 
     public Logger logger = LoggerFactory.getLogger(DataTransformerTest.class);
-    
-    private final String PATH = "//content//";
     
     @Rule
     public TestName testName = new TestName();
@@ -93,7 +92,7 @@ public class DataTransformerTest {
     @Test
     public void testGenerateMARCXMLFile() {
 
-        String filePath = PATH + "authbzi.xml";
+        String filePath = Values.FILE_PATH + "authbzi.xml";
         
         DataTransformer instance = new DataTransformer();
         //Map<String, String> articleAbstracts = instance.generateMARCXMLFile(filePath, articleAbstracts);
@@ -105,7 +104,7 @@ public class DataTransformerTest {
     @Test
     public void testDynamicallyGenerateMARCXMLFile() {
 
-        String filePath = PATH + "authbzi.xml";
+        String filePath = Values.FILE_PATH + "authbzi.xml";
         DataTransformer instance = new DataTransformer();
         boolean result = instance.dynamicallyGenerateMARCXMLFile(filePath);
         assertTrue("Should return true if method was successful", result);
@@ -118,7 +117,7 @@ public class DataTransformerTest {
         List<Author> authors = null;
         List<Author> filteredAuthors = null;
         try {
-            File file = new File(PATH + "authbzi.xml");
+            File file = new File(Values.FILE_PATH + "authbzi.xml");
             RecordSAXParser parse = new RecordSAXParser();
             List<Record> records = parse.parseXMLFileForRecords(file);
             DataTransformer transformer = new DataTransformer();

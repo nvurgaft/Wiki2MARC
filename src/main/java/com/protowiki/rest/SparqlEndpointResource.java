@@ -29,7 +29,7 @@ public class SparqlEndpointResource {
             @QueryParam("query") String query,
             @QueryParam("endpoint") String endpoint) {
         
-        String queryResult = new WikidataRemoteAPIModel().runQueryOnWikidata(query, endpoint);
+        String queryResult = new WikidataRemoteAPIModel().runQueryOnWikidata(endpoint);
         
         asyncResponse.resume(Response.status(Status.OK).entity(queryResult).build());
     }

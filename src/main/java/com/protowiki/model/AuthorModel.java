@@ -1,8 +1,8 @@
 package com.protowiki.model;
 
+import com.protowiki.values.Predicates;
 import com.protowiki.beans.Author;
 import com.protowiki.entities.RDFStatement;
-import com.protowiki.utils.DatabaseProperties;
 import com.protowiki.utils.RDFUtils;
 import java.util.ArrayList;
 import java.util.HashMap;

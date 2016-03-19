@@ -57,7 +57,7 @@ public class WikidataRemoteAPIModelTest {
                 "}"
         , "\n");
         WikidataRemoteAPIModel instance = new WikidataRemoteAPIModel();
-        String results = instance.runQueryOnWikidata(minimumViableQuery, null);
+        String results = instance.runTestQuery(minimumViableQuery, null);
         assertNotNull(results);
     }
     
@@ -128,7 +128,7 @@ public class WikidataRemoteAPIModelTest {
 //        
 //        RecordSAXParser parser = new RecordSAXParser();
 //        DataTransformer optimus = new DataTransformer();
-//        List<Record> records = parser.parseXMLFileForRecords("//content//authbzi.xml");
+//        List<Record> records = parser.parseXMLFileForRecords(Values.FILE_PATH + "authbzi.xml");
 //        List<Author> authorsList = optimus.transformRecordsListToAuthors(records);
 //        
 //        List<String> viafs = authorsList.stream().map(a -> {

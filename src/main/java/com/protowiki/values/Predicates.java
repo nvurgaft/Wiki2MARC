@@ -1,4 +1,4 @@
-package com.protowiki.model;
+package com.protowiki.values;
 
 /**
  *  This static class holds the RDF predicates used for the ontology in this

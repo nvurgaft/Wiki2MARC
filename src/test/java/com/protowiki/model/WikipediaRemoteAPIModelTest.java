@@ -79,7 +79,7 @@ public class WikipediaRemoteAPIModelTest {
         List<Author> authors = null;
         String language = "he";
         WikipediaRemoteAPIModel instance = new WikipediaRemoteAPIModel();
-        Map<String, String> result = instance.getAbstractsByArticleNames(authors, language);
+        Map<String, String> result = instance.getMultipleAbstractsByAuthors(authors, language);
         result.keySet().forEach(key -> {
             logger.info("Key: " + key + ", Value: " + result.get(key));
         });

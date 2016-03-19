@@ -1,5 +1,6 @@
 package com.protowiki.rest;
 
+import com.protowiki.values.Values;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -49,7 +50,7 @@ public class RecordsResourceTest {
      */
     @Test
     public void testGetFiles() {
-        File file = new File("//content//");
+        File file = new File(Values.FILE_PATH);
         logger.debug("Scanning for files");
         File[] files = file.listFiles();
         for (File f : files) {

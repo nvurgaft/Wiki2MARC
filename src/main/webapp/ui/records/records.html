@@ -14,7 +14,7 @@
                             <div class="list-group">
                                 <div class="list-group-item" 
                                      style="cursor: pointer;"
-                                     ng-click="vm.selectedFile = file"
+                                     ng-click="vm.getFileDetails(file)"
                                      ng-class="{'active': vm.selectedFile === file}"
                                      ng-repeat="file in vm.data| startAt: (vm.currentPage - 1) * vm.itemsPerPage:vm.itemsPerPage">{{file.name}}
                                     <div class="pull-right">

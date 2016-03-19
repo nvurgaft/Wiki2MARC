@@ -88,7 +88,7 @@ public class WikipediaRemoteAPIModel {
      * @param language
      * @return
      */
-    public Map<String, String> getAbstractsByArticleNames(List<Author> authors, String language) {
+    public Map<String, String> getMultipleAbstractsByAuthors(List<Author> authors, String language) {
 
         if (language==null || language.isEmpty()) {
             logger.warn("No language token was provided");

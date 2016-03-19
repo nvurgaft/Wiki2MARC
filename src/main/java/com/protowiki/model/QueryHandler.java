@@ -1,5 +1,6 @@
 package com.protowiki.model;
 
+import com.protowiki.values.Prefixes;
 import com.hp.hpl.jena.graph.Graph;
 import com.hp.hpl.jena.graph.Node;
 import com.hp.hpl.jena.graph.Triple;

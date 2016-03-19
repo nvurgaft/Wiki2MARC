@@ -1,6 +1,7 @@
 package com.protowiki.rest;
 
 import com.protowiki.utils.FileUtils;
+import com.protowiki.values.Values;
 import java.io.InputStream;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -14,14 +15,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *
+ *  Servlet class for the Data Import UI, allows loading files in the 
+ *  working directory 
+ * 
  * @author Nick
  */
 @Path("upload")
 public class DataImportResource {
 
     public static Logger logger = LoggerFactory.getLogger(DataImportResource.class);
-    private static final String FILE_SAVE_PATH = "//content//";
 
     @POST
     @Path("xml_file")
@@ -30,7 +32,7 @@ public class DataImportResource {
             @FormDataParam("file") InputStream fileInputStream,
             @FormDataParam("file") FormDataContentDisposition contentDispositionHeader
     ) {
-        String filePath = FILE_SAVE_PATH + contentDispositionHeader.getFileName();
+        String filePath = Values.FILE_PATH + contentDispositionHeader.getFileName();
         boolean result = FileUtils.saveFile(fileInputStream, filePath);
         if (result) {
             return Response

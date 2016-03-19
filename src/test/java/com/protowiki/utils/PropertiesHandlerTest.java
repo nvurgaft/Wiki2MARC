@@ -23,22 +23,10 @@ public class PropertiesHandlerTest {
     
     public static Logger logger = LoggerFactory.getLogger(PropertiesHandlerTest.class);
     
-    DatabaseProperties instance = null;
-    
-    public PropertiesHandlerTest() {
-        instance = new DatabaseProperties("application.properties");
-    }
+    DatabaseProperties instance = new DatabaseProperties("application.properties");
     
     @Rule
     public TestName testName = new TestName();
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
     
     @Before
     public void setUp() {

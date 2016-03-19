@@ -5,7 +5,7 @@ import com.protowiki.beans.Controlfield;
 import com.protowiki.beans.Datafield;
 import com.protowiki.beans.Record;
 import com.protowiki.beans.Subfield;
-import com.protowiki.model.MARCIdentifiers;
+import com.protowiki.values.MARCIdentifiers;
 import com.protowiki.model.WikidataRemoteAPIModel;
 import com.protowiki.model.WikipediaRemoteAPIModel;
 import java.io.BufferedWriter;

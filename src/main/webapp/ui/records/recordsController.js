@@ -57,6 +57,15 @@ function recordsController($log, confirm, recordsService) {
         vm.doneLoadingLogFiles = true;
     });
 
+    vm.getFileDetails = function (file) {
+        vm.selectedFile = file;
+        recordsService.getFileDetails(file.name).then(function (response) {
+            vm.aceModel = response;
+        }, function (response) {
+
+        });
+    };
+
     vm.parseXMLFile = function (fileName) {
         vm.processComplete = false;
         recordsService.postXMLFileDetails(fileName).then(function (response) {
@@ -91,13 +100,13 @@ function recordsController($log, confirm, recordsService) {
             vm.processComplete = true;
         });
     };
-    
-    vm.saveFileChanges = function(file) {
-        
+
+    vm.saveFileChanges = function (file) {
+
     };
-    
-    vm.revertFileChanges = function(file) {
-        
+
+    vm.revertFileChanges = function (file) {
+
     };
 }
 

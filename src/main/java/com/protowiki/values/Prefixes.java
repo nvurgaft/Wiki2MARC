@@ -1,5 +1,5 @@
 
-package com.protowiki.model;
+package com.protowiki.values;
 
 /**
  *  RDF prefixes

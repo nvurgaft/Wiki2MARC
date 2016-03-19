@@ -24,8 +24,14 @@ public class DatabaseProperties {
      * @param propfile
      */
     public DatabaseProperties(File propfile) {
-        this.fileName = propfile.getName();
-        this.properties = this.readProperties(this.fileName);
+        try {
+            this.fileName = propfile.getName();
+            this.properties = this.readProperties(this.fileName);
+        } catch (Exception e) {
+            logger.error("Could not load properties file", e);
+            this.fileName = null;
+            this.properties = null;
+        }
     }
 
     /**

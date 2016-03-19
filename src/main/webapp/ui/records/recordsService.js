@@ -5,8 +5,20 @@ function recordsService($http, $q, $log) {
 
     return {
         getFiles: function () {
-            $log.debug("Fetching stored files details");
+            $log.debug("Fetching stored files list");
             return $http.get(path + 'get-files').then(function (response) {
+                return response.data;
+            }, function (response) {
+                return $q.reject(response.status + " : " + response.data);
+            });
+        },
+        getFileDetails: function(fileName) {
+            $log.debug("Fetching stored file details");
+            return $http.get(path + 'get-file-detail', {
+                params: {
+                    fileName: fileName
+                }
+            }).then(function (response) {
                 return response.data;
             }, function (response) {
                 return $q.reject(response.status + " : " + response.data);
