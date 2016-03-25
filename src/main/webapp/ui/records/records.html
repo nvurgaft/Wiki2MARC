@@ -60,7 +60,7 @@
                                             last-text="&raquo;">
                             </uib-pagination>
                         </div>
-                        <div ng-hide="vm.data.length > 0 || vm.doneLoadingFiles===true">
+                        <div ng-hide="vm.data.length > 0 || vm.doneLoadingFiles === true">
                             <label class="control-label">
                                 <span class="fa fa-spinner fa-pulse fa-2x"></span> Loading ..
                             </label>
@@ -96,7 +96,7 @@
                                                 ng-class="{'btn-success': onHoverDl, 'btn-default': !onHoverDl}"
                                                 uib-tooltip="Download"
                                                 ng-click="vm.downloadFile(logfile.name)"
-                                                ng-show="logfile.extension === 'xml'">
+                                                ng-show="logfile.extension === 'log'">
                                             <i class="fa fa-download"></i>
                                         </button>
                                         <button class="btn btn-xs" 
@@ -124,7 +124,7 @@
                                             last-text="&raquo;">
                             </uib-pagination>
                         </div>
-                        <div ng-hide="vm.logs.length > 0 || vm.doneLoadingLogFiles===true">
+                        <div ng-hide="vm.logs.length > 0 || vm.doneLoadingLogFiles === true">
                             <label class="control-label">
                                 <span class="fa fa-spinner fa-pulse fa-2x"></span> Loading ..
                             </label>
@@ -147,14 +147,15 @@
                 <ul>
                     <li><label class="control-label">Name:</label>&nbsp{{vm.selectedFile.name}}</li>
                     <li><label class="control-label">Size:</label>&nbsp{{vm.selectedFile.size / 1024 / 1024| decimalFilter:2}} MB</li>
+                    <li><label class="control-label">Date created:</label>&nbsp{{vm.selectedFile.creationTime}}</li>
+                    <li><label class="control-label">Last modified:</label>&nbsp{{vm.selectedFile.lastModified}}</li>
                 </ul>
 
-                <section>
+                <div class="form-group">
                     <label class="control-label">File content</label>
-                    <div ui-ace="vm.aceOptions" ng-model="vm.aceModel"></div>
-                    <div ng-model="vm.mode"></div>
-                </section>
-                
+                    <textarea class="form-control" rows="15" ng-model="vm.textarea" ng-disabled="vm.gettingFileDetails"></textarea>
+                </div>
+
                 <div class="form-inline">
                     <button class="btn btn-primary" ng-click="vm.saveFileChanges(vm.selectedFile)">
                         <i class="fa fa-floppy-o"></i> Save changes

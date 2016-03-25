@@ -44,6 +44,11 @@ public class RecordsResourceTest {
     @After
     public void tearDown() {
     }
+    
+    @Test
+    public void testNioPath() {
+        
+    }
 
     /**
      * Test of getFiles method, of class RecordsResource.

@@ -29,6 +29,6 @@ function config($stateProvider, $urlRouterProvider, confirmProvider) {
 function run() { }
 
 angular.module('app', ['ui.bootstrap', 'ui.router', 'smart-table', 'ui.ace',
-    'angularFileUpload', 'ui.select', 'ngSanitize', 'confirm'])
+    'angularFileUpload' ,'ui.select', 'ngSanitize', 'confirm'])
         .config(config)
         .run(run);

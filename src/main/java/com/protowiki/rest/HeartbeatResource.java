@@ -42,7 +42,7 @@ public class HeartbeatResource {
      */
     @GET
     @Path("database")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
     public Response getDatabaseHeartbeat() {
         
         String queryResult;
@@ -52,9 +52,9 @@ public class HeartbeatResource {
                 return Response.status(Status.OK).build();
             }
         } catch (Exception e) {
-            logger.error("Exception while check database status", e);
-            return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+            logger.warn("Exception while check database status");
+            return Response.status(Status.SERVICE_UNAVAILABLE).entity("Cannot connect to database").build();
         }
-        return Response.status(Status.SERVICE_UNAVAILABLE).build();
+        return Response.status(Status.SERVICE_UNAVAILABLE).entity("Database found").build();
     }
 }

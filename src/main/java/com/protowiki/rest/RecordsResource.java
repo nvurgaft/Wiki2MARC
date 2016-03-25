@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.DELETE;
@@ -48,6 +49,18 @@ public class RecordsResource {
         for (File file : files) {
             FileDetails fd = new FileDetails();
             fd.setName(file.getName());
+
+            java.nio.file.Path filePath = Paths.get(Values.FILE_PATH + file.getName());
+            BasicFileAttributes attr;
+            
+            try {
+                attr = Files.readAttributes(filePath, BasicFileAttributes.class);
+                fd.setCreationTime(attr.creationTime().toString());
+                fd.setLastModified(attr.lastModifiedTime().toString());              
+            } catch (IOException ioex) {
+                logger.warn("IOException while reading file properties", ioex);
+            }
+
             try {
                 String content = FileUtils.fileReader(file);
                 fd.setSize(content.length());
@@ -62,10 +75,10 @@ public class RecordsResource {
 
     @GET
     @Path("get-file-detail")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getFileDetails(@QueryParam("file") String fileName) {
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response getFileDetails(@QueryParam("fileName") String fileName) {
 
-        File file = new File(fileName);
+        File file = new File(Values.FILE_PATH + fileName);
         String content;
         try {
             content = FileUtils.fileReader(file);
@@ -81,9 +94,9 @@ public class RecordsResource {
     @Produces(MediaType.APPLICATION_JSON)
     public void downloadFile(@Suspended AsyncResponse asyncResponse,
             @QueryParam("file") String fileName) {
-        
+
         try {
-            java.nio.file.Path path = Paths.get(fileName);
+            java.nio.file.Path path = Paths.get(Values.FILE_PATH + fileName);
 
             byte[] data = Files.readAllBytes(path);
             asyncResponse.resume(Response
@@ -95,7 +108,7 @@ public class RecordsResource {
 
         } catch (Exception ex) {
             logger.error("Error reading file", ex);
-            asyncResponse.resume(Response.status(Status.INTERNAL_SERVER_ERROR).entity("Error reading file").build());
+            asyncResponse.resume(Response.status(Status.INTERNAL_SERVER_ERROR).type(MediaType.TEXT_PLAIN).entity("Error reading file").build());
         }
 
     }
@@ -109,7 +122,7 @@ public class RecordsResource {
     @Path("xml-parse-file")
     @Produces(MediaType.APPLICATION_JSON)
     public Response xmlParseFile(@QueryParam("file") String fileName) {
-        
+
         String path = Values.FILE_PATH;
 
         MARCFileFactory proc = new MARCFileFactory();

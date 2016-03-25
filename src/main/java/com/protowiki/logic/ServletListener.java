@@ -1,6 +1,8 @@
 
 package com.protowiki.logic;
 
+import com.protowiki.values.Values;
+import java.io.File;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import org.slf4j.Logger;
@@ -17,6 +19,15 @@ public class ServletListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         logger.info("Servlet context initialized");
+        
+        File initDir = new File(Values.FILE_PATH);
+        if (!initDir.exists()) {
+            if (initDir.mkdir()) {
+                logger.info(String.format("Directory %s was created", Values.FILE_PATH));
+            } else {
+                logger.info(String.format("Directory %s found", Values.FILE_PATH));
+            }
+        }
     }
 
     @Override

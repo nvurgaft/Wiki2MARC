@@ -1,7 +1,7 @@
 
 /* global _ */
 
-function recordsController($log, confirm, recordsService) {
+function recordsController($log, confirm, recordsService, $timeout) {
 
     var vm = this;
     vm.data = [];
@@ -10,28 +10,7 @@ function recordsController($log, confirm, recordsService) {
     vm.currentPage = 1;
     vm.itemsPerPage = 10;
 
-    vm.aceModel = "";
-    vm.mode = 'XML';
-    vm.theme = 'Chrome';
-
-    vm.aceOptions = {
-        mode: vm.mode.toLowerCase(),
-        theme: vm.theme.toLowerCase(),
-        onLoad: function (_editor) {
-            $log.debug('aceLoaded');
-            vm.modeChanged = function (mode) {
-                $log.debug('mode ' + mode + ' selected');
-                _editor.getSession().setMode("ace/mode/" + vm.mode.toLowerCase());
-            };
-            vm.themeChanged = function (theme) {
-                $log.debug('theme ' + theme + ' selected');
-                _editor.setTheme("ace/theme/" + vm.theme.toLowerCase());
-            };
-        },
-        onChange: function (e) {
-            $log.debug('aceChanged');
-        }
-    };
+    vm.textarea = "";
 
     vm.onPageSelected = function (pageNum) {
         $log.debug("Selected page " + pageNum);
@@ -57,13 +36,19 @@ function recordsController($log, confirm, recordsService) {
         vm.doneLoadingLogFiles = true;
     });
 
+    vm.gettingFileDetails = false;
     vm.getFileDetails = function (file) {
         vm.selectedFile = file;
-        recordsService.getFileDetails(file.name).then(function (response) {
-            vm.aceModel = response;
-        }, function (response) {
-
-        });
+        $timeout(function () {
+            vm.gettingFileDetails = false;
+            recordsService.getFileDetails(file.name).then(function (response) {
+                vm.textarea = response;
+            }, function (response) {
+                vm.textarea = "";
+            })['finally'](function() {
+                vm.gettingFileDetails = false;
+            });
+        }, 0);
     };
 
     vm.parseXMLFile = function (fileName) {
@@ -79,7 +64,11 @@ function recordsController($log, confirm, recordsService) {
     };
 
     vm.downloadFile = function (fileName) {
-
+        recordsService.downloadFile(fileName).then(function(response) {
+            $log.debug(response);
+        }, function(response) {
+            $log.error(response);
+        });
     };
 
     vm.deleteFile = function (fileName) {

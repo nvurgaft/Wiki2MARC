@@ -23,28 +23,23 @@
                 <li ui-sref-active="active">
                     <a href="#" ui-sref="main.records"><i class="fa fa-database text-primary"></i> Records</a>
                 </li>
+                <li ui-sref-active="active">
+                    <a href="#" ui-sref="main.import"><i class="fa fa-download text-info"></i> Import data</a>
+                </li>
+                <li ui-sref-active="active">
+                    <a href="#"><i class="fa fa-university text-primary"></i> Manager</a>
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li style="margin-top: 1em;">
-                    <span class="label" style="margin-left: 2px; margin-right: 2px;" ng-class="{
-                        'label-success': vm.serverStatusOK, 
-                        'label-danger': !vm.serverStatusOK">
+                    <span class="label" style="margin-left: 2px; margin-right: 2px;" 
+                          ng-class="{'label-success': vm.serverStatusOK, 'label-danger': !vm.serverStatusOK}">
                         Server {{vm.serverStatus}}
                     </span>
-                    <span class="label" style="margin-left: 2px; margin-right: 2px;" ng-class="{
-                        'label-success': vm.databaseStatusOK, 
-                        'label-danger': !vm.databaseStatusOK">
+                    <span class="label" style="margin-left: 2px; margin-right: 2px;" 
+                          ng-class="{'label-success': vm.databaseStatusOK, 'label-danger': !vm.databaseStatusOK}">
                         Database {{vm.databaseStatus}}
                     </span>
-                </li>
-                <li class="dropdown" uib-dropdown>
-                    <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
-                        Preferences <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a ui-sref="main.import">Import data</a></li>
-                        <li><a href="#">Manager</a></li>
-                    </ul>
                 </li>
             </ul>
         </div>

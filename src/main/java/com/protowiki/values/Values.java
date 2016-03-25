@@ -6,5 +6,5 @@ package com.protowiki.values;
  */
 public class Values {
     
-    public static final String FILE_PATH = "//content//";
+    public static final String FILE_PATH = "./content/";
 }
