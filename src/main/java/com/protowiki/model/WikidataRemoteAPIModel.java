@@ -12,6 +12,7 @@ import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.protowiki.beans.Author;
 import com.protowiki.utils.DatabaseProperties;
 import com.protowiki.utils.RDFUtils;
+import com.protowiki.values.Providers;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -36,12 +37,6 @@ import virtuoso.jena.driver.VirtuosoQueryExecutionFactory;
 public class WikidataRemoteAPIModel {
 
     public static Logger logger = LoggerFactory.getLogger(WikidataRemoteAPIModel.class);
-
-    private DatabaseProperties dbProps;
-    
-    private String connection_string;
-    private String login;
-    private String password;
 
     private static final String GET_AUTHOR_LABEL_BY_VIAF = StringUtils.join(
             new String[]{
@@ -104,41 +99,56 @@ public class WikidataRemoteAPIModel {
                 "}"
             }, "\n");
 
-    public WikidataRemoteAPIModel() {
-        this.dbProps = new DatabaseProperties("application.properties");
-        
-        login = this.dbProps.getProperty("login");
-        password = this.dbProps.getProperty("password");
-        String host = this.dbProps.getProperty("host");
-        String port = this.dbProps.getProperty("port");
-
-        //connection_string = "jdbc:virtuoso://localhost:1111/CHARSET=UTF-8/log_enable=2";
-        connection_string = new StringBuilder().append("jdbc:virtuoso://").append(host).append(":").append(port).append("/CHARSET=UTF-8/log_enable=2").toString();
-    }
-
     /**
      *
      * @param queryString
      * @param sparqlServiceUrl
      * @return
      */
-    public String runTestQuery(String queryString, String sparqlServiceUrl) {
+    public String runRemoteQuery(String queryString, String sparqlServiceUrl) {
+        if (sparqlServiceUrl == null || sparqlServiceUrl.isEmpty()) {
+            logger.warn("No valid provider provided");
+            return null;
+        }
 
-        return null;
+        StringBuilder sb = new StringBuilder();
+        try {
+            Query query = QueryFactory.create(queryString);
+            QueryExecution qe = QueryExecutionFactory.sparqlService(sparqlServiceUrl, query);
+            ResultSet rs = ResultSetFactory.copyResults(qe.execSelect());
+            while (rs.hasNext()) {
+                QuerySolution qs = rs.next();
+                Iterator<String> iter = qs.varNames();
+                sb.append(StringUtils.repeat("-", 50)).append("\n");
+                while (iter.hasNext()) {
+                    String field = iter.next();
+                    sb.append(field).append(": ").append(qs.get(field)).append("\n");
+                }
+            }
+        } catch (Exception ex) {
+            logger.error("An exception has occured while processing the query", ex);
+            return new StringBuilder()
+                    .append("An exception has occured while processing the query")
+                    .append("\n")
+                    .append(ex)
+                    .append("\n")
+                    .toString();
+        }
+        return sb.toString();
     }
 
     /**
      * Runs a user provided SPARQL query on the Wikidata endpoint
      *
      * @param queryString The query string
-     * @param sparqlServiceUrl The SPARQL endpoint ULR, if null or empty string,
-     * will default to "https://query.wikidata.org/sparql"
+     * @param sparqlServiceUrl The SPARQL endpoint ULR
      * @return the query results in a string
      */
     public String runQueryOnWikidata(String sparqlServiceUrl) {
 
         if (sparqlServiceUrl == null || sparqlServiceUrl.isEmpty()) {
-            sparqlServiceUrl = "https://query.wikidata.org/sparql";
+            logger.warn("No valid provider provided");
+            return null;
         }
 
         StringBuilder sb = new StringBuilder();
@@ -183,9 +193,9 @@ public class WikidataRemoteAPIModel {
 
         String queryString = String.format(GET_AUTHOR_LABEL_BY_VIAF, viafId, language);
         Query query = QueryFactory.create(queryString);
-        QueryExecution qe = QueryExecutionFactory.sparqlService("https://query.wikidata.org/", query);
+        QueryExecution qe = QueryExecutionFactory.sparqlService(Providers.WIKIDATA, query);
         String result = null;
-        ResultSet rs = ResultSetFactory.copyResults(qe.execSelect());
+        ResultSet rs = qe.execSelect();
         while (rs.hasNext()) {
             QuerySolution qs = rs.nextSolution();
             RDFNode _name = qs.get("name");
@@ -216,7 +226,7 @@ public class WikidataRemoteAPIModel {
 
         String queryString = String.format(GET_WIKIPEDIA_ABSTRACT_USING_LABEL, author, language, language);
         Query query = QueryFactory.create(queryString);
-        QueryExecution qe = QueryExecutionFactory.sparqlService("http://dbpedia.org/sparql", query);
+        QueryExecution qe = QueryExecutionFactory.sparqlService(Providers.DBPEDIA, query);
         String result = null;
         ResultSet rs = ResultSetFactory.copyResults(qe.execSelect());
         while (rs.hasNext()) {
@@ -249,7 +259,7 @@ public class WikidataRemoteAPIModel {
 
         String queryString = String.format(GET_WIKIPEDIA_ABSTRACT_USING_VIAF, viafId, language);
         Query query = QueryFactory.create(queryString);
-        QueryExecution qe = QueryExecutionFactory.sparqlService("http://dbpedia.org/sparql", query);
+        QueryExecution qe = QueryExecutionFactory.sparqlService(Providers.DBPEDIA, query);
         String result = null;
         ResultSet rs = ResultSetFactory.copyResults(qe.execSelect());
         while (rs.hasNext()) {
@@ -322,7 +332,7 @@ public class WikidataRemoteAPIModel {
         String queryString = String.format(GET_MULTIPLE_WIKIPEDIA_ABSTRACT_BY_VIAF, joinedViafs, language);
         System.out.println("Query string: " + queryString);
         Query query = QueryFactory.create(queryString);
-        QueryExecution qe = QueryExecutionFactory.sparqlService("http://dbpedia.org/sparql", query);
+        QueryExecution qe = QueryExecutionFactory.sparqlService(Providers.DBPEDIA, query);
         Map<String, String> resultMap = new HashMap<>();
         ResultSet rs = ResultSetFactory.copyResults(qe.execSelect());
         while (rs.hasNext()) {
@@ -335,44 +345,6 @@ public class WikidataRemoteAPIModel {
             resultMap.put(viaf, abs);
         }
         return resultMap;
-    }
-
-    /**
-     * Fetches from local VOS all authors who have a VIAF ID and an NLI ID.
-     * These response is built in the following format (columns per row): 1. s -
-     * Subject 2. sLabel - Subject label 3. viaf - VIAF ID 4. nli - NLI ID
-     *
-     * @return A list of Author objects
-     */
-    public List<Author> getAuthorsWithVIAF() {
-        List<Author> authors = null;
-        try {
-            VirtGraph graph = new VirtGraph(connection_string, login, password);
-
-            Query query = QueryFactory.create(GET_VIAF_FROM_HEBREW_AUTHORS);
-            VirtuosoQueryExecution vqe = VirtuosoQueryExecutionFactory.create(query, graph);
-            ResultSet rs = vqe.execSelect();
-            authors = new ArrayList<>();
-            while (rs.hasNext()) {
-                QuerySolution qs = rs.nextSolution();
-                RDFNode _s = qs.get("s");
-                RDFNode _viaf = qs.get("viaf");
-                RDFNode _nli = qs.get("nli");
-                RDFNode _enName = qs.get("enName");
-                RDFNode _heName = qs.get("heName");
-                Author author = new Author();
-                author.setWikipediaUri(_s.toString());
-                author.setViafId(_viaf.toString());
-                author.setNliId(_nli.toString());
-                author.setNames(new HashMap<>());
-                author.getNames().put("en", _enName.toString());
-                author.getNames().put("he", _heName.toString());
-                authors.add(author);
-            }
-        } catch (Exception ex) {
-            logger.error("Exception while marshalling authors list from local VOS RDF", ex);
-        }
-        return authors;
     }
 
     /**
@@ -390,7 +362,7 @@ public class WikidataRemoteAPIModel {
         try {
             Query query = QueryFactory.create(GET_VIAF_FROM_HEBREW_AUTHORS);
 
-            QueryExecution qe = QueryExecutionFactory.sparqlService("https://query.wikidata.org/sparql", query);
+            QueryExecution qe = QueryExecutionFactory.sparqlService(Providers.WIKIDATA, query);
             ResultSet rs = ResultSetFactory.copyResults(qe.execSelect());
             authors = new ArrayList<>();
             while (rs.hasNext()) {

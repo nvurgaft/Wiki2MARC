@@ -23,32 +23,24 @@ public class DatabaseProperties {
      *
      * @param propfile
      */
-    public DatabaseProperties(File propfile) {
-        try {
-            this.fileName = propfile.getName();
-            this.properties = this.readProperties(this.fileName);
-        } catch (Exception e) {
-            logger.error("Could not load properties file", e);
-            this.fileName = null;
-            this.properties = null;
-        }
+    public DatabaseProperties(File file) {
+        this.properties = this.readProperties(file.getPath());
+        this.fileName = file.getPath();
     }
 
     /**
      * Constructs the PropertiesHandler using a file name
      *
-     * @param fileName
+     * @param file
      */
-    public DatabaseProperties(String fileName) {
-        this.fileName = fileName;
-        this.properties = this.readProperties(this.fileName);
+    public DatabaseProperties(String file) {
+        this.properties = this.readProperties(file);
+        this.fileName = file;
     }
 
-    public void setProperties(File propfile) {
-        if (propfile != null && !propfile.isDirectory()) {
-            this.fileName = propfile.getName();
-            this.properties = this.readProperties(this.fileName);
-        }
+    public void setProperties(File file) {
+        this.fileName = file.getName();
+        this.properties = this.readProperties(file.getName());
     }
 
     public void setProperties(String fileName) {
@@ -96,26 +88,5 @@ public class DatabaseProperties {
      */
     public String getProperty(String key) {
         return this.properties.getProperty(key);
-    }
-
-    /**
-     * Iterates over the properties and appends all of them using a
-     * StringBuilder
-     *
-     * @return the string containing all the properties and their respective
-     * values
-     */
-    public String printProperties() {
-        StringBuilder sb = new StringBuilder();
-        this.properties.keySet().stream().forEach(o -> {
-            String s = (String) o;
-            sb.append("key: ").append(s).append(", value: ").append(this.properties.getProperty(s)).append("\n");
-        });
-        return sb.toString();
-    }
-
-    @Override
-    public String toString() {
-        return "Properties handler for " + fileName;
     }
 }

@@ -7,20 +7,21 @@ import java.util.Objects;
  * @author Nick
  */
 public class RDFStatement implements Cloneable {
-    
+
     private String subject;
     private String predicate;
     private String object;
-    
+
     /**
-     *  Initialize a new RDFStatement object
+     * Initialize a new RDFStatement object
      */
     public RDFStatement() {
         super();
     }
-    
+
     /**
-     *  Initialize a new RDFStatement object
+     * Initialize a new RDFStatement object
+     *
      * @param subject Subject name
      * @param predicate Predicate name
      * @param object Object name
@@ -33,7 +34,8 @@ public class RDFStatement implements Cloneable {
     }
 
     /**
-     *  Subject getter method
+     * Subject getter method
+     *
      * @return Subject
      */
     public String getSubject() {
@@ -41,7 +43,8 @@ public class RDFStatement implements Cloneable {
     }
 
     /**
-     *  Subject setter method
+     * Subject setter method
+     *
      * @param subject
      */
     public void setSubject(String subject) {
@@ -49,7 +52,8 @@ public class RDFStatement implements Cloneable {
     }
 
     /**
-     *  Predicate getter method
+     * Predicate getter method
+     *
      * @return
      */
     public String getPredicate() {
@@ -57,7 +61,8 @@ public class RDFStatement implements Cloneable {
     }
 
     /**
-     *  Predicate setter method
+     * Predicate setter method
+     *
      * @param predicate
      */
     public void setPredicate(String predicate) {
@@ -65,7 +70,8 @@ public class RDFStatement implements Cloneable {
     }
 
     /**
-     *  Object getter method
+     * Object getter method
+     *
      * @return
      */
     public String getObject() {
@@ -73,16 +79,17 @@ public class RDFStatement implements Cloneable {
     }
 
     /**
-     *  Object setter method
+     * Object setter method
+     *
      * @param object
      */
     public void setObject(String object) {
         this.object = object;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
-        if (obj==null || !(obj instanceof RDFStatement)) {
+        if (obj == null || !(obj instanceof RDFStatement)) {
             return false;
         }
         RDFStatement stmt = (RDFStatement) obj;
@@ -104,15 +111,16 @@ public class RDFStatement implements Cloneable {
     }
 
     /**
-     *  This method returns a human readable textual representation of the statement
-     * 
+     * This method returns a human readable textual representation of the
+     * statement
+     *
      * @return Description string
      */
     public String description() {
         return "Subject: " + subject + ", Predicate: " + predicate + ", Object: " + object;
     }
-    
-        @Override
+
+    @Override
     public String toString() {
         return "<" + this.subject + "> " + this.predicate + " \"" + this.object + "\"";
     }

@@ -26,7 +26,7 @@
         <async-supported>true</async-supported>
     </servlet>
     <listener>
-        <listener-class>com.protowiki.logic.ServletListener</listener-class>
+        <listener-class>com.protowiki.app.ServletListener</listener-class>
     </listener>
     <servlet-mapping>
         <servlet-name>WikiToMARC</servlet-name>

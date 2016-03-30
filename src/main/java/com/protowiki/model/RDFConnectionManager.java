@@ -15,11 +15,12 @@ public class RDFConnectionManager {
 
     public static Logger logger = LoggerFactory.getLogger(RDFConnectionManager.class);
 
-    protected DatabaseProperties dbProperties = new DatabaseProperties("application.properties");
+    protected DatabaseProperties dbProperties;
 
-    private String username, password, host;
+    private String username, password, host, connectionString;
+    private final String graphName;
     private int port;
-    private String graphName, connectionString;
+    private boolean connected;
 
     private VirtGraph graph;
 
@@ -30,23 +31,32 @@ public class RDFConnectionManager {
      */
     public RDFConnectionManager(String graphName) {
         this.graphName = graphName;
-
     }
 
-    public void connecttToDefaultDatabase() {
+    public void connectToDefaultDatabase() {
 
         try {
-
-            this.username = dbProperties.getProperty("username");
-            this.password = dbProperties.getProperty("password");
-            this.host = dbProperties.getProperty("host");
-            this.port = Integer.valueOf(dbProperties.getProperty("port"));
+            dbProperties = new DatabaseProperties("application.properties");
+            this.username = this.getProperty("login", "admin");
+            this.password = this.getProperty("password", "admin");
+            this.host = this.getProperty("host", "localhost");
+            this.port = Integer.valueOf(this.getProperty("port", "1111"));
 
             String format = "jdbc:virtuoso://%s:%s/charset=UTF-8/log_enable=2";
             this.connectionString = String.format(format, this.host, this.port);
+            this.setConnected(true);
         } catch (Exception e) {
             logger.error("An exception occured while attempting to connect to database", e);
+            this.setConnected(false);
         }
+    }
+
+    public void disconnect() {
+        this.username = null;
+        this.password = null;
+        this.host = null;
+        this.port = -1;
+        this.setConnected(false);
     }
 
     /**
@@ -55,6 +65,9 @@ public class RDFConnectionManager {
      * @return VirtGraph graph
      */
     public VirtGraph getGraphConnection() {
+        if (!this.isConnected()) {
+            this.connectToDefaultDatabase();
+        }
         return new VirtGraph(this.connectionString, username, password);
     }
 
@@ -65,6 +78,11 @@ public class RDFConnectionManager {
      * @return
      */
     public VirtGraph getGraphConnection(boolean clearGraphOnStart) {
+
+        if (!this.isConnected()) {
+            this.connectToDefaultDatabase();
+        }
+
         this.graph = new VirtGraph(String.format(this.connectionString, this.host, this.port), username, password);
         if (clearGraphOnStart) {
             this.clearGraph();
@@ -82,5 +100,25 @@ public class RDFConnectionManager {
         } catch (Exception e) {
             logger.error("Exception while clearing " + this.graphName, e);
         }
+    }
+
+    /**
+     * Fetches the property value from the database property, if null will
+     * return the default value
+     *
+     * @param property property key
+     * @param defaultsTo Default value to return
+     * @return String value
+     */
+    public String getProperty(String property, String defaultsTo) {
+        return dbProperties.getProperty(property) == null ? defaultsTo : dbProperties.getProperty(property);
+    }
+
+    public boolean isConnected() {
+        return connected;
+    }
+
+    public void setConnected(boolean connected) {
+        this.connected = connected;
     }
 }

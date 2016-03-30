@@ -36,7 +36,7 @@ public class MARCFileFactory {
             return 1;
         }
         
-        List<Author> authorsList = null;
+        List<Author> authorsList;
         try {
             
             authorsList = this.parseMARCFileForAuthors(filePath);

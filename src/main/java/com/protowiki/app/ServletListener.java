@@ -1,5 +1,5 @@
 
-package com.protowiki.logic;
+package com.protowiki.app;
 
 import com.protowiki.values.Values;
 import java.io.File;

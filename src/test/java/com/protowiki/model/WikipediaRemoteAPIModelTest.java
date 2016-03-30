@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  *
- * @author Kobi
+ * @author Nick
  */
 @Ignore
 public class WikipediaRemoteAPIModelTest {
@@ -26,21 +26,14 @@ public class WikipediaRemoteAPIModelTest {
     @Rule
     public TestName testName = new TestName();
     
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
     @Before
     public void setUp() {
-        logger.info(testName.getMethodName());
+        logger.info("Before method: " + testName.getMethodName());
     }
     
     @After
     public void tearDown() {
+        logger.info("After method: " + testName.getMethodName());
     }
 
     /**

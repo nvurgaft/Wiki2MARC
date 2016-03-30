@@ -1,6 +1,5 @@
 package com.protowiki.rest;
 
-import com.protowiki.model.WikidataRemoteAPIModel;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -9,6 +8,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import virtuoso.jena.driver.VirtGraph;
 
 /**
  *  This servlet provides indications whether the server and the database are 
@@ -45,10 +45,11 @@ public class HeartbeatResource {
     @Produces(MediaType.TEXT_PLAIN)
     public Response getDatabaseHeartbeat() {
         
-        String queryResult;
         try {
-            queryResult = new WikidataRemoteAPIModel().runTestQuery("SELECT 1", "SPARQL");
-            if (!queryResult.isEmpty()) {
+            VirtGraph g = new VirtGraph("jdbc:virtuoso://localhost:1111/CHARSET=UTF-8/log_enable=2", "dba", "dba");
+            String graphName = g.getGraphName();
+            g.close();
+            if (!graphName.isEmpty()) {
                 return Response.status(Status.OK).build();
             }
         } catch (Exception e) {

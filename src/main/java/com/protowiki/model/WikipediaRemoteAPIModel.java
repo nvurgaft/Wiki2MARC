@@ -1,9 +1,8 @@
 package com.protowiki.model;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.protowiki.beans.Author;
+import com.protowiki.utils.JsonUtils;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -70,8 +69,8 @@ public class WikipediaRemoteAPIModel {
                         respBuff.append(line).append("\n");
                     }
                 }
-                JsonObject inter = this.parseToJsonObject(respBuff.toString());
-                response = this.extractAbstractFromJson(inter);
+                JsonObject inter = JsonUtils.parseToJsonObject(respBuff.toString());
+                response = JsonUtils.extractAbstractFromJson(inter);
             }
         } catch (MalformedURLException murlex) {
             logger.error("MalformedURLException occured while parsing URL string onto a URL object", murlex);
@@ -114,35 +113,4 @@ public class WikipediaRemoteAPIModel {
         return resultMap;
     }
     
-    /**
-     * 
-     * @param string
-     * @return 
-     */
-    private JsonObject parseToJsonObject(String string) {
-        return new JsonParser().parse(string).getAsJsonObject();
-    }
-
-    /**
-     *  This method extracts the article content abstract from the response JSON
-     * @param jsonObject
-     * @return String object holding the abstract
-     */
-    private String extractAbstractFromJson(JsonObject jsonObject) {
-        String result = null;
-        try {
-            JsonObject jo = jsonObject.getAsJsonObject("query").getAsJsonObject("pages");
-            JsonObject v = null;
-            for (Map.Entry<String, JsonElement> elem : jo.entrySet()) {
-                v = (JsonObject) elem.getValue();
-            }
-            if (v != null) {
-                result = v.getAsJsonPrimitive("extract").toString();
-            }
-        } catch (Exception ex) {
-            logger.error("Exception occured while attempting to extract article abstract from result json", ex);
-            return null;
-        }
-        return result;
-    }
 }

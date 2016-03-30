@@ -9,8 +9,12 @@ import com.protowiki.entities.RDFStatement;
 import com.protowiki.model.QueryHandler;
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TestName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import virtuoso.jena.driver.VirtGraph;
@@ -33,9 +37,31 @@ public class TestJenaProvider {
     static String login = "dba";
     static String password = "dba";
     static final String GRAPH_NAME = "http://test1";
+    
+    @Rule
+    public TestName testName = new TestName();
+    
+    @Before
+    public void before() {
+        logger.info("before: " + testName.getMethodName());
+    }
+    
+    @After
+    public void after() {
+        logger.info("after: " + testName.getMethodName());
+    }
+    
+    @Test
+    public void testConnectToVirt() {
+        VirtGraph g = new VirtGraph(connection_string, login, password);
+        
+        String url = g.getGraphUrl();
+        
+        System.out.println("URL: " + url);
+    }
 
     @Test
-    public void showStatements() {
+    public void testShowStatements() {
 
         VirtGraph g = new VirtGraph(connection_string, login, password);
         

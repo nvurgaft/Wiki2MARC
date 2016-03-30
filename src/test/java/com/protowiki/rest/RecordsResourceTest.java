@@ -6,9 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
@@ -28,26 +26,14 @@ public class RecordsResourceTest {
     @Rule
     private final TestName testName = new TestName();
 
-    @BeforeClass
-    public static void setUpClass() {
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-    }
-
     @Before
-    public void setUp() {
-        logger.info(testName.getMethodName());
+    public void before() {
+        logger.info("before: " + testName.getMethodName());
     }
 
     @After
-    public void tearDown() {
-    }
-    
-    @Test
-    public void testNioPath() {
-        
+    public void after() {
+        logger.info("after: " + testName.getMethodName());
     }
 
     /**
@@ -73,7 +59,6 @@ public class RecordsResourceTest {
             }
             logger.info("Size: " + fileSize);
         }
-        logger.debug("Done.");
     }
 
 }

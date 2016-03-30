@@ -23,16 +23,15 @@ public class AuthorModel {
 
     private static final String GRAPH_NAME = "http://authors";
     
-    private RDFConnectionManager connectionManager;
+    private final RDFConnectionManager connectionManager;
     private VirtGraph graph;
-    private QueryHandler qh;
+    private final QueryHandler queryHandler;
 
     public AuthorModel() {
         
         connectionManager = new RDFConnectionManager(GRAPH_NAME);
-        connectionManager.connecttToDefaultDatabase();
         connectionManager.getGraphConnection(false);
-        this.qh = new QueryHandler(graph, GRAPH_NAME);
+        this.queryHandler = new QueryHandler(graph, GRAPH_NAME);
     }
 
     /**
@@ -41,7 +40,7 @@ public class AuthorModel {
      * @return
      */
     public boolean clearGraph() {
-        return qh.clearGraph();
+        return queryHandler.clearGraph();
     }
 
     /**
@@ -64,7 +63,7 @@ public class AuthorModel {
                 stmts.add(new RDFStatement(author.getMarcId(), Predicates.HE_NAME, author.getNames().get("he")));
                 stmts.add(new RDFStatement(author.getMarcId(), Predicates.VIAF_ID, author.getViafId()));
                 stmts.add(new RDFStatement(author.getMarcId(), Predicates.NLI_ID, author.getNliId()));
-                qh.batchInsertStatements(stmts);
+                queryHandler.batchInsertStatements(stmts);
             });
         } catch (Exception ex) {
             logger.error("Exception while attempting to batch insert authors into DB");
@@ -89,7 +88,7 @@ public class AuthorModel {
             for (String key : abstractsMap.keySet()) {
                 stmts.add(new RDFStatement(key, Predicates.ABSTRACT, abstractsMap.get(key)));
             }
-            qh.batchInsertStatements(stmts);
+            queryHandler.batchInsertStatements(stmts);
         } catch (Exception ex) {
             logger.error("Exception while inserting abstracts to model", ex);
         }
@@ -113,7 +112,7 @@ public class AuthorModel {
         }
         try {
             logger.info("Inserting viaf: " + viaf + ", and abstract: " + articleAbstract);
-            qh.insertStatement(viaf, "rdf:abstract", RDFUtils.escapeTextLiteral(articleAbstract));
+            queryHandler.insertStatement(viaf, "rdf:abstract", articleAbstract);
         } catch (Exception ex) {
             logger.error("Exception while inserting abstracts to model", ex);
             return false;
@@ -129,7 +128,7 @@ public class AuthorModel {
         List<RDFStatement> resultList;
         Map<String, String> resultMap = new HashMap<>();
         try {
-            resultList = qh.selectTriples("?viaf", Predicates.ABSTRACT, "?abstract");
+            resultList = queryHandler.selectTriples("?viaf", Predicates.ABSTRACT, "?abstract");
             resultList.stream().forEach(r -> {
                 resultMap.put(r.getSubject().trim(), r.getObject().trim());
             });

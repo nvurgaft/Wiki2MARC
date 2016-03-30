@@ -50,7 +50,7 @@ public class QueryHandler {
         this.graphName = graphName;
         this.graph = graph;
 
-        this.defaultPrefices = StringUtils.join(Prefixes.RDF, " ", "\n");
+        this.defaultPrefices = StringUtils.join(Prefixes.RDF, Prefixes.PROPERTY, Prefixes.ONTOLOGY, "\n");
     }
     
     /**
@@ -84,9 +84,10 @@ public class QueryHandler {
             return null;
         }
         List<RDFStatement> statement = null;
+        
         try {
             // define a describe query
-            String query = defaultPrefices + "DESCRIBE " + subject + " FROM " + this.graphName;
+            String query = "DESCRIBE " + subject + " FROM " + this.graphName;
 
             Query sparqlQuery = QueryFactory.create(query);
             VirtuosoQueryExecution vqe = VirtuosoQueryExecutionFactory.create(sparqlQuery, this.graph);
@@ -194,7 +195,7 @@ public class QueryHandler {
             return false;
         }
         try {
-            String query = this.defaultPrefices + "INSERT INTO GRAPH <" + this.graphName + "> { " + stmt.toString() + "}";
+            String query = "INSERT INTO GRAPH <" + this.graphName + "> { " + stmt.toString() + "}";
             VirtuosoUpdateRequest vur = VirtuosoUpdateFactory.create(query, this.graph);
             vur.exec();
             return true;
@@ -220,7 +221,7 @@ public class QueryHandler {
             statements.stream().forEach(s -> {
                 sb.append(s.toString()).append(" . ");
             });
-            String queryString = this.defaultPrefices + "INSERT INTO GRAPH <" + this.graphName + "> { " + sb.toString() + " }";
+            String queryString = "INSERT INTO GRAPH <" + this.graphName + "> { " + sb.toString() + " }";
 
             logger.info("Running query: \n\n" + queryString + " \n\n");
 
@@ -256,7 +257,7 @@ public class QueryHandler {
             return false;
         }
         try {
-            String query = this.defaultPrefices + "DELETE FROM GRAPH <" + this.graphName + "> { " + stmt.toString() + " }";
+            String query = "DELETE FROM GRAPH <" + this.graphName + "> { " + stmt.toString() + " }";
             VirtuosoUpdateRequest vur = VirtuosoUpdateFactory.create(query, this.graph);
             vur.exec();
             return true;
@@ -282,7 +283,7 @@ public class QueryHandler {
             statements.stream().forEach(s -> {
                 sb.append(s.toString()).append(" . ");
             });
-            String queryString = this.defaultPrefices + "DELETE FROM GRAPH < " + this.graphName + "> { " + sb.toString() + "}";
+            String queryString = "DELETE FROM GRAPH < " + this.graphName + "> { " + sb.toString() + "}";
             VirtuosoUpdateRequest vur = VirtuosoUpdateFactory.create(queryString, this.graph);
             vur.exec();
             return true;

@@ -60,9 +60,14 @@
                                             last-text="&raquo;">
                             </uib-pagination>
                         </div>
-                        <div ng-hide="vm.data.length > 0 || vm.doneLoadingFiles === true">
+                        <div ng-show="vm.doneLoadingFiles === false">
                             <label class="control-label">
                                 <span class="fa fa-spinner fa-pulse fa-2x"></span> Loading ..
+                            </label>
+                        </div>
+                        <div ng-show="vm.data.length === 0 && vm.doneLoadingFiles === true">
+                            <label class="control-label">
+                                Nothing to see here ..
                             </label>
                         </div>
 
@@ -124,9 +129,14 @@
                                             last-text="&raquo;">
                             </uib-pagination>
                         </div>
-                        <div ng-hide="vm.logs.length > 0 || vm.doneLoadingLogFiles === true">
+                        <div ng-show="vm.doneLoadingLogFiles === false">
                             <label class="control-label">
                                 <span class="fa fa-spinner fa-pulse fa-2x"></span> Loading ..
+                            </label>
+                        </div>
+                        <div ng-show="vm.logs.length === 0 && vm.doneLoadingLogFiles === true">
+                            <label class="control-label">
+                                Nothing to see here ..
                             </label>
                         </div>
 

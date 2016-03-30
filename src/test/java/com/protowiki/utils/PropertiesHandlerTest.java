@@ -2,11 +2,9 @@ package com.protowiki.utils;
 
 import java.util.Properties;
 import org.junit.After;
-import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.Rule;
@@ -18,7 +16,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Kobi
  */
-@Ignore
+//@Ignore
 public class PropertiesHandlerTest {
     
     public static Logger logger = LoggerFactory.getLogger(PropertiesHandlerTest.class);
@@ -29,12 +27,13 @@ public class PropertiesHandlerTest {
     public TestName testName = new TestName();
     
     @Before
-    public void setUp() {
-        logger.info(testName.getMethodName());
+    public void before() {
+        logger.info("before: " + testName.getMethodName());
     }
     
     @After
-    public void tearDown() {
+    public void after() {
+        logger.info("after: " + testName.getMethodName());
     }
 
     /**
@@ -71,16 +70,9 @@ public class PropertiesHandlerTest {
         String expResult = "1111";
         
         String result = instance.getProperty(port_key);
+        logger.info("Should match port 1111");
+        logger.info("Fetched port value: " + result);
         assertEquals("Should read the property key of port", result, expResult);
-    }
-
-    /**
-     * Test of printProperties method, of class PropertiesHandler.
-     */
-    @Test
-    public void testPrintProperties() {
-
-        logger.info(instance.printProperties());
     }
     
 }

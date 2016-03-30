@@ -7,12 +7,12 @@ import java.util.Map;
  *
  * @author Nick
  */
-public class Author implements Serializable{
+public class Author implements Serializable {
     
     private String marcId;
-    private Map<String, String> names;
+    private Map<String, String> names; // language prefix, name
     private String wikipediaUri;
-    private String wikipediaArticleAbstract;
+    private Map<String, String> wikipediaAbstracts; // language prefix, content
     private String viafId;
     private String nliId;
     private String years;
@@ -43,12 +43,12 @@ public class Author implements Serializable{
         this.wikipediaUri = wikipediaUri;
     }
 
-    public String getWikipediaArticleAbstract() {
-        return wikipediaArticleAbstract;
+    public Map<String, String> getWikipediaArticleAbstract() {
+        return wikipediaAbstracts;
     }
 
-    public void setWikipediaArticleAbstract(String wikipediaArticleAbstract) {
-        this.wikipediaArticleAbstract = wikipediaArticleAbstract;
+    public void setWikipediaArticleAbstract(Map<String, String> wikipediaArticleAbstract) {
+        this.wikipediaAbstracts = wikipediaArticleAbstract;
     }
     
      public String getViafId() {
@@ -77,6 +77,6 @@ public class Author implements Serializable{
 
     @Override
     public String toString() {
-        return "Author{" + "names=" + names + ", wikipediaUrl=" + wikipediaUri + ", viafId=" + viafId + ", nliId=" + nliId + ", years=" + years + '}';
+        return "Author details => names: " + names + ", wikipediaUrl: " + wikipediaUri + ", viafId: " + viafId + ", nliId: " + nliId + ", years: " + years;
     }
 }
