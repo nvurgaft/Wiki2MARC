@@ -2,9 +2,13 @@ package com.protowiki.model;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.junit.After;
 import static org.junit.Assert.assertEquals;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.Ignore;
+import org.junit.Rule;
+import org.junit.rules.TestName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,10 +20,23 @@ import org.slf4j.LoggerFactory;
 public class AuthorModelTest {
     
     public static Logger logger = LoggerFactory.getLogger(AuthorModelTest.class);
+    
+    @Rule
+    public TestName testName = new TestName();
+    
+    @Before
+    public void before() {
+        logger.info("before: " + testName.getMethodName());
+    }
+    
+    @After
+    public void after() {
+        logger.info("after: " + testName.getMethodName());
+    }
 
     @Test
     public void testClerGraph() {
-        logger.info("insertAuthorsViafAndAbstracts");
+
         AuthorModel instance = new AuthorModel();
         instance.clearGraph();
         // after the graph is cleared, try fetching data from it
@@ -47,14 +64,14 @@ public class AuthorModelTest {
      */
     @Test
     public void testInsertAuthorsViafAndAbstracts() {
-        logger.info("insertAuthorsViafAndAbstracts");
+
         Map<String, String> abstractsMap = new HashMap<>();
         abstractsMap.put("100001", "This is a dummy text");
         abstractsMap.put("100002", "This is also a dummy text");
         abstractsMap.put("100003", "This is the last dummy text");
         AuthorModel instance = new AuthorModel();
         boolean result = instance.insertAuthorsViafAndAbstracts(abstractsMap);
-        assertEquals("Should be equals if the insertion was successful", result, true);
+        assertEquals("Should return true if the insertion was successful", result, true);
     }
 
     /**
@@ -62,7 +79,7 @@ public class AuthorModelTest {
      */
     @Test
     public void testGetAuthorsViafAndAbstracts() {
-        logger.info("getAuthorsViafAndAbstracts");
+
         AuthorModel instance = new AuthorModel();
         Map<String, String> results = instance.getAuthorsViafAndAbstracts();
         if (results != null) {

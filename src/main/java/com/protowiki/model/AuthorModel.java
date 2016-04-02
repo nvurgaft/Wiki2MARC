@@ -5,6 +5,7 @@ import com.protowiki.beans.Author;
 import com.protowiki.entities.RDFStatement;
 import com.protowiki.utils.RDFUtils;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,15 +23,16 @@ public class AuthorModel {
     public static Logger logger = LoggerFactory.getLogger(AuthorModel.class);
 
     private static final String GRAPH_NAME = "http://authors";
-    
+
     private final RDFConnectionManager connectionManager;
     private VirtGraph graph;
     private final QueryHandler queryHandler;
 
     public AuthorModel() {
-        
+
         connectionManager = new RDFConnectionManager(GRAPH_NAME);
         connectionManager.getGraphConnection(false);
+        graph = new VirtGraph("jdbc:virtuoso://localhost:1111/CHARSET=UTF-8/log_enable=2", "dba", "dba");
         this.queryHandler = new QueryHandler(graph, GRAPH_NAME);
     }
 
@@ -57,16 +59,17 @@ public class AuthorModel {
         try {
             authorsList.stream().forEach(author -> {
                 // build a statement model
-                List<RDFStatement> stmts = new ArrayList<>();
-                stmts.add(new RDFStatement(author.getMarcId(), Predicates.URI, author.getWikipediaUri()));
-                stmts.add(new RDFStatement(author.getMarcId(), Predicates.EN_NAME, author.getNames().get("en")));
-                stmts.add(new RDFStatement(author.getMarcId(), Predicates.HE_NAME, author.getNames().get("he")));
-                stmts.add(new RDFStatement(author.getMarcId(), Predicates.VIAF_ID, author.getViafId()));
-                stmts.add(new RDFStatement(author.getMarcId(), Predicates.NLI_ID, author.getNliId()));
+                List<RDFStatement> stmts = Arrays.asList(
+                        new RDFStatement(author.getMarcId(), Predicates.URI, author.getWikipediaUri()),
+                        new RDFStatement(author.getMarcId(), Predicates.EN_NAME, author.getNames().get("en")),
+                        new RDFStatement(author.getMarcId(), Predicates.HE_NAME, author.getNames().get("he")),
+                        new RDFStatement(author.getMarcId(), Predicates.VIAF_ID, author.getViafId()),
+                        new RDFStatement(author.getMarcId(), Predicates.NLI_ID, author.getNliId())
+                );
                 queryHandler.batchInsertStatements(stmts);
             });
         } catch (Exception ex) {
-            logger.error("Exception while attempting to batch insert authors into DB");
+            logger.error("Exception while attempting to batch insert authors into DB", ex);
             return false;
         }
         return true;
@@ -85,9 +88,10 @@ public class AuthorModel {
         }
         try {
             List<RDFStatement> stmts = new ArrayList<>();
-            for (String key : abstractsMap.keySet()) {
+            abstractsMap.keySet().stream().forEach(key -> {
                 stmts.add(new RDFStatement(key, Predicates.ABSTRACT, abstractsMap.get(key)));
-            }
+            });
+
             queryHandler.batchInsertStatements(stmts);
         } catch (Exception ex) {
             logger.error("Exception while inserting abstracts to model", ex);
@@ -122,7 +126,7 @@ public class AuthorModel {
 
     /**
      *
-     * @return a map of viad id keys and abstracts values
+     * @return a map of <viad id keys, abstracts values> pairs
      */
     public Map<String, String> getAuthorsViafAndAbstracts() {
         List<RDFStatement> resultList;

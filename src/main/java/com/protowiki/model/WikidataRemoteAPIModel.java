@@ -10,7 +10,6 @@ import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.query.ResultSetFactory;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.protowiki.beans.Author;
-import com.protowiki.utils.DatabaseProperties;
 import com.protowiki.utils.RDFUtils;
 import com.protowiki.values.Providers;
 import java.util.ArrayList;
@@ -22,9 +21,6 @@ import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import virtuoso.jena.driver.VirtGraph;
-import virtuoso.jena.driver.VirtuosoQueryExecution;
-import virtuoso.jena.driver.VirtuosoQueryExecutionFactory;
 
 /**
  * TODO
@@ -49,6 +45,22 @@ public class WikidataRemoteAPIModel {
                 "}",
                 "}"
             }, "\n");
+    
+    private static final String GET_AUTHOR_LABEL_BY_VIAF_EN_HE = StringUtils.join(
+            new String[]{
+                Prefixes.WIKIBASE, Prefixes.WD, Prefixes.WDT, Prefixes.RDFS, Prefixes.BD,
+                "SELECT ?name ?enTranslated ?heTranslated WHERE {",
+                "?name wdt:P214 '%s'", // a numerical value, ex: 50566653
+                "SERVICE wikibase:label {",
+                "bd:serviceParam wikibase:language 'en' .",
+                "?name rdfs:label ?enTranslated",
+                "}",
+                "SERVICE wikibase:label {",
+                "bd:serviceParam wikibase:language 'he' .",
+                "?name rdfs:label ?heTranslated",
+                "}",
+                "}"
+            }, "\n");
 
     private static final String GET_WIKIPEDIA_ABSTRACT_USING_LABEL = StringUtils.join(
             new String[]{
@@ -62,7 +74,7 @@ public class WikidataRemoteAPIModel {
 
     private static final String GET_WIKIPEDIA_ABSTRACT_USING_VIAF = StringUtils.join(
             new String[]{
-                Prefixes.ONTOLOGY, Prefixes.PROPERTY, Prefixes.RDFS,
+                Prefixes.ONTOLOGY,
                 "SELECT ?name ?abstract WHERE {",
                 "?name <http://dbpedia.org/property/viaf> %s .",
                 "?name ontology:abstract ?abstract",
@@ -72,12 +84,12 @@ public class WikidataRemoteAPIModel {
 
     private static final String GET_MULTIPLE_WIKIPEDIA_ABSTRACT_BY_VIAF = StringUtils.join(
             new String[]{
-                Prefixes.ONTOLOGY, Prefixes.PROPERTY, Prefixes.RDFS,
+                Prefixes.ONTOLOGY,
                 "SELECT ?name ?viaf ?abstract WHERE {",
                 "VALUES ?viaf { %s }",
                 "?name <http://dbpedia.org/property/viaf> ?viaf.",
                 "?name ontology:abstract ?abstract .",
-                "FILTER (LANG(?abstract)='en')",
+                "FILTER (LANG(?abstract)='%s')",
                 "}"
             }, "\n");
 
@@ -205,6 +217,29 @@ public class WikidataRemoteAPIModel {
         }
         return result;
     }
+    
+    //GET_AUTHOR_LABEL_BY_VIAF_EN_HE
+    public Map<String, String> getAuthorLabelByViaf(String viafId) {
+        if (viafId == null || viafId.isEmpty()) {
+            return null;
+        }
+
+        String queryString = String.format(GET_AUTHOR_LABEL_BY_VIAF_EN_HE, viafId);
+        Query query = QueryFactory.create(queryString);
+        QueryExecution qe = QueryExecutionFactory.sparqlService(Providers.WIKIDATA, query);
+        Map<String, String> result = new HashMap<>();
+        ResultSet rs = qe.execSelect();
+        while (rs.hasNext()) {
+            QuerySolution qs = rs.nextSolution();
+            RDFNode _name = qs.get("name");
+            RDFNode _enTranslated = qs.get("enTranslated");
+            RDFNode _heTranslated = qs.get("heTranslated");
+            logger.info("Label: " + _name + ", Translated: " + _enTranslated + "\n Translated: " + _heTranslated);
+            result.put("en", _enTranslated.toString());
+            result.put("he", _heTranslated.toString());
+        }
+        return result;
+    }
 
     /**
      * Fetches (by label) from DBPedia the article abstract for an author in a
@@ -282,12 +317,12 @@ public class WikidataRemoteAPIModel {
      *
      * @return Map of viaf as keys and abstracts as values
      */
-    public Map<String, String> getMultipleWikipediaAbstractByViafIds(List<Author> authors, String language) {
+    public Map<String, Author> getMultipleWikipediaAbstractByViafIds(List<Author> authors, String language) {
 
         // buffer each remote query with up to 50 viaf ids per request
         if (authors.size() > 50) {
             List<String> stack = new ArrayList<>();
-            Map<String, String> bufferedResult = new HashMap<>();
+            Map<String, Author> bufferedResult = new HashMap<>();
 
             for (Author author : authors) {
                 if (author.getViafId() == null || author.getViafId().isEmpty()) {
@@ -295,13 +330,14 @@ public class WikidataRemoteAPIModel {
                 }
                 stack.add(author.getViafId());
                 if (stack.size() == 50) {
-                    Map<String, String> temp = this.getMultipleWikipediaAbstractByViafIdsInner(stack, language);
+                    Map<String, Author> temp = this.getMultipleWikipediaAbstractByViafIdsInner(stack, language);
                     bufferedResult.putAll(temp);
                     stack.clear();
                 }
             }
             if (!stack.isEmpty()) {
-                this.getMultipleWikipediaAbstractByViafIdsInner(stack, language);
+                Map<String, Author> temp = this.getMultipleWikipediaAbstractByViafIdsInner(stack, language);
+                bufferedResult.putAll(temp);
                 stack.clear();
             }
             return bufferedResult;
@@ -319,7 +355,7 @@ public class WikidataRemoteAPIModel {
      * @param language
      * @return Map of viaf as keys and abstracts as values
      */
-    private Map<String, String> getMultipleWikipediaAbstractByViafIdsInner(List<String> viafIds, String language) {
+    private Map<String, Author> getMultipleWikipediaAbstractByViafIdsInner(List<String> viafIds, String language) {
         if (viafIds == null || viafIds.isEmpty()) {
             return null;
         }
@@ -330,10 +366,10 @@ public class WikidataRemoteAPIModel {
         String joinedViafs = StringUtils.join(viafIds, " ");
 
         String queryString = String.format(GET_MULTIPLE_WIKIPEDIA_ABSTRACT_BY_VIAF, joinedViafs, language);
-        System.out.println("Query string: " + queryString);
+        System.out.println("Query string: \n" + queryString);
         Query query = QueryFactory.create(queryString);
         QueryExecution qe = QueryExecutionFactory.sparqlService(Providers.DBPEDIA, query);
-        Map<String, String> resultMap = new HashMap<>();
+        Map<String, Author> resultMap = new HashMap<>();
         ResultSet rs = ResultSetFactory.copyResults(qe.execSelect());
         while (rs.hasNext()) {
             QuerySolution qs = rs.nextSolution();
@@ -342,7 +378,13 @@ public class WikidataRemoteAPIModel {
             RDFNode _abstract = qs.get("abstract");
             String viaf = RDFUtils.spliceLiteralType(_viaf.toString());
             String abs = RDFUtils.spliceLiteralLaguageTag(_abstract.toString());
-            resultMap.put(viaf, abs);
+            
+            Author author = new Author();
+            author.setViafId(viaf);
+            author.getNames().put("en", _name.toString());
+            author.getWikipediaArticleAbstract().put("en", abs);
+            
+            resultMap.put(viaf, author);
         }
         return resultMap;
     }

@@ -54,6 +54,8 @@ public class WikipediaRemoteAPIModel {
                 .append(language)
                 .append(".wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&redirects=1&titles=")
                 .append(articleName);
+        
+        System.out.println("Query: " + sb.toString());
         String response = null;
         try {
             URL url = new URL(sb.toString());
@@ -99,14 +101,13 @@ public class WikipediaRemoteAPIModel {
             return null;
         }
         
-        List<String> articleNames = authors.stream().map(n -> {
-            return n.getNames().get(language);
-        }).collect(Collectors.toList());
-        
         Map<String, String> resultMap = new HashMap<>();
         
         authors.stream().forEach(a -> {
-            String abs = this.getAbstractByArticleName(language, a.getNames().get(language));
+            
+            System.out.println(String.format("%s -> %s", language, a.getNames().get(language)));
+            
+            String abs = this.getAbstractByArticleName(a.getNames().get(language), language);
             resultMap.put(a.getViafId(), abs);
         });
 

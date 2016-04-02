@@ -49,28 +49,46 @@ public class RDFUtils {
     }
 
     /**
-     * Escapes as string of text
+     * Escapes a string
+     *
      * @param text string to escape
      * @return escaped string, null if text string is null
      */
-    public static String escapeTextLiteral(String text) {
+    public static String escapeString(String text) {
         return StringEscapeUtils.escapeJava(text);
     }
-    
+
     /**
-     * "Normalizes a full name (as found in MARC 100 fields)
-     * into a name that would be easily read and queried in wikipedia/dbPedia
-     * Example: a name string such as "Doe, John"
-     * would become "John Doe"
+     * Unescapes a string
+     *
+     * @param text string to escape
+     * @return escaped string, null if text string is null
+     */
+    public static String unescapeString(String text) {
+        return StringEscapeUtils.unescapeJava(text);
+    }
+
+    /**
+     * "Normalizes a full name (as found in MARC 100 fields) into a name that
+     * would be easily read and queried in wikipedia/dbPedia Example: a name
+     * string such as "Doe, John" would become "John Doe"
+     *
      * @param marcName the name string
      * @return the "normalized" name
      */
     public static String normalizeMARCName(String marcName) {
-        if (marcName==null) {
+        if (marcName == null) {
             return null;
         }
-        
+
         String[] fname = marcName.split(",");
         return (fname[1].trim() + " " + fname[0].trim());
+    }
+
+    public static String sliceNameFromUrl(String url) {
+        if (url == null) {
+            return null;
+        } 
+        return url.substring(url.lastIndexOf("/")+1, url.length()).trim();
     }
 }

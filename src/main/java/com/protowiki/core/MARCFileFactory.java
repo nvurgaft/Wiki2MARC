@@ -89,11 +89,11 @@ public class MARCFileFactory {
         
         // connect remotly and query abstracts for these viaf ids
         WikidataRemoteAPIModel wikidataRemoteApi = new WikidataRemoteAPIModel();
-        Map<String, String> absMap = wikidataRemoteApi.getMultipleWikipediaAbstractByViafIds(authorsList, "en"); // map<viaf, abstract>
+        Map<String, Author> absMap = wikidataRemoteApi.getMultipleWikipediaAbstractByViafIds(authorsList, "en"); // map<viaf, abstract>
         
         // insert locally
         absMap.keySet().stream().forEach((key) -> {
-            authorModel.insertAuthorsViafAndAbstracts(key, absMap.get(key));
+            authorModel.insertAuthorsViafAndAbstracts(key, absMap.get(key).getWikipediaArticleAbstract().get("en"));
         });
     }
 

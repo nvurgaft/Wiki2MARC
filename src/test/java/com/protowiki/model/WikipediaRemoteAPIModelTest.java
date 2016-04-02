@@ -1,12 +1,12 @@
 package com.protowiki.model;
 
 import com.protowiki.beans.Author;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
@@ -42,7 +42,7 @@ public class WikipediaRemoteAPIModelTest {
     @Test
     public void testGetAbstractByArticleNameEn() {
         
-        String articleName = "Potato";
+        String articleName = "Big_Mac";
         String language = "en";
         WikipediaRemoteAPIModel instance = new WikipediaRemoteAPIModel();
         String result = instance.getAbstractByArticleName(articleName, language);   
@@ -69,10 +69,19 @@ public class WikipediaRemoteAPIModelTest {
     @Test
     public void testGetAbstractsByArticleNames() {
 
-        List<Author> authors = null;
-        String language = "he";
+        Author a1 = new Author();
+        a1.setNames(new HashMap<String, String>());
+        a1.getNames().put("en", "Mark_Twain");
+        a1.setViafId("1");
+        
+        Author a2 = new Author();
+        a2.setNames(new HashMap<String, String>());
+        a2.getNames().put("en", "Steve_Jobs");
+        a2.setViafId("2");
+        
+        List<Author> authors = Arrays.asList(a1, a2);
         WikipediaRemoteAPIModel instance = new WikipediaRemoteAPIModel();
-        Map<String, String> result = instance.getMultipleAbstractsByAuthors(authors, language);
+        Map<String, String> result = instance.getMultipleAbstractsByAuthors(authors, "en");
         result.keySet().forEach(key -> {
             logger.info("Key: " + key + ", Value: " + result.get(key));
         });

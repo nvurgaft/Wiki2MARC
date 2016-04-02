@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Nick
  */
-//@Ignore
+@Ignore
 public class WikidataRemoteAPIModelTest {
 
     public static Logger logger = LoggerFactory.getLogger(WikidataRemoteAPIModelTest.class);
@@ -91,12 +91,14 @@ public class WikidataRemoteAPIModelTest {
     @Test
     public void testGetWikipediaAbstractByViafId() {
 
-        String viafId = "50566653";
+        String viafId = "113230702";
         String language = "en";
         WikidataRemoteAPIModel instance = new WikidataRemoteAPIModel();
         String articleAbstract = instance.getWikipediaAbstractByViafId(viafId, language);
-        assertNotNull(articleAbstract);
-        assertTrue(articleAbstract.length() > 0);
+        
+        logger.info("abstract: " + articleAbstract);   
+        assertNotNull("Should not be null (meaning the resultset should be at least 1 row)", articleAbstract);
+        assertTrue("Should contain the abstract for Douglas Noel Adams", articleAbstract.length() > 0);
     }
 
     /**
