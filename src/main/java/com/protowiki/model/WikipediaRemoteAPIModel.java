@@ -17,12 +17,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- *  This model is responsible for the interaction with the Wikipedia article 
- *  content API.
- * 
- *  We use this class to get article content such as the article's abstracts, 
- *  as long as an article exists.
- * 
+ * This model is responsible for the interaction with the Wikipedia article
+ * content API.
+ *
+ * We use this class to get article content such as the article's abstracts, as
+ * long as an article exists.
+ *
  * @author Nick
  */
 public class WikipediaRemoteAPIModel {
@@ -40,7 +40,7 @@ public class WikipediaRemoteAPIModel {
             logger.warn("No article name was provided");
             return null;
         }
-        
+
         if (language == null || language.isEmpty()) {
             logger.warn("No language tag was provided");
             return null;
@@ -54,7 +54,7 @@ public class WikipediaRemoteAPIModel {
                 .append(language)
                 .append(".wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&redirects=1&titles=")
                 .append(articleName);
-        
+
         System.out.println("Query: " + sb.toString());
         String response = null;
         try {
@@ -71,8 +71,17 @@ public class WikipediaRemoteAPIModel {
                         respBuff.append(line).append("\n");
                     }
                 }
+                System.out.println("respBuff => " + respBuff.toString());
+
                 JsonObject inter = JsonUtils.parseToJsonObject(respBuff.toString());
-                response = JsonUtils.extractAbstractFromJson(inter);
+
+                if (inter != null) {
+                    response = JsonUtils.extractAbstractFromJson(inter);
+                } else {
+                    response = "null";
+                }
+
+                System.out.println("response => " + response);
             }
         } catch (MalformedURLException murlex) {
             logger.error("MalformedURLException occured while parsing URL string onto a URL object", murlex);
@@ -91,27 +100,27 @@ public class WikipediaRemoteAPIModel {
      */
     public Map<String, String> getMultipleAbstractsByAuthors(List<Author> authors, String language) {
 
-        if (language==null || language.isEmpty()) {
+        if (language == null || language.isEmpty()) {
             logger.warn("No language token was provided");
             return null;
         }
-        
+
         if (authors == null || authors.isEmpty()) {
             logger.warn("No article names were provided");
             return null;
         }
-        
+
         Map<String, String> resultMap = new HashMap<>();
-        
+
         authors.stream().forEach(a -> {
-            
+
             System.out.println(String.format("%s -> %s", language, a.getNames().get(language)));
-            
+
             String abs = this.getAbstractByArticleName(a.getNames().get(language), language);
             resultMap.put(a.getViafId(), abs);
         });
 
         return resultMap;
     }
-    
+
 }

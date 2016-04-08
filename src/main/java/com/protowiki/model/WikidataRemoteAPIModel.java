@@ -219,7 +219,7 @@ public class WikidataRemoteAPIModel {
     }
     
     //GET_AUTHOR_LABEL_BY_VIAF_EN_HE
-    public Map<String, String> getAuthorLabelByViaf(String viafId) {
+    public Map<String, String> getMultipleAuthorLabelsByViaf(String viafId) {
         if (viafId == null || viafId.isEmpty()) {
             return null;
         }

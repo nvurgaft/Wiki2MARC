@@ -27,14 +27,6 @@ public class LocalSparqlModelTest {
     @Rule
     TestName testName = new TestName();
     
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
     @Before
     public void before() {
         logger.info("Before: " + testName.getMethodName());

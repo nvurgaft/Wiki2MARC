@@ -37,7 +37,7 @@ public class JsonUtils {
             for (Map.Entry<String, JsonElement> elem : jo.entrySet()) {
                 v = (JsonObject) elem.getValue();
             }
-            if (v != null) {
+            if (v != null && v.getAsJsonPrimitive("extract")!=null) {
                 result = v.getAsJsonPrimitive("extract").toString();
             }
         } catch (Exception ex) {

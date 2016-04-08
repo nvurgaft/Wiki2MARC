@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Nick
  */
-@Ignore
+//@Ignore
 public class WikipediaRemoteAPIModelTest {
     
     public static Logger logger = LoggerFactory.getLogger(WikipediaRemoteAPIModelTest.class);

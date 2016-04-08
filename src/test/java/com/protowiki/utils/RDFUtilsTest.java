@@ -1,5 +1,6 @@
 package com.protowiki.utils;
 
+import java.net.URLEncoder;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
@@ -14,19 +15,19 @@ import org.slf4j.LoggerFactory;
  *
  * @author Kobi
  */
-@Ignore
+//@Ignore
 public class RDFUtilsTest {
-    
+
     public static Logger logger = LoggerFactory.getLogger(RDFUtilsTest.class);
-    
+
     @Rule
     public TestName testName = new TestName();
-    
+
     @Before
     public void before() {
         logger.info("before: " + testName.getMethodName());
     }
-    
+
     @After
     public void after() {
         logger.info("after: " + testName.getMethodName());
@@ -43,7 +44,7 @@ public class RDFUtilsTest {
         String result = RDFUtils.spliceLiteralType(integerUri);
         assertEquals("Should be equal after uri is spliced", expResult, result);
     }
-    
+
     /**
      * Test of spliceLiteralValue method, of class RDFUtils.
      */
@@ -55,7 +56,7 @@ public class RDFUtilsTest {
         String result = RDFUtils.spliceLiteralType(integerUri);
         assertEquals("Should be equal if uri is literal", expResult, result);
     }
-    
+
     /**
      * Test of spliceLiteralValue method, of class RDFUtils.
      */
@@ -67,7 +68,7 @@ public class RDFUtilsTest {
         String result = RDFUtils.spliceLiteralLaguageTag(abstractText);
         assertEquals("Should be equal after stripping the @lang tag", expResult, result);
     }
-    
+
     @Test
     public void testNormalizeMARCName() {
 
@@ -75,14 +76,14 @@ public class RDFUtilsTest {
         String expResult = "John Doe";
         assertEquals("Should be equal", name, expResult);
     }
-    
+
     @Test
     public void testSliceNameFromUrl() {
-        
+
         String url = "http://dbpedia.org/resource/Douglas_Adams";
         String name = RDFUtils.sliceNameFromUrl(url);
         String expResult = "Douglas_Adams";
         assertEquals("Should be equal", name, expResult);
     }
-    
+
 }

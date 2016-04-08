@@ -4,7 +4,10 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- *
+ *  A record represents a single item or article as an XML entity inside a 
+ *  MARC file. A record's data should be transformed into a Author object for 
+ *  further process and in-memory storage.
+ * 
  * @author Nick
  */
 public class Record implements Serializable {

@@ -4,6 +4,7 @@ import com.protowiki.beans.Author;
 import com.protowiki.values.Prefixes;
 import com.protowiki.values.Providers;
 import java.util.List;
+import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import static org.junit.Assert.assertNotNull;
@@ -20,7 +21,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Nick
  */
-@Ignore
+//@Ignore
 public class WikidataRemoteAPIModelTest {
 
     public static Logger logger = LoggerFactory.getLogger(WikidataRemoteAPIModelTest.class);
@@ -70,6 +71,18 @@ public class WikidataRemoteAPIModelTest {
         logger.info("result: " + result);
     }
 
+    @Test
+    public void testGetMultipleAuthorLabelsByViaf() {
+
+        String viafId = "113230702";
+
+        WikidataRemoteAPIModel instance = new WikidataRemoteAPIModel();
+        Map<String, String> labelsMap = instance.getMultipleAuthorLabelsByViaf(viafId);
+        labelsMap.keySet().forEach(key -> {
+            System.out.println("key: " + key + " ,value: " + labelsMap.get(key));
+        });
+    }
+
     /**
      * Test of getWikipediaAbstract method, of class WikidataRemoteAPIModel.
      */
@@ -95,8 +108,8 @@ public class WikidataRemoteAPIModelTest {
         String language = "en";
         WikidataRemoteAPIModel instance = new WikidataRemoteAPIModel();
         String articleAbstract = instance.getWikipediaAbstractByViafId(viafId, language);
-        
-        logger.info("abstract: " + articleAbstract);   
+
+        logger.info("abstract: " + articleAbstract);
         assertNotNull("Should not be null (meaning the resultset should be at least 1 row)", articleAbstract);
         assertTrue("Should contain the abstract for Douglas Noel Adams", articleAbstract.length() > 0);
     }

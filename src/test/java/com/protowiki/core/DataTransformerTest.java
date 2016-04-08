@@ -5,14 +5,13 @@ import com.protowiki.beans.Record;
 import com.protowiki.utils.RecordSAXParser;
 import com.protowiki.values.Values;
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.After;
-import org.junit.AfterClass;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
@@ -29,24 +28,19 @@ public class DataTransformerTest {
 
     public Logger logger = LoggerFactory.getLogger(DataTransformerTest.class);
     
+    DataTransformer transformer = new DataTransformer();
+    
     @Rule
     public TestName testName = new TestName();
 
-    @BeforeClass
-    public static void setUpClass() {
-    }
-
-    @AfterClass
-    public static void tearDownClass() {
-    }
-
     @Before
-    public void setUp() {
-        logger.info(testName.getMethodName());
+    public void before() {
+        logger.info("before: " + testName.getMethodName());
     }
 
     @After
-    public void tearDown() {
+    public void after() {
+        logger.info("after: " + testName.getMethodName());
     }
 
     /**
@@ -59,30 +53,6 @@ public class DataTransformerTest {
         DataTransformer instance = new DataTransformer();
         List<Author> expResult = null;
         List<Author> result = instance.transformRecordsListToAuthors(recordsList);
-
-    }
-
-    /**
-     * Test of insertAuthorIntoDB method, of class DataTransformer.
-     */
-    @Test
-    public void testInsertAuthorIntoDB() {
-
-        String s = "";
-        String p = "";
-        String o = "";
-        DataTransformer instance = new DataTransformer();
-
-    }
-
-    /**
-     * Test of batchInsertAuthorIntoDB method, of class DataTransformer.
-     */
-    @Test
-    public void testBatchInsertAuthorIntoDB() {
-
-        List<Author> authors = null;
-        DataTransformer instance = new DataTransformer();
 
     }
 
@@ -106,7 +76,7 @@ public class DataTransformerTest {
 
         String filePath = Values.FILE_PATH + "authbzi.xml";
         DataTransformer instance = new DataTransformer();
-        boolean result = instance.dynamicallyGenerateMARCXMLFile(filePath);
+        boolean result = instance.dynamicallyGenerateMARCXMLFile(filePath, null); // will break;
         assertTrue("Should return true if method was successful", result);
     }
 

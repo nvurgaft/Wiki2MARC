@@ -42,9 +42,9 @@ public class RDFUtils {
             return null;
         }
         if (text.contains("@")) {
-            return text.substring(0, text.indexOf("@") - 1).trim();
+            return text.substring(0, text.indexOf("@"));
         } else {
-            return text.trim();
+            return text;
         }
     }
 
@@ -85,6 +85,14 @@ public class RDFUtils {
         return (fname[1].trim() + " " + fname[0].trim());
     }
 
+    /**
+     * Slices an article name from a given wikipedia URL
+     * 
+     * Example: for input "http://www.wikipedia.com/Stan_Lee", the result would 
+     * be "Stan_Lee"
+     * @param url Wikipedia article url string
+     * @return sliced article name
+     */
     public static String sliceNameFromUrl(String url) {
         if (url == null) {
             return null;
