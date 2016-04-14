@@ -273,12 +273,18 @@ public class DataTransformer {
                 NodeList datafieldNodes = records.item(i).getChildNodes();
                 for (int j = 0; j < datafieldNodes.getLength(); j++) {
                     Node datafield = datafieldNodes.item(j);
+                    
+                    if (datafield.getTextContent()==null) {
+                        datafield.setTextContent("N/A");
+                    }
+                    
                     NamedNodeMap attrMap = datafield.getAttributes();
-
+                    
                     String viafId = datafield.getTextContent().trim();
                     Author author = viafAuthorsMap.get(viafId);
                     
                     if (author==null) {
+                        logger.info("Article not found in XML file, skipping....");
                         continue;
                     }
                     
@@ -294,6 +300,9 @@ public class DataTransformer {
                             valueSubField.setAttribute("code", "a");
 
                             String enAbstract = author.getWikipediaArticleAbstract().get("en");
+                            if (enAbstract==null) {
+                                enAbstract = "";
+                            }
                             valueSubField.appendChild(doc.createTextNode(enAbstract));
 
                             Element keySubField = doc.createElement("subfield");
@@ -307,16 +316,19 @@ public class DataTransformer {
                             dataField.setAttribute("ind2", " ");
                             dataField.appendChild(keySubField);
                             dataField.appendChild(valueSubField);
-                            records.item(i).appendChild(valueSubField);
+                            records.item(i).appendChild(dataField);
                         }
 
-                        if (attrMap.getNamedItem("tag") != null && attrMap.getNamedItem("tag").getNodeValue().equals(MARCIdentifiers.AUTHOR_NAME)) {
+                        if (attrMap.getNamedItem("tag") != null && attrMap.getNamedItem("tag").getNodeValue().equals(MARCIdentifiers.VIAF_ID)) {
 
                             // create new subfield
                             Element valueSubField = doc.createElement("subfield");
                             valueSubField.setAttribute("code", "a");
 
-                            String heAbstract = author.getWikipediaArticleAbstract().get("en");
+                            String heAbstract = author.getWikipediaArticleAbstract().get("he");
+                            if (heAbstract==null) {
+                                heAbstract = "";
+                            }
                             valueSubField.appendChild(doc.createTextNode(heAbstract));
 
                             Element keySubField = doc.createElement("subfield");
@@ -330,7 +342,7 @@ public class DataTransformer {
                             dataField.setAttribute("ind2", " ");
                             dataField.appendChild(keySubField);
                             dataField.appendChild(valueSubField);
-                            records.item(i).appendChild(valueSubField);
+                            records.item(i).appendChild(dataField);
                         }
                     }
                 }
@@ -356,6 +368,12 @@ public class DataTransformer {
             String xmlOutput = result.getWriter().toString();
             //System.out.println(xmlOutput);
             File file = new File(filePath + ".updated");
+            
+            if (file.exists()) {
+                file.delete();
+            }
+            
+            logger.info(filePath + ".updated created!");
             if (file.createNewFile()) {
                 FileOutputStream fStream = new FileOutputStream(file.getAbsolutePath());
                 OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fStream, "UTF-8");

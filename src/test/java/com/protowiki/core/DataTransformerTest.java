@@ -5,7 +5,6 @@ import com.protowiki.beans.Record;
 import com.protowiki.utils.RecordSAXParser;
 import com.protowiki.values.Values;
 import java.io.File;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.junit.After;

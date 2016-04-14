@@ -46,9 +46,15 @@ public class MARCFileFactory {
 //            this.obtainAbstractsViaSPARQLAPI(authors);
 //            this.obtainAbstractsViaWikipediaAPI(authors);
 //            this.generateNewFile(filePath);
+            logger.info(String.format("Parsed out %d authors", authors.size()));
+            authors.stream().forEach(a -> System.out.println(a));
 
+            logger.info("injectWikipediaLabels");
             this.injectWikipediaLabels(authors);
+
+            logger.info("injectWikipediaAbstracts");
             this.injectWikipediaAbstracts(authors);
+
             this.updateMARCFile(filePath, authors);
 
         } catch (Exception ex) {
@@ -71,6 +77,7 @@ public class MARCFileFactory {
         DataTransformer transformer = new DataTransformer();
 
         List<Record> records = parser.parseXMLFileForRecords(filePath);
+        logger.info("records => " + records.size());
         return transformer.transformRecordsListToAuthors(records);
     }
 
@@ -96,11 +103,11 @@ public class MARCFileFactory {
         WikidataRemoteAPIModel wikidata = new WikidataRemoteAPIModel();
 
         for (Author author : authors) {
-            
-            if (author.getViafId()==null || author.getViafId().isEmpty()) {
+
+            if (author.getViafId() == null || author.getViafId().isEmpty()) {
                 continue;
             }
-            
+
             Map<String, String> names = wikidata.getMultipleAuthorLabelsByViaf(author.getViafId());
             for (String key : names.keySet()) {
                 String value = names.get(key);
@@ -173,7 +180,6 @@ public class MARCFileFactory {
 
 //        logger.debug("connect remotly and query abstracts for these viaf ids");
 //        Map<String, String> rdfList = authorModel.getAuthorsViafAndAbstracts();
-        
         Map<String, Author> viafAuthorsMap = new HashMap<>();
         for (Author author : authors) {
             viafAuthorsMap.put(author.getViafId(), author);

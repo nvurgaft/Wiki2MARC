@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<collection xmlns="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+    
+    <record xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+        <leader>     nz  a22     n  4500</leader>
+        <controlfield tag="001">000007449</controlfield>
+        <controlfield tag="005">20150329115119.0</controlfield>
+        <controlfield tag="008">000108|||a||||aab|||||||||||||||||||||||</controlfield>
+        <datafield ind1=" " ind2=" " tag="046">
+            <subfield code="f">1888-07-17</subfield>
+            <subfield code="g">1970-02-17</subfield>
+            <subfield code="2">edtf</subfield>
+        </datafield>
+        <datafield ind1="1" ind2=" " tag="100">
+            <subfield code="a">Agnon, Shmuel Yosef,</subfield>
+            <subfield code="d">1888-1970</subfield>
+            <subfield code="9">lat</subfield>
+        </datafield>
+        <datafield ind1="1" ind2=" " tag="100">
+            <subfield code="a">עגנון, שמואל יוסף,</subfield>
+            <subfield code="d">1888-1970</subfield>
+            <subfield code="9">heb</subfield>
+        </datafield>
+        <datafield ind1="1" ind2=" " tag="100">
+            <subfield code="a">Агнон, Шмуэль Иосеф,</subfield>
+            <subfield code="d">1888-1970</subfield>
+            <subfield code="9">cyr</subfield>
+        </datafield>
+        <datafield ind1="1" ind2=" " tag="100">
+            <subfield code="a">عگنون، شموئل يوسف،</subfield>
+            <subfield code="d">1888-1970</subfield>
+            <subfield code="9">ara</subfield>
+        </datafield>
+        <datafield ind1="1" ind2=" " tag="400">
+            <subfield code="a">טשאטשקעס, שמואל יוסף</subfield>
+            <subfield code="9">heb</subfield>
+        </datafield>
+        <datafield ind1="1" ind2=" " tag="400">
+            <subfield code="a">צ'צ'קס, שמואל יוסף</subfield>
+            <subfield code="9">heb</subfield>
+        </datafield>
+        <datafield ind1="1" ind2=" " tag="400">
+            <subfield code="a">Agnon, Samuel Joseph</subfield>
+            <subfield code="9">lat</subfield>
+        </datafield>
+        <datafield ind1="1" ind2=" " tag="400">
+            <subfield code="a">Agnon, S. J.</subfield>
+            <subfield code="9">lat</subfield>
+        </datafield>
+        <datafield ind1="1" ind2=" " tag="400">
+            <subfield code="a">Tschatschkes, Samuel Josef</subfield>
+            <subfield code="9">lat</subfield>
+        </datafield>
+        <datafield ind1="1" ind2=" " tag="400">
+            <subfield code="a">Agnon, Smuel Iosef</subfield>
+            <subfield code="9">lat</subfield>
+        </datafield>
+        <datafield ind1="1" ind2=" " tag="400">
+            <subfield code="a">Agnon, Schmuel Iosef</subfield>
+            <subfield code="9">lat</subfield>
+        </datafield>
+        <datafield ind1="1" ind2=" " tag="400">
+            <subfield code="a">Agnon, Samuel Josef</subfield>
+            <subfield code="9">lat</subfield>
+        </datafield>
+        <datafield ind1="1" ind2=" " tag="400">
+            <subfield code="a">Czaczkes, Samuel Joseph</subfield>
+            <subfield code="9">lat</subfield>
+        </datafield>
+        <datafield ind1="1" ind2=" " tag="400">
+            <subfield code="a">Cackes, Smuel Josef</subfield>
+            <subfield code="9">lat</subfield>
+        </datafield>
+        <datafield ind1="1" ind2=" " tag="400">
+            <subfield code="a">Agnon, Shay</subfield>
+            <subfield code="9">lat</subfield>
+        </datafield>
+        <datafield ind1="1" ind2=" " tag="400">
+            <subfield code="a">Agnon, Szmuel Josef</subfield>
+            <subfield code="9">lat</subfield>
+        </datafield>
+        <datafield ind1="1" ind2=" " tag="400">
+            <subfield code="a">עגנון, שמואל יוסף</subfield>
+            <subfield code="9">heb</subfield>
+        </datafield>
+        <datafield ind1="1" ind2=" " tag="400">
+            <subfield code="a">עגנון, שמואל יוסף בן שלום מרדכי,</subfield>
+            <subfield code="c">הלוי</subfield>
+            <subfield code="9">heb</subfield>
+        </datafield>
+        <datafield ind1="1" ind2=" " tag="400">
+            <subfield code="a">عغنون، شموئيل يوسف،</subfield>
+            <subfield code="d">1888-1970</subfield>
+            <subfield code="9">ara</subfield>
+        </datafield>
+        <datafield ind1="1" ind2=" " tag="400">
+            <subfield code="a">اگنون، شموئل يوسف،</subfield>
+            <subfield code="d">1888-1970</subfield>
+            <subfield code="9">ara</subfield>
+        </datafield>
+        <datafield ind1="1" ind2=" " tag="400">
+            <subfield code="a">عجنون، شموئيل يوسف،</subfield>
+            <subfield code="d">1888-1970</subfield>
+            <subfield code="9">ara</subfield>
+        </datafield>
+        <datafield ind1=" " ind2=" " tag="667">
+            <subfield code="a">Viaf cluster heading merged from record 000194880</subfield>
+        </datafield>
+        <datafield ind1=" " ind2=" " tag="667">
+            <subfield code="a">Heading merged from record: 000147032</subfield>
+        </datafield>
+        <datafield ind1=" " ind2=" " tag="667">
+            <subfield code="a">Heading merged from record: 000162551</subfield>
+        </datafield>
+        <datafield ind1=" " ind2=" " tag="670">
+            <subfield code="a">ויקיפדיה</subfield>
+        </datafield>
+        <datafield ind1=" " ind2=" " tag="670">
+            <subfield code="a">LCN</subfield>
+        </datafield>
+        <datafield ind1=" " ind2=" " tag="670">
+            <subfield code="a">Record enhanced with data from Bibliography of the Hebrew Book database</subfield>
+        </datafield>
+        <datafield ind1=" " ind2=" " tag="678">
+            <subfield code="a">מידע על שם: : שמו הקודם: טשאטשקס.</subfield>
+        </datafield>
+        <datafield ind1=" " ind2=" " tag="678">
+            <subfield code="a">מקום לידה: Buczacz</subfield>
+        </datafield>
+        <datafield ind1=" " ind2=" " tag="678">
+            <subfield code="a">מקום לידה: בוטשאטש [ Buczacz, גאליציה]</subfield>
+        </datafield>
+        <datafield ind1=" " ind2=" " tag="678">
+            <subfield code="a">תאריך לידה עברי: ט אב תרמ"ח [17.7.1888]</subfield>
+        </datafield>
+        <datafield ind1=" " ind2=" " tag="678">
+            <subfield code="a">מקום פטירה: ירושלים</subfield>
+        </datafield>
+        <datafield ind1=" " ind2=" " tag="678">
+            <subfield code="a">מקום פטירה: Jerusalem</subfield>
+        </datafield>
+        <datafield ind1=" " ind2=" " tag="678">
+            <subfield code="a">תאריך פטירה עברי: יא אדר-א תש"ל [17.2.1970].</subfield>
+        </datafield>
+        <datafield ind1=" " ind2=" " tag="678">
+            <subfield code="a">תאריך עליה: עלה בשנת תרס"ז [1907].</subfield>
+        </datafield>
+        <datafield ind1=" " ind2=" " tag="680">
+            <subfield code="a">Hebrew catalog.</subfield>
+        </datafield>
+        <datafield ind1="1" ind2="7" tag="700">
+            <subfield code="a">עגנון, שמואל יוסף בן שלום מרדכי הלוי</subfield>
+            <subfield code="2">bhb</subfield>
+            <subfield code="9">heb</subfield>
+        </datafield>
+        <datafield ind1="1" ind2="7" tag="700">
+            <subfield code="a">AGNON, SAMUEL JOSEPH B. SHALOM MORDECAI HALEVI</subfield>
+            <subfield code="2">bhb</subfield>
+            <subfield code="9">lat</subfield>
+        </datafield>
+        <datafield ind1=" " ind2=" " tag="901">
+            <subfield code="a">14765267</subfield>
+        </datafield>
+        <datafield ind1=" " ind2=" " tag="903">
+            <subfield code="a">000065460</subfield>
+        </datafield>
+    <datafield ind1=" " ind2=" " tag="999">
+<subfield code="9">lat</subfield>
+<subfield code="a">"Shmuel Yosef Agnon (Hebrew: שמואל יוסף עגנון‎) (July 17, 1888 – February 17, 1970)  was a Nobel Prize laureate writer and was one of the central figures of modern Hebrew fiction. In Hebrew, he is known by the acronym Shai Agnon (ש\"י עגנון). In English, his works are published under the name S. Y. Agnon.\nAgnon was born in Polish Galicia, then part of the Austro-Hungarian Empire, and later immigrated to Mandatory Palestine, and died in Jerusalem, Israel.\nHis works deal with the conflict between the traditional Jewish life and language and the modern world. They also attempt to recapture the fading traditions of the European shtetl (village). In a wider context, he also contributed to broadening the characteristic conception of the narrator's role in literature. Agnon shared the Nobel Prize with the poet Nelly Sachs in 1966."</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="999">
+<subfield code="9">heb</subfield>
+<subfield code="a">"שמואל יוסף עגנון (י\"ח באב ה'תרמ\"ז, 8 באוגוסט 1887 – י\"א באדר א' ה'תש\"ל, 17 בפברואר 1970), מוכר גם בשם המקוצר ש\"י עגנון, מגדולי הסופרים העבריים בעת החדשה. חתן פרס נובל לספרות לשנת 1966 וחתן פרס ישראל לספרות.\nעגנון נולד בעיירה בוצ'אץ' שבגליציה המזרחית (באוקראינה של היום). שמו שניתן לו בלידתו היה שמואל יוסף צַ'צְ'קֶס (או בכתיב היידי שהעדיף: טשאטשקיס ולפעמים טשאטשקעס).‏ בשנת 1908 עלה לארץ ישראל, כשהוא כבר סופר צעיר, והמשיך בכתיבה בארץ. בשנת 1912 היגר לגרמניה למשך 12 שנה, שלאחריהן, ב-1924, עלה שוב לארץ ישראל והשתקע בה עד סוף ימיו.\nהסיפור הראשון שפרסם בארץ ישראל, באוקטובר 1908, היה \"עגונות\", ובעקבותיו שינה את שמו לעגנון. עגנון פרסם ספרים רבים בימי חייו בהוצאת שוקן, שהוקמה בעיקר בשבילו, וספריו היו הראשונים שפורסמו בה. לאחר מותו פרסמה בתו, אמונה ירון, כתבי יד רבים שאותם לא פרסם בימי חייו. ספריו של עגנון תורגמו לשפות רבות, וזכו להצלחה ולהערכה ברחבי העולם. ספריו של עגנון עוסקים בשאלות הקשורות לעם היהודי, בארס פואטיקה, בפסיכולוגיה ובנושאים נוספים רבים. בין יצירותיו הבולטות: הרומנים \"הכנסת כלה\" \"אורח נטה ללון\", \"תמול שלשום\", הרומן הקצר \"סיפור פשוט\" והנובלות \"והיה העקוב למישור\", \"בלבב ימים\" ו\"תהילה\".\n\n"</subfield>
+</datafield>
+</record>
+    
+    <record xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+        <leader>     nz  a22     n  4500</leader>
+        <controlfield tag="001">000007871</controlfield>
+        <controlfield tag="005">20140921085900.0</controlfield>
+        <controlfield tag="008">021231|||a||||aab|||||||||||||||||||||||</controlfield>
+        <datafield ind1=" " ind2=" " tag="046">
+            <subfield code="f">1890-09-16</subfield>
+            <subfield code="2">edtf</subfield>
+        </datafield>
+        <datafield ind1="1" ind2=" " tag="100">
+            <subfield code="a">Aizenstadt, David,</subfield>
+            <subfield code="d">1890-1942</subfield>
+            <subfield code="9">lat</subfield>
+        </datafield>
+        <datafield ind1="1" ind2=" " tag="100">
+            <subfield code="a">איזנשטט, דוד,</subfield>
+            <subfield code="d">1890-1942</subfield>
+            <subfield code="9">heb</subfield>
+        </datafield>
+        <datafield ind1="1" ind2=" " tag="400">
+            <subfield code="a">Aizenstadt, David,</subfield>
+            <subfield code="d">1889-1942</subfield>
+            <subfield code="9">lat</subfield>
+        </datafield>
+        <datafield ind1="1" ind2=" " tag="400">
+            <subfield code="a">Aizenstadt, David</subfield>
+            <subfield code="9">lat</subfield>
+        </datafield>
+        <datafield ind1="1" ind2=" " tag="400">
+            <subfield code="a">Eisenstadt, David</subfield>
+            <subfield code="9">lat</subfield>
+        </datafield>
+        <datafield ind1="1" ind2=" " tag="400">
+            <subfield code="a">איזנשטאט, דוד,</subfield>
+            <subfield code="d">1890-1942</subfield>
+            <subfield code="9">heb</subfield>
+        </datafield>
+        <datafield ind1="1" ind2=" " tag="400">
+            <subfield code="a">איזנשטדט, דוד,</subfield>
+            <subfield code="d">1890-1942</subfield>
+            <subfield code="9">heb</subfield>
+        </datafield>
+        <datafield ind1="1" ind2=" " tag="400">
+            <subfield code="a">אייזענשטאט, דוד,</subfield>
+            <subfield code="d">1890-1942</subfield>
+            <subfield code="9">heb</subfield>
+        </datafield>
+        <datafield ind1="1" ind2=" " tag="400">
+            <subfield code="a">אייזנשטאט, דוד</subfield>
+            <subfield code="9">heb</subfield>
+        </datafield>
+        <datafield ind1=" " ind2=" " tag="667">
+            <subfield code="a">הפניות נוצרו בתהליך אוטומטי על בסיס שם משפחה</subfield>
+        </datafield>
+        <datafield ind1=" " ind2=" " tag="667">
+            <subfield code="a">Heading merged from record: 000240077</subfield>
+        </datafield>
+        <datafield ind1=" " ind2=" " tag="670">
+            <subfield code="a">ספר: אלגעמיינער מוזיק-לעקסיקאן, 1935.</subfield>
+        </datafield>
+        <datafield ind1=" " ind2=" " tag="670">
+            <subfield code="a">Record enhanced with data from Bibliography of the Hebrew Book database</subfield>
+        </datafield>
+        <datafield ind1=" " ind2=" " tag="670">
+            <subfield code="a">לעקסיקאן פון דער נייער יידישער ליטעראטור, 1, עמ' 67.</subfield>
+        </datafield>
+        <datafield ind1=" " ind2=" " tag="678">
+            <subfield code="a">מקום לידה: נאשלסק Nasielsk], פולין]</subfield>
+        </datafield>
+        <datafield ind1=" " ind2=" " tag="678">
+            <subfield code="a">מקום לידה: Nasielsk</subfield>
+        </datafield>
+        <datafield ind1=" " ind2=" " tag="678">
+            <subfield code="a">תאריך לידה עברי: ב תשרי תרנ"א [16.9.1890]</subfield>
+        </datafield>
+        <datafield ind1=" " ind2=" " tag="678">
+            <subfield code="a">מקום פטירה: ווארשה Warszawa], פולין]</subfield>
+        </datafield>
+        <datafield ind1=" " ind2=" " tag="678">
+            <subfield code="a">מקום פטירה: Warszawa</subfield>
+        </datafield>
+        <datafield ind1=" " ind2=" " tag="678">
+            <subfield code="a">פטירה: גורש מווארשא לטרבלינקה בשנת 1942.</subfield>
+        </datafield>
+        <datafield ind1=" " ind2=" " tag="680">
+            <subfield code="a">L'Dovid mizmor. 1900</subfield>
+        </datafield>
+        <datafield ind1=" " ind2=" " tag="680">
+            <subfield code="a">cf: http://www.100voicesmovie.com/music-sham.html</subfield>
+        </datafield>
+        <datafield ind1="1" ind2="7" tag="700">
+            <subfield code="a">אייזנשטאט, דוד</subfield>
+            <subfield code="2">bhb</subfield>
+            <subfield code="9">heb</subfield>
+        </datafield>
+        <datafield ind1="1" ind2="7" tag="700">
+            <subfield code="a">EISENSTADT, DAVID</subfield>
+            <subfield code="2">bhb</subfield>
+            <subfield code="9">lat</subfield>
+        </datafield>
+        <datafield ind1=" " ind2=" " tag="901">
+            <subfield code="a">97613596</subfield>
+        </datafield>
+        <datafield ind1=" " ind2=" " tag="903">
+            <subfield code="a">000326120</subfield>
+        </datafield>
+        <datafield ind1=" " ind2=" " tag="933">
+            <subfield code="a">MNM 201207</subfield>
+        </datafield>
+        <datafield ind1=" " ind2=" " tag="985">
+            <subfield code="a">ACUM-PI091736700</subfield>
+        </datafield>
+    <datafield ind1=" " ind2=" " tag="999">
+<subfield code="9">lat</subfield>
+<subfield code="a"/>
+</datafield>
+<datafield ind1=" " ind2=" " tag="999">
+<subfield code="9">heb</subfield>
+<subfield code="a"/>
+</datafield>
+</record>
+</collection>
