@@ -1,298 +1,631 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <collection xmlns="http://www.loc.gov/MARC21/slim" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
-    
     <record xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
-        <leader>     nz  a22     n  4500</leader>
-        <controlfield tag="001">000007449</controlfield>
-        <controlfield tag="005">20150329115119.0</controlfield>
-        <controlfield tag="008">000108|||a||||aab|||||||||||||||||||||||</controlfield>
-        <datafield ind1=" " ind2=" " tag="046">
-            <subfield code="f">1888-07-17</subfield>
-            <subfield code="g">1970-02-17</subfield>
-            <subfield code="2">edtf</subfield>
-        </datafield>
-        <datafield ind1="1" ind2=" " tag="100">
-            <subfield code="a">Agnon, Shmuel Yosef,</subfield>
-            <subfield code="d">1888-1970</subfield>
-            <subfield code="9">lat</subfield>
-        </datafield>
-        <datafield ind1="1" ind2=" " tag="100">
-            <subfield code="a">עגנון, שמואל יוסף,</subfield>
-            <subfield code="d">1888-1970</subfield>
-            <subfield code="9">heb</subfield>
-        </datafield>
-        <datafield ind1="1" ind2=" " tag="100">
-            <subfield code="a">Агнон, Шмуэль Иосеф,</subfield>
-            <subfield code="d">1888-1970</subfield>
-            <subfield code="9">cyr</subfield>
-        </datafield>
-        <datafield ind1="1" ind2=" " tag="100">
-            <subfield code="a">عگنون، شموئل يوسف،</subfield>
-            <subfield code="d">1888-1970</subfield>
-            <subfield code="9">ara</subfield>
-        </datafield>
-        <datafield ind1="1" ind2=" " tag="400">
-            <subfield code="a">טשאטשקעס, שמואל יוסף</subfield>
-            <subfield code="9">heb</subfield>
-        </datafield>
-        <datafield ind1="1" ind2=" " tag="400">
-            <subfield code="a">צ'צ'קס, שמואל יוסף</subfield>
-            <subfield code="9">heb</subfield>
-        </datafield>
-        <datafield ind1="1" ind2=" " tag="400">
-            <subfield code="a">Agnon, Samuel Joseph</subfield>
-            <subfield code="9">lat</subfield>
-        </datafield>
-        <datafield ind1="1" ind2=" " tag="400">
-            <subfield code="a">Agnon, S. J.</subfield>
-            <subfield code="9">lat</subfield>
-        </datafield>
-        <datafield ind1="1" ind2=" " tag="400">
-            <subfield code="a">Tschatschkes, Samuel Josef</subfield>
-            <subfield code="9">lat</subfield>
-        </datafield>
-        <datafield ind1="1" ind2=" " tag="400">
-            <subfield code="a">Agnon, Smuel Iosef</subfield>
-            <subfield code="9">lat</subfield>
-        </datafield>
-        <datafield ind1="1" ind2=" " tag="400">
-            <subfield code="a">Agnon, Schmuel Iosef</subfield>
-            <subfield code="9">lat</subfield>
-        </datafield>
-        <datafield ind1="1" ind2=" " tag="400">
-            <subfield code="a">Agnon, Samuel Josef</subfield>
-            <subfield code="9">lat</subfield>
-        </datafield>
-        <datafield ind1="1" ind2=" " tag="400">
-            <subfield code="a">Czaczkes, Samuel Joseph</subfield>
-            <subfield code="9">lat</subfield>
-        </datafield>
-        <datafield ind1="1" ind2=" " tag="400">
-            <subfield code="a">Cackes, Smuel Josef</subfield>
-            <subfield code="9">lat</subfield>
-        </datafield>
-        <datafield ind1="1" ind2=" " tag="400">
-            <subfield code="a">Agnon, Shay</subfield>
-            <subfield code="9">lat</subfield>
-        </datafield>
-        <datafield ind1="1" ind2=" " tag="400">
-            <subfield code="a">Agnon, Szmuel Josef</subfield>
-            <subfield code="9">lat</subfield>
-        </datafield>
-        <datafield ind1="1" ind2=" " tag="400">
-            <subfield code="a">עגנון, שמואל יוסף</subfield>
-            <subfield code="9">heb</subfield>
-        </datafield>
-        <datafield ind1="1" ind2=" " tag="400">
-            <subfield code="a">עגנון, שמואל יוסף בן שלום מרדכי,</subfield>
-            <subfield code="c">הלוי</subfield>
-            <subfield code="9">heb</subfield>
-        </datafield>
-        <datafield ind1="1" ind2=" " tag="400">
-            <subfield code="a">عغنون، شموئيل يوسف،</subfield>
-            <subfield code="d">1888-1970</subfield>
-            <subfield code="9">ara</subfield>
-        </datafield>
-        <datafield ind1="1" ind2=" " tag="400">
-            <subfield code="a">اگنون، شموئل يوسف،</subfield>
-            <subfield code="d">1888-1970</subfield>
-            <subfield code="9">ara</subfield>
-        </datafield>
-        <datafield ind1="1" ind2=" " tag="400">
-            <subfield code="a">عجنون، شموئيل يوسف،</subfield>
-            <subfield code="d">1888-1970</subfield>
-            <subfield code="9">ara</subfield>
-        </datafield>
-        <datafield ind1=" " ind2=" " tag="667">
-            <subfield code="a">Viaf cluster heading merged from record 000194880</subfield>
-        </datafield>
-        <datafield ind1=" " ind2=" " tag="667">
-            <subfield code="a">Heading merged from record: 000147032</subfield>
-        </datafield>
-        <datafield ind1=" " ind2=" " tag="667">
-            <subfield code="a">Heading merged from record: 000162551</subfield>
-        </datafield>
-        <datafield ind1=" " ind2=" " tag="670">
-            <subfield code="a">ויקיפדיה</subfield>
-        </datafield>
-        <datafield ind1=" " ind2=" " tag="670">
-            <subfield code="a">LCN</subfield>
-        </datafield>
-        <datafield ind1=" " ind2=" " tag="670">
-            <subfield code="a">Record enhanced with data from Bibliography of the Hebrew Book database</subfield>
-        </datafield>
-        <datafield ind1=" " ind2=" " tag="678">
-            <subfield code="a">מידע על שם: : שמו הקודם: טשאטשקס.</subfield>
-        </datafield>
-        <datafield ind1=" " ind2=" " tag="678">
-            <subfield code="a">מקום לידה: Buczacz</subfield>
-        </datafield>
-        <datafield ind1=" " ind2=" " tag="678">
-            <subfield code="a">מקום לידה: בוטשאטש [ Buczacz, גאליציה]</subfield>
-        </datafield>
-        <datafield ind1=" " ind2=" " tag="678">
-            <subfield code="a">תאריך לידה עברי: ט אב תרמ"ח [17.7.1888]</subfield>
-        </datafield>
-        <datafield ind1=" " ind2=" " tag="678">
-            <subfield code="a">מקום פטירה: ירושלים</subfield>
-        </datafield>
-        <datafield ind1=" " ind2=" " tag="678">
-            <subfield code="a">מקום פטירה: Jerusalem</subfield>
-        </datafield>
-        <datafield ind1=" " ind2=" " tag="678">
-            <subfield code="a">תאריך פטירה עברי: יא אדר-א תש"ל [17.2.1970].</subfield>
-        </datafield>
-        <datafield ind1=" " ind2=" " tag="678">
-            <subfield code="a">תאריך עליה: עלה בשנת תרס"ז [1907].</subfield>
-        </datafield>
-        <datafield ind1=" " ind2=" " tag="680">
-            <subfield code="a">Hebrew catalog.</subfield>
-        </datafield>
-        <datafield ind1="1" ind2="7" tag="700">
-            <subfield code="a">עגנון, שמואל יוסף בן שלום מרדכי הלוי</subfield>
-            <subfield code="2">bhb</subfield>
-            <subfield code="9">heb</subfield>
-        </datafield>
-        <datafield ind1="1" ind2="7" tag="700">
-            <subfield code="a">AGNON, SAMUEL JOSEPH B. SHALOM MORDECAI HALEVI</subfield>
-            <subfield code="2">bhb</subfield>
-            <subfield code="9">lat</subfield>
-        </datafield>
-        <datafield ind1=" " ind2=" " tag="901">
-            <subfield code="a">14765267</subfield>
-        </datafield>
-        <datafield ind1=" " ind2=" " tag="903">
-            <subfield code="a">000065460</subfield>
-        </datafield>
+      <leader>     nz  a22     n  4500</leader>
+      <controlfield tag="001">000000824</controlfield>
+      <controlfield tag="005">20151104165600.0</controlfield>
+      <controlfield tag="008">011211|||a||||aab|||||||||||||||||||||||</controlfield>
+      <datafield ind1="2" ind2=" " tag="110">
+        <subfield code="a">&lt;&lt;ha-&gt;&gt;Bima</subfield>
+        <subfield code="9">lat</subfield>
+      </datafield>
+      <datafield ind1="2" ind2=" " tag="110">
+        <subfield code="a">&lt;&lt;?'?-&gt;&gt;????</subfield>
+        <subfield code="9">cyr</subfield>
+      </datafield>
+      <datafield ind1="2" ind2=" " tag="110">
+        <subfield code="a">&lt;&lt;?&gt;&gt;???? (??????)</subfield>
+        <subfield code="9">heb</subfield>
+      </datafield>
+      <datafield ind1="2" ind2=" " tag="410">
+        <subfield code="a">&lt;&lt;ha-&gt;&gt;Bimah</subfield>
+        <subfield code="9">lat</subfield>
+      </datafield>
+      <datafield ind1="2" ind2=" " tag="410">
+        <subfield code="a">National Theatre Habimah (Israel)</subfield>
+        <subfield code="9">lat</subfield>
+      </datafield>
+      <datafield ind1="2" ind2=" " tag="410">
+        <subfield code="a">&lt;&lt;ha-&gt;&gt;Bima, ha-teatron ha-leummi</subfield>
+        <subfield code="9">lat</subfield>
+      </datafield>
+      <datafield ind1="2" ind2=" " tag="410">
+        <subfield code="a">Theatre Habimah</subfield>
+        <subfield code="9">lat</subfield>
+      </datafield>
+      <datafield ind1="2" ind2=" " tag="410">
+        <subfield code="a">Habimah National Theatre</subfield>
+        <subfield code="9">lat</subfield>
+      </datafield>
+      <datafield ind1="2" ind2=" " tag="410">
+        <subfield code="a">Teatron ha-Bima</subfield>
+        <subfield code="9">lat</subfield>
+      </datafield>
+      <datafield ind1="2" ind2=" " tag="410">
+        <subfield code="a">Habimah</subfield>
+        <subfield code="9">lat</subfield>
+      </datafield>
+      <datafield ind1="2" ind2=" " tag="410">
+        <subfield code="a">&lt;&lt;ha-&gt;&gt;Teatron ha-leummi ha-Bima</subfield>
+        <subfield code="9">lat</subfield>
+      </datafield>
+      <datafield ind1="2" ind2=" " tag="410">
+        <subfield code="a">??????</subfield>
+        <subfield code="9">cyr</subfield>
+      </datafield>
+      <datafield ind1="2" ind2=" " tag="410">
+        <subfield code="a">?????? (???????????? ????? ???????)</subfield>
+        <subfield code="9">cyr</subfield>
+      </datafield>
+      <datafield ind1="2" ind2=" " tag="410">
+        <subfield code="a">?????? (??????)</subfield>
+        <subfield code="9">cyr</subfield>
+      </datafield>
+      <datafield ind1="2" ind2=" " tag="410">
+        <subfield code="a">&lt;&lt;?'?-&gt;&gt;??????? ?'?-????? ?'?-????</subfield>
+        <subfield code="9">cyr</subfield>
+      </datafield>
+      <datafield ind1="2" ind2=" " tag="410">
+        <subfield code="a">??????????????? ????????????? ?????-?????? "??????" (??????)</subfield>
+        <subfield code="9">cyr</subfield>
+      </datafield>
+      <datafield ind1="2" ind2=" " tag="410">
+        <subfield code="a">?????-?????? "??????" (??????)</subfield>
+        <subfield code="9">cyr</subfield>
+      </datafield>
+      <datafield ind1="2" ind2=" " tag="410">
+        <subfield code="a">????? (??????)</subfield>
+        <subfield code="9">heb</subfield>
+      </datafield>
+      <datafield ind1="2" ind2=" " tag="410">
+        <subfield code="a">?????? ?????</subfield>
+        <subfield code="9">heb</subfield>
+      </datafield>
+      <datafield ind1="2" ind2=" " tag="410">
+        <subfield code="a">??????? ?????</subfield>
+        <subfield code="9">heb</subfield>
+      </datafield>
+      <datafield ind1="2" ind2=" " tag="410">
+        <subfield code="a">&lt;&lt;?&gt;&gt;??????? ?????? ?????</subfield>
+        <subfield code="9">heb</subfield>
+      </datafield>
+      <datafield ind1="2" ind2=" " tag="410">
+        <subfield code="a">&lt;&lt;?&gt;&gt;???? - ???????? ??????</subfield>
+        <subfield code="9">heb</subfield>
+      </datafield>
+      <datafield ind1=" " ind2=" " tag="667">
+        <subfield code="a">Heading merged from record: 000001572</subfield>
+      </datafield>
+      <datafield ind1=" " ind2=" " tag="667">
+        <subfield code="a">Heading merged from record: 000004642</subfield>
+      </datafield>
+      <datafield ind1=" " ind2=" " tag="670">
+        <subfield code="a">LCN: Habimah</subfield>
+      </datafield>
+      <datafield ind1=" " ind2=" " tag="670">
+        <subfield code="a">LCN: Habimah; note: repertory theater company founded in Moscow, 1917; now the national theater of Israel</subfield>
+      </datafield>
+      <datafield ind1=" " ind2=" " tag="670">
+        <subfield code="a">???????. 2010.</subfield>
+      </datafield>
+      <datafield ind1=" " ind2=" " tag="901">
+        <subfield code="a">122524458</subfield>
+      </datafield>
     <datafield ind1=" " ind2=" " tag="999">
 <subfield code="9">lat</subfield>
-<subfield code="a">"Shmuel Yosef Agnon (Hebrew: שמואל יוסף עגנון‎) (July 17, 1888 – February 17, 1970)  was a Nobel Prize laureate writer and was one of the central figures of modern Hebrew fiction. In Hebrew, he is known by the acronym Shai Agnon (ש\"י עגנון). In English, his works are published under the name S. Y. Agnon.\nAgnon was born in Polish Galicia, then part of the Austro-Hungarian Empire, and later immigrated to Mandatory Palestine, and died in Jerusalem, Israel.\nHis works deal with the conflict between the traditional Jewish life and language and the modern world. They also attempt to recapture the fading traditions of the European shtetl (village). In a wider context, he also contributed to broadening the characteristic conception of the narrator's role in literature. Agnon shared the Nobel Prize with the poet Nelly Sachs in 1966."</subfield>
+<subfield code="a">"The Habima Theatre (תיאטורון הבימה - Teat'ron HaBima, lit. \"The Stage Theatre\") is the national theatre of Israel and one of the first Hebrew language theatres. It is located in Habima Square in the center of Tel Aviv."</subfield>
 </datafield>
 <datafield ind1=" " ind2=" " tag="999">
 <subfield code="9">heb</subfield>
-<subfield code="a">"שמואל יוסף עגנון (י\"ח באב ה'תרמ\"ז, 8 באוגוסט 1887 – י\"א באדר א' ה'תש\"ל, 17 בפברואר 1970), מוכר גם בשם המקוצר ש\"י עגנון, מגדולי הסופרים העבריים בעת החדשה. חתן פרס נובל לספרות לשנת 1966 וחתן פרס ישראל לספרות.\nעגנון נולד בעיירה בוצ'אץ' שבגליציה המזרחית (באוקראינה של היום). שמו שניתן לו בלידתו היה שמואל יוסף צַ'צְ'קֶס (או בכתיב היידי שהעדיף: טשאטשקיס ולפעמים טשאטשקעס).‏ בשנת 1908 עלה לארץ ישראל, כשהוא כבר סופר צעיר, והמשיך בכתיבה בארץ. בשנת 1912 היגר לגרמניה למשך 12 שנה, שלאחריהן, ב-1924, עלה שוב לארץ ישראל והשתקע בה עד סוף ימיו.\nהסיפור הראשון שפרסם בארץ ישראל, באוקטובר 1908, היה \"עגונות\", ובעקבותיו שינה את שמו לעגנון. עגנון פרסם ספרים רבים בימי חייו בהוצאת שוקן, שהוקמה בעיקר בשבילו, וספריו היו הראשונים שפורסמו בה. לאחר מותו פרסמה בתו, אמונה ירון, כתבי יד רבים שאותם לא פרסם בימי חייו. ספריו של עגנון תורגמו לשפות רבות, וזכו להצלחה ולהערכה ברחבי העולם. ספריו של עגנון עוסקים בשאלות הקשורות לעם היהודי, בארס פואטיקה, בפסיכולוגיה ובנושאים נוספים רבים. בין יצירותיו הבולטות: הרומנים \"הכנסת כלה\" \"אורח נטה ללון\", \"תמול שלשום\", הרומן הקצר \"סיפור פשוט\" והנובלות \"והיה העקוב למישור\", \"בלבב ימים\" ו\"תהילה\".\n\n"</subfield>
+<subfield code="a">"הבימה הוא התיאטרון הלאומי של ישראל. הוא פועל ברציפות, מאז הקמתו הרשמית בשנת 1917, תחילה במוסקבה ואחר כך בארץ ישראל. משנת 1945 משמש את התיאטרון בית הבימה בתל אביב. התיאטרון חבר ב\"איחוד תיאטרוני אירופה\".\n\n"</subfield>
 </datafield>
 </record>
-    
-    <record xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
-        <leader>     nz  a22     n  4500</leader>
-        <controlfield tag="001">000007871</controlfield>
-        <controlfield tag="005">20140921085900.0</controlfield>
-        <controlfield tag="008">021231|||a||||aab|||||||||||||||||||||||</controlfield>
-        <datafield ind1=" " ind2=" " tag="046">
-            <subfield code="f">1890-09-16</subfield>
-            <subfield code="2">edtf</subfield>
-        </datafield>
-        <datafield ind1="1" ind2=" " tag="100">
-            <subfield code="a">Aizenstadt, David,</subfield>
-            <subfield code="d">1890-1942</subfield>
-            <subfield code="9">lat</subfield>
-        </datafield>
-        <datafield ind1="1" ind2=" " tag="100">
-            <subfield code="a">איזנשטט, דוד,</subfield>
-            <subfield code="d">1890-1942</subfield>
-            <subfield code="9">heb</subfield>
-        </datafield>
-        <datafield ind1="1" ind2=" " tag="400">
-            <subfield code="a">Aizenstadt, David,</subfield>
-            <subfield code="d">1889-1942</subfield>
-            <subfield code="9">lat</subfield>
-        </datafield>
-        <datafield ind1="1" ind2=" " tag="400">
-            <subfield code="a">Aizenstadt, David</subfield>
-            <subfield code="9">lat</subfield>
-        </datafield>
-        <datafield ind1="1" ind2=" " tag="400">
-            <subfield code="a">Eisenstadt, David</subfield>
-            <subfield code="9">lat</subfield>
-        </datafield>
-        <datafield ind1="1" ind2=" " tag="400">
-            <subfield code="a">איזנשטאט, דוד,</subfield>
-            <subfield code="d">1890-1942</subfield>
-            <subfield code="9">heb</subfield>
-        </datafield>
-        <datafield ind1="1" ind2=" " tag="400">
-            <subfield code="a">איזנשטדט, דוד,</subfield>
-            <subfield code="d">1890-1942</subfield>
-            <subfield code="9">heb</subfield>
-        </datafield>
-        <datafield ind1="1" ind2=" " tag="400">
-            <subfield code="a">אייזענשטאט, דוד,</subfield>
-            <subfield code="d">1890-1942</subfield>
-            <subfield code="9">heb</subfield>
-        </datafield>
-        <datafield ind1="1" ind2=" " tag="400">
-            <subfield code="a">אייזנשטאט, דוד</subfield>
-            <subfield code="9">heb</subfield>
-        </datafield>
-        <datafield ind1=" " ind2=" " tag="667">
-            <subfield code="a">הפניות נוצרו בתהליך אוטומטי על בסיס שם משפחה</subfield>
-        </datafield>
-        <datafield ind1=" " ind2=" " tag="667">
-            <subfield code="a">Heading merged from record: 000240077</subfield>
-        </datafield>
-        <datafield ind1=" " ind2=" " tag="670">
-            <subfield code="a">ספר: אלגעמיינער מוזיק-לעקסיקאן, 1935.</subfield>
-        </datafield>
-        <datafield ind1=" " ind2=" " tag="670">
-            <subfield code="a">Record enhanced with data from Bibliography of the Hebrew Book database</subfield>
-        </datafield>
-        <datafield ind1=" " ind2=" " tag="670">
-            <subfield code="a">לעקסיקאן פון דער נייער יידישער ליטעראטור, 1, עמ' 67.</subfield>
-        </datafield>
-        <datafield ind1=" " ind2=" " tag="678">
-            <subfield code="a">מקום לידה: נאשלסק Nasielsk], פולין]</subfield>
-        </datafield>
-        <datafield ind1=" " ind2=" " tag="678">
-            <subfield code="a">מקום לידה: Nasielsk</subfield>
-        </datafield>
-        <datafield ind1=" " ind2=" " tag="678">
-            <subfield code="a">תאריך לידה עברי: ב תשרי תרנ"א [16.9.1890]</subfield>
-        </datafield>
-        <datafield ind1=" " ind2=" " tag="678">
-            <subfield code="a">מקום פטירה: ווארשה Warszawa], פולין]</subfield>
-        </datafield>
-        <datafield ind1=" " ind2=" " tag="678">
-            <subfield code="a">מקום פטירה: Warszawa</subfield>
-        </datafield>
-        <datafield ind1=" " ind2=" " tag="678">
-            <subfield code="a">פטירה: גורש מווארשא לטרבלינקה בשנת 1942.</subfield>
-        </datafield>
-        <datafield ind1=" " ind2=" " tag="680">
-            <subfield code="a">L'Dovid mizmor. 1900</subfield>
-        </datafield>
-        <datafield ind1=" " ind2=" " tag="680">
-            <subfield code="a">cf: http://www.100voicesmovie.com/music-sham.html</subfield>
-        </datafield>
-        <datafield ind1="1" ind2="7" tag="700">
-            <subfield code="a">אייזנשטאט, דוד</subfield>
-            <subfield code="2">bhb</subfield>
-            <subfield code="9">heb</subfield>
-        </datafield>
-        <datafield ind1="1" ind2="7" tag="700">
-            <subfield code="a">EISENSTADT, DAVID</subfield>
-            <subfield code="2">bhb</subfield>
-            <subfield code="9">lat</subfield>
-        </datafield>
-        <datafield ind1=" " ind2=" " tag="901">
-            <subfield code="a">97613596</subfield>
-        </datafield>
-        <datafield ind1=" " ind2=" " tag="903">
-            <subfield code="a">000326120</subfield>
-        </datafield>
-        <datafield ind1=" " ind2=" " tag="933">
-            <subfield code="a">MNM 201207</subfield>
-        </datafield>
-        <datafield ind1=" " ind2=" " tag="985">
-            <subfield code="a">ACUM-PI091736700</subfield>
-        </datafield>
-    <datafield ind1=" " ind2=" " tag="999">
-<subfield code="9">lat</subfield>
-<subfield code="a"/>
-</datafield>
-<datafield ind1=" " ind2=" " tag="999">
-<subfield code="9">heb</subfield>
-<subfield code="a"/>
-</datafield>
+
+<record xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+  <leader>     nz  a22     n  4500</leader>
+  <controlfield tag="001">000001325</controlfield>
+  <controlfield tag="005">20150922152427.0</controlfield>
+  <controlfield tag="008">000108|||a||||aab|||||||||||||||||||||||</controlfield>
+  <datafield ind1="2" ind2=" " tag="110">
+    <subfield code="a">&lt;&lt;ha-&gt;&gt;Tizmoret ha-filharmonit ha-yisreelit</subfield>
+    <subfield code="9">lat</subfield>
+  </datafield>
+  <datafield ind1="2" ind2=" " tag="110">
+    <subfield code="a">&lt;&lt;?&gt;&gt;?????? ??????????? ????????</subfield>
+    <subfield code="9">heb</subfield>
+  </datafield>
+  <datafield ind1="2" ind2=" " tag="410">
+    <subfield code="a">&lt;&lt;?&gt;&gt;????? ?????????? ????????</subfield>
+    <subfield code="9">heb</subfield>
+  </datafield>
+  <datafield ind1="2" ind2=" " tag="410">
+    <subfield code="a">&lt;&lt;?&gt;&gt;??????? ??????????? ????????</subfield>
+    <subfield code="9">heb</subfield>
+  </datafield>
+  <datafield ind1="2" ind2=" " tag="410">
+    <subfield code="a">IPO</subfield>
+    <subfield code="9">lat</subfield>
+  </datafield>
+  <datafield ind1="2" ind2=" " tag="410">
+    <subfield code="a">I.P.O.</subfield>
+    <subfield code="9">lat</subfield>
+  </datafield>
+  <datafield ind1="2" ind2=" " tag="410">
+    <subfield code="a">Orchestre philharmonique d'Isra�l</subfield>
+    <subfield code="9">lat</subfield>
+  </datafield>
+  <datafield ind1="2" ind2=" " tag="410">
+    <subfield code="a">Palestine Orchestra</subfield>
+    <subfield code="9">lat</subfield>
+  </datafield>
+  <datafield ind1="2" ind2=" " tag="410">
+    <subfield code="a">Israel Philharmonisches Orchester</subfield>
+    <subfield code="9">lat</subfield>
+  </datafield>
+  <datafield ind1="2" ind2=" " tag="410">
+    <subfield code="a">Israel Philharmonic Orchestra</subfield>
+    <subfield code="9">lat</subfield>
+  </datafield>
+  <datafield ind1="2" ind2=" " tag="410">
+    <subfield code="a">&lt;&lt;The&gt;&gt; Israel Philharmonic Orchestra</subfield>
+    <subfield code="9">lat</subfield>
+  </datafield>
+  <datafield ind1="2" ind2=" " tag="510">
+    <subfield code="a">&lt;&lt;?&gt;&gt;????? ???? ???????</subfield>
+    <subfield code="9">heb</subfield>
+  </datafield>
+  <datafield ind1="2" ind2=" " tag="510">
+    <subfield code="a">&lt;&lt;?&gt;&gt;????? ??????????? ???? ???????</subfield>
+    <subfield code="9">heb</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="667">
+    <subfield code="a">Heading merged from record: 000232586</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="670">
+    <subfield code="a">???: ?????? ?-70 ??????? ??????????? ????????, 2006.</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="670">
+    <subfield code="a">LCN</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="680">
+    <subfield code="a">???? ??? ????? ?????.</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="901">
+    <subfield code="a">144786858</subfield>
+  </datafield>
+</record>
+
+<record xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+  <leader>     nz  a22     n  4500</leader>
+  <controlfield tag="001">000005402</controlfield>
+  <controlfield tag="005">20150507171847.0</controlfield>
+  <controlfield tag="008">011225|||a||||aab|||||||||||||||||||||||</controlfield>
+  <datafield ind1="2" ind2=" " tag="110">
+    <subfield code="a">Rinat Israel National Choir</subfield>
+    <subfield code="9">lat</subfield>
+  </datafield>
+  <datafield ind1="2" ind2=" " tag="110">
+    <subfield code="a">????? ????</subfield>
+    <subfield code="9">heb</subfield>
+  </datafield>
+  <datafield ind1="2" ind2=" " tag="410">
+    <subfield code="a">???? (?????)</subfield>
+    <subfield code="9">heb</subfield>
+  </datafield>
+  <datafield ind1="2" ind2=" " tag="410">
+    <subfield code="a">Chants d'Isra�l chorale rinat</subfield>
+    <subfield code="9">lat</subfield>
+  </datafield>
+  <datafield ind1="2" ind2=" " tag="410">
+    <subfield code="a">&lt;&lt;?&gt;&gt;????? ?????? ???</subfield>
+    <subfield code="9">heb</subfield>
+  </datafield>
+  <datafield ind1="2" ind2=" " tag="410">
+    <subfield code="a">????? ???</subfield>
+    <subfield code="9">heb</subfield>
+  </datafield>
+  <datafield ind1="2" ind2=" " tag="410">
+    <subfield code="a">&lt;&lt;?&gt;&gt;????? ??????? ????</subfield>
+    <subfield code="9">heb</subfield>
+  </datafield>
+  <datafield ind1="2" ind2=" " tag="410">
+    <subfield code="a">&lt;&lt;ha-&gt;&gt;Makhela ha-leummit Rinat</subfield>
+    <subfield code="9">lat</subfield>
+  </datafield>
+  <datafield ind1="2" ind2=" " tag="410">
+    <subfield code="a">Israel National Choir</subfield>
+    <subfield code="9">lat</subfield>
+  </datafield>
+  <datafield ind1="2" ind2=" " tag="410">
+    <subfield code="a">National Choir Rinat</subfield>
+    <subfield code="9">lat</subfield>
+  </datafield>
+  <datafield ind1="2" ind2=" " tag="410">
+    <subfield code="a">Rinat Choir</subfield>
+    <subfield code="9">lat</subfield>
+  </datafield>
+  <datafield ind1="2" ind2=" " tag="410">
+    <subfield code="a">Mak?helah ha-le'umit "Rinat"</subfield>
+    <subfield code="9">lat</subfield>
+  </datafield>
+  <datafield ind1="2" ind2=" " tag="410">
+    <subfield code="a">Rinat National Choir</subfield>
+    <subfield code="9">lat</subfield>
+  </datafield>
+  <datafield ind1="2" ind2=" " tag="410">
+    <subfield code="a">Mak?helah Rinat</subfield>
+    <subfield code="9">lat</subfield>
+  </datafield>
+  <datafield ind1="2" ind2=" " tag="410">
+    <subfield code="a">Rinat-Israel Chamber Choir</subfield>
+    <subfield code="9">lat</subfield>
+  </datafield>
+  <datafield ind1="2" ind2=" " tag="410">
+    <subfield code="a">Rinat-Chor</subfield>
+    <subfield code="9">lat</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="901">
+    <subfield code="a">131114991</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="985">
+    <subfield code="a">ACUM-2911</subfield>
+  </datafield>
+</record>
+
+<record xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+  <leader>     nz  a22     n  4500</leader>
+  <controlfield tag="001">000005694</controlfield>
+  <controlfield tag="005">20100207224817.0</controlfield>
+  <controlfield tag="008">010416|||a||||aab|||||||||||||||||||||||</controlfield>
+  <datafield ind1="2" ind2=" " tag="110">
+    <subfield code="a">&lt;&lt;?&gt;&gt;????? ????????? (???????)</subfield>
+    <subfield code="9">heb</subfield>
+  </datafield>
+  <datafield ind1="2" ind2=" " tag="410">
+    <subfield code="a">???? ??????.</subfield>
+    <subfield code="b">&lt;&lt;?&gt;&gt;????? ?????????</subfield>
+    <subfield code="9">heb</subfield>
+  </datafield>
+  <datafield ind1="2" ind2=" " tag="410">
+    <subfield code="a">????? ???????? ??????? ???? ?????</subfield>
+    <subfield code="9">heb</subfield>
+  </datafield>
+  <datafield ind1="2" ind2=" " tag="510">
+    <subfield code="a">????? ??? ?????</subfield>
+    <subfield code="9">heb</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="678">
+    <subfield code="a">?? ???? ???? ?-70 ?? ???? ?-20 ????? "????? ??? ?????".</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="901">
+    <subfield code="a">140084785</subfield>
+  </datafield>
+</record>
+
+<record xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+  <leader>     nz  a22     n  4500</leader>
+  <controlfield tag="001">000006268</controlfield>
+  <controlfield tag="005">20131224102007.0</controlfield>
+  <controlfield tag="008">000220|||a||||aab|||||||||||||||||||||||</controlfield>
+  <datafield ind1=" " ind2=" " tag="046">
+    <subfield code="f">1930</subfield>
+    <subfield code="g">2013</subfield>
+    <subfield code="2">edtf</subfield>
+  </datafield>
+  <datafield ind1="1" ind2=" " tag="100">
+    <subfield code="a">Abrahami, Izzy</subfield>
+    <subfield code="9">lat</subfield>
+  </datafield>
+  <datafield ind1="1" ind2=" " tag="100">
+    <subfield code="a">??????, ?????,</subfield>
+    <subfield code="d">1930-2013</subfield>
+    <subfield code="9">heb</subfield>
+  </datafield>
+  <datafield ind1="1" ind2=" " tag="400">
+    <subfield code="a">Avrahami, Izi</subfield>
+    <subfield code="9">lat</subfield>
+  </datafield>
+  <datafield ind1="1" ind2=" " tag="400">
+    <subfield code="a">??????, ????</subfield>
+    <subfield code="9">heb</subfield>
+  </datafield>
+  <datafield ind1="1" ind2=" " tag="400">
+    <subfield code="a">?????, ?????</subfield>
+    <subfield code="9">heb</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="667">
+    <subfield code="a">Viaf cluster heading merged from record 000163396</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="667">
+    <subfield code="a">?????? ????? ?????? ??????? ?? ???? ?? ?????</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="670">
+    <subfield code="a">LCN</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="901">
+    <subfield code="a">79312582</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="921">
+    <subfield code="a">hhl 201312</subfield>
+  </datafield>
+</record>
+
+<record xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+  <leader>     nz  a22     n  4500</leader>
+  <controlfield tag="001">000006704</controlfield>
+  <controlfield tag="008">000108|||a||||aab|||||||||||||||||||||||</controlfield>
+  <datafield ind1=" " ind2=" " tag="046">
+    <subfield code="f">1886</subfield>
+    <subfield code="g">1943</subfield>
+    <subfield code="2">edtf</subfield>
+  </datafield>
+  <datafield ind1="1" ind2=" " tag="100">
+    <subfield code="a">Achron, Joseph,</subfield>
+    <subfield code="d">1886-1943</subfield>
+    <subfield code="9">lat</subfield>
+  </datafield>
+  <datafield ind1="1" ind2=" " tag="100">
+    <subfield code="a">?????, ????? ???????,</subfield>
+    <subfield code="d">1886-1943</subfield>
+    <subfield code="9">cyr</subfield>
+  </datafield>
+  <datafield ind1="1" ind2=" " tag="100">
+    <subfield code="a">?????, ????,</subfield>
+    <subfield code="d">1886-1943</subfield>
+    <subfield code="9">heb</subfield>
+  </datafield>
+  <datafield ind1="1" ind2=" " tag="400">
+    <subfield code="a">?????, ????</subfield>
+    <subfield code="9">heb</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="667">
+    <subfield code="a">Heading merged from record: 000379388</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="667">
+    <subfield code="a">Heading merged from record: 000164546</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="670">
+    <subfield code="a">LCN data</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="670">
+    <subfield code="a">" ... ???? ? ??? ?????????? "?? ?????" ... " [??????], 2010.</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="670">
+    <subfield code="a">????? ???????? ??????. ??"?.</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="901">
+    <subfield code="a">19867866</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="985">
+    <subfield code="a">ACUM-00000116858</subfield>
+  </datafield>
+</record>
+
+<record xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+  <leader>     nz  a22     n  4500</leader>
+  <controlfield tag="001">000007102</controlfield>
+  <controlfield tag="005">20120101120105.0</controlfield>
+  <controlfield tag="008">000301|||a||||aab|||||||||||||||||||||||</controlfield>
+  <datafield ind1=" " ind2=" " tag="046">
+    <subfield code="f">1894</subfield>
+    <subfield code="g">1955</subfield>
+    <subfield code="2">edtf</subfield>
+  </datafield>
+  <datafield ind1="1" ind2=" " tag="100">
+    <subfield code="a">Adler, Hugo Chayim,</subfield>
+    <subfield code="d">1894-1955</subfield>
+    <subfield code="9">lat</subfield>
+  </datafield>
+  <datafield ind1="1" ind2=" " tag="100">
+    <subfield code="a">????, ???? ????,</subfield>
+    <subfield code="d">1894-1955</subfield>
+    <subfield code="9">heb</subfield>
+  </datafield>
+  <datafield ind1="1" ind2=" " tag="400">
+    <subfield code="a">Adler, Hugo Ch.</subfield>
+    <subfield code="q">(Hugo Chayim)</subfield>
+    <subfield code="9">lat</subfield>
+  </datafield>
+  <datafield ind1="1" ind2=" " tag="400">
+    <subfield code="a">Adler, Hugo Haim,</subfield>
+    <subfield code="d">1894-1955</subfield>
+    <subfield code="9">lat</subfield>
+  </datafield>
+  <datafield ind1="1" ind2=" " tag="400">
+    <subfield code="a">????, ???? ????,</subfield>
+    <subfield code="d">1894-1955</subfield>
+    <subfield code="9">heb</subfield>
+  </datafield>
+  <datafield ind1="1" ind2=" " tag="400">
+    <subfield code="a">????, ????</subfield>
+    <subfield code="9">heb</subfield>
+  </datafield>
+  <datafield ind1="1" ind2=" " tag="400">
+    <subfield code="a">?????, ???? ????,</subfield>
+    <subfield code="d">1894-1955</subfield>
+    <subfield code="9">heb</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="667">
+    <subfield code="a">?????? ????? ?????? ??????? ?? ???? ?? ?????</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="667">
+    <subfield code="a">Heading merged from record: 000163797</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="670">
+    <subfield code="a">LCN: Adler, Hugo Ch.(Hugo Chayim)</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="901">
+    <subfield code="a">13282759</subfield>
+  </datafield>
+</record>
+
+<record xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+  <leader>     nz  a22     n  4500</leader>
+  <controlfield tag="001">000007187</controlfield>
+  <controlfield tag="005">20110529202333.0</controlfield>
+  <controlfield tag="008">000410|||a||||aab|||||||||||||||||||||||</controlfield>
+  <datafield ind1="1" ind2=" " tag="100">
+    <subfield code="a">Admon, Yedidya,</subfield>
+    <subfield code="d">1894-1982</subfield>
+    <subfield code="9">lat</subfield>
+  </datafield>
+  <datafield ind1="1" ind2=" " tag="100">
+    <subfield code="a">?????, ??????,</subfield>
+    <subfield code="d">1894-1985</subfield>
+    <subfield code="9">heb</subfield>
+  </datafield>
+  <datafield ind1="1" ind2=" " tag="400">
+    <subfield code="a">Admon-Gorochov, Yedidya,</subfield>
+    <subfield code="d">1894-1982</subfield>
+    <subfield code="9">lat</subfield>
+  </datafield>
+  <datafield ind1="1" ind2=" " tag="400">
+    <subfield code="a">Admon, Yedidya,</subfield>
+    <subfield code="d">b. 1894</subfield>
+    <subfield code="9">lat</subfield>
+  </datafield>
+  <datafield ind1="1" ind2=" " tag="400">
+    <subfield code="a">Admon, J.,</subfield>
+    <subfield code="d">1894-</subfield>
+    <subfield code="9">lat</subfield>
+  </datafield>
+  <datafield ind1="1" ind2=" " tag="400">
+    <subfield code="a">Gorochov, Yedidya,</subfield>
+    <subfield code="d">b. 1894</subfield>
+    <subfield code="9">lat</subfield>
+  </datafield>
+  <datafield ind1="1" ind2=" " tag="400">
+    <subfield code="a">Admon, Jedidiah,</subfield>
+    <subfield code="d">1894-1982</subfield>
+    <subfield code="9">lat</subfield>
+  </datafield>
+  <datafield ind1="1" ind2=" " tag="400">
+    <subfield code="a">???????, ??????</subfield>
+    <subfield code="9">heb</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="667">
+    <subfield code="a">Viaf cluster heading merged from record 000163839</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="667">
+    <subfield code="a">?? ??? ??????, ???"?: ?????, ?????? (???????)</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="670">
+    <subfield code="a">LCN: Admon, J., 1894-</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="670">
+    <subfield code="a">???: ???? ??????? ??????? - ????? ???? ???"?-???"?.</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="670">
+    <subfield code="a">Record enhanced with data from Bibliography of the Hebrew Book database</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="670">
+    <subfield code="a">Who's who in world Jewry, New York 1955, p. 13.</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="670">
+    <subfield code="a">Who is who in ACUM, 1965, p. 1.</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="670">
+    <subfield code="a">?' ????, ????? ?????? ???"?, ??' 16</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="678">
+    <subfield code="a">???? ?? ??: : ??? ?????: ???????.</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="678">
+    <subfield code="a">???? ????: ???????</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="678">
+    <subfield code="a">???? ????: Jerusalem</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="678">
+    <subfield code="a">????? ???? ????: ???"? [1897]</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="678">
+    <subfield code="a">??: ???? ??????, 1894, ???? ???? ???? 1905.</subfield>
+  </datafield>
+  <datafield ind1="1" ind2="7" tag="700">
+    <subfield code="a">?????, ??????</subfield>
+    <subfield code="2">bhb</subfield>
+    <subfield code="9">heb</subfield>
+  </datafield>
+  <datafield ind1="1" ind2="7" tag="700">
+    <subfield code="a">ADMON, JEDIDIAH</subfield>
+    <subfield code="2">bhb</subfield>
+    <subfield code="9">lat</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="901">
+    <subfield code="a">33319351</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="903">
+    <subfield code="a">000002985</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="985">
+    <subfield code="a">ACUM-00000201186</subfield>
+  </datafield>
+</record>
+
+<record xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+  <leader>     nz  a22     n  4500</leader>
+  <controlfield tag="001">000007213</controlfield>
+  <controlfield tag="008">040121|||a||||aab|||||||||||||||||||||||</controlfield>
+  <datafield ind1="1" ind2=" " tag="100">
+    <subfield code="a">Adrian, Avi</subfield>
+    <subfield code="9">lat</subfield>
+  </datafield>
+  <datafield ind1="1" ind2=" " tag="100">
+    <subfield code="a">??????, ???</subfield>
+    <subfield code="9">heb</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="667">
+    <subfield code="a">Heading merged from record: 000335740</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="670">
+    <subfield code="a">??????? ??? : ????? ???? ????, [2004?].</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="680">
+    <subfield code="a">cf. Trio Avi Adrian [sound recording] accompanying printed material.</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="901">
+    <subfield code="a">298712531</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="985">
+    <subfield code="a">ACUM-00513772852</subfield>
+  </datafield>
+</record>
+
+<record xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
+  <leader>     nz  a22     n  4500</leader>
+  <controlfield tag="001">000007376</controlfield>
+  <controlfield tag="005">20140216112943.0</controlfield>
+  <controlfield tag="008">031229|||a||||aab|||||||||||||||||||||||</controlfield>
+  <datafield ind1=" " ind2=" " tag="046">
+    <subfield code="f">1947</subfield>
+    <subfield code="g">1998</subfield>
+    <subfield code="2">edtf</subfield>
+  </datafield>
+  <datafield ind1="1" ind2=" " tag="100">
+    <subfield code="a">Agassi, Meir,</subfield>
+    <subfield code="d">1947-1998</subfield>
+    <subfield code="9">lat</subfield>
+  </datafield>
+  <datafield ind1="1" ind2=" " tag="100">
+    <subfield code="a">????, ????,</subfield>
+    <subfield code="d">1947-1998</subfield>
+    <subfield code="9">heb</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="667">
+    <subfield code="a">Viaf cluster heading merged from record 000266879</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="670">
+    <subfield code="a">???: &lt;&lt;?&gt;&gt;?? ?????, ???"? 2008.</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="670">
+    <subfield code="a">LCN: Agassi, Meir, 1947- ; Cf. The Meir Agassi Museum: d. 1998</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="901">
+    <subfield code="a">49559649</subfield>
+  </datafield>
+  <datafield ind1=" " ind2=" " tag="985">
+    <subfield code="a">ACUM-00142947072</subfield>
+  </datafield>
 </record>
 </collection>

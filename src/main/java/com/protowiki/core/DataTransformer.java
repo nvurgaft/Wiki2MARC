@@ -6,13 +6,16 @@ import com.protowiki.beans.Datafield;
 import com.protowiki.beans.Record;
 import com.protowiki.beans.Subfield;
 import com.protowiki.values.MARCIdentifiers;
-import com.protowiki.model.WikidataRemoteAPIModel;
 import com.protowiki.model.WikipediaRemoteAPIModel;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.Reader;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +30,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import static net.sf.dynamicreports.report.builder.expression.Expressions.inputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.DOMException;
@@ -36,6 +40,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 /**
@@ -73,12 +78,12 @@ public class DataTransformer {
                     case "100":
                     case "400":
                         String lang = "",
-                        name = "";
+                         name = "";
                         for (Subfield sf : df.getSubfields()) {
                             if (sf.getCode().equals("a")) {
                                 name = sf.getValue();
                             } else if (sf.getCode().equals("9")) {
-                                switch(sf.getValue()) {
+                                switch (sf.getValue()) {
                                     case "lat":
                                         lang = "en";
                                         break;
@@ -86,9 +91,9 @@ public class DataTransformer {
                                         lang = "he";
                                         break;
                                     default:
-                                        
+
                                 }
-                                
+
                             } else if (sf.getCode().equals("d")) {
                                 author.setYears(sf.getValue());
                             }
@@ -250,7 +255,7 @@ public class DataTransformer {
      * SPARQL end point
      *
      * @param filePath
-     * @param A map of viaf, Author pairs
+     * @param viafAuthorsMap
      * @return true if and only if the entire process was successful
      */
     public boolean dynamicallyGenerateMARCXMLFile(String filePath, Map<String, Author> viafAuthorsMap) {
@@ -266,32 +271,39 @@ public class DataTransformer {
 
         try {
             builder = domFactory.newDocumentBuilder();
-            doc = builder.parse(new File(filePath));
+
+            File file = new File(filePath);
+            InputStream inputStream= new FileInputStream(file);
+            Reader reader = new InputStreamReader(inputStream, "UTF-8");
+
+            InputSource is = new InputSource(reader);
+            is.setEncoding("UTF-8");
+
+            doc = builder.parse(is);
             NodeList records = doc.getElementsByTagName("record");
 
             for (int i = 0; i < records.getLength(); i++) {
                 NodeList datafieldNodes = records.item(i).getChildNodes();
                 for (int j = 0; j < datafieldNodes.getLength(); j++) {
                     Node datafield = datafieldNodes.item(j);
-                    
-                    if (datafield.getTextContent()==null) {
+
+                    if (datafield.getTextContent() == null) {
                         datafield.setTextContent("N/A");
                     }
-                    
+
                     NamedNodeMap attrMap = datafield.getAttributes();
-                    
+
                     String viafId = datafield.getTextContent().trim();
                     Author author = viafAuthorsMap.get(viafId);
-                    
-                    if (author==null) {
+
+                    if (author == null) {
                         logger.info("Article not found in XML file, skipping....");
                         continue;
                     }
-                    
+
                     // remove later
                     System.out.println("map: " + author.getWikipediaArticleAbstract());
-                    
-                    
+
                     if (attrMap != null) {
                         if (attrMap.getNamedItem("tag") != null && attrMap.getNamedItem("tag").getNodeValue().equals(MARCIdentifiers.VIAF_ID)) {
 
@@ -300,7 +312,7 @@ public class DataTransformer {
                             valueSubField.setAttribute("code", "a");
 
                             String enAbstract = author.getWikipediaArticleAbstract().get("en");
-                            if (enAbstract==null) {
+                            if (enAbstract == null) {
                                 enAbstract = "";
                             }
                             valueSubField.appendChild(doc.createTextNode(enAbstract));
@@ -326,7 +338,7 @@ public class DataTransformer {
                             valueSubField.setAttribute("code", "a");
 
                             String heAbstract = author.getWikipediaArticleAbstract().get("he");
-                            if (heAbstract==null) {
+                            if (heAbstract == null) {
                                 heAbstract = "";
                             }
                             valueSubField.appendChild(doc.createTextNode(heAbstract));
@@ -368,11 +380,11 @@ public class DataTransformer {
             String xmlOutput = result.getWriter().toString();
             //System.out.println(xmlOutput);
             File file = new File(filePath + ".updated");
-            
+
             if (file.exists()) {
                 file.delete();
             }
-            
+
             logger.info(filePath + ".updated created!");
             if (file.createNewFile()) {
                 FileOutputStream fStream = new FileOutputStream(file.getAbsolutePath());

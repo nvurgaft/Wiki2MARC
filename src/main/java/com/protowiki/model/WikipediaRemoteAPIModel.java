@@ -4,17 +4,20 @@ import com.google.gson.JsonObject;
 import com.protowiki.beans.Author;
 import com.protowiki.utils.JsonUtils;
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xml.sax.InputSource;
 
 /**
  * This model is responsible for the interaction with the Wikipedia article
@@ -80,8 +83,16 @@ public class WikipediaRemoteAPIModel {
                 } else {
                     response = "null";
                 }
+                
+//                InputStream inputStream= new FileInputStream(file);
+//            Reader reader = new InputStreamReader(inputStream, "UTF-8");
+//
+//            InputSource is = new InputSource(reader);
+//            is.setEncoding("UTF-8");
+            
+            String value = new String(response.getBytes("UTF-8")).trim();
 
-                System.out.println("response => " + response);
+                System.out.println("response => " + value);
             }
         } catch (MalformedURLException murlex) {
             logger.error("MalformedURLException occured while parsing URL string onto a URL object", murlex);

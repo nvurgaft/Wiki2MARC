@@ -1,6 +1,5 @@
 package com.protowiki.utils;
 
-import java.net.URLEncoder;
 import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
@@ -15,7 +14,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Kobi
  */
-//@Ignore
+@Ignore
 public class RDFUtilsTest {
 
     public static Logger logger = LoggerFactory.getLogger(RDFUtilsTest.class);

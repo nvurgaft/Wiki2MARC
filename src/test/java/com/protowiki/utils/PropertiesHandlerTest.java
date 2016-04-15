@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Kobi
  */
-//@Ignore
+@Ignore
 public class PropertiesHandlerTest {
     
     public static Logger logger = LoggerFactory.getLogger(PropertiesHandlerTest.class);

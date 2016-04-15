@@ -2,6 +2,7 @@ package com.protowiki.entities;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  *  The article summery class holds information about the outcome of the MARC 
@@ -12,19 +13,22 @@ import java.util.Date;
  */
 public class ArticleSummery implements Serializable, Cloneable {
     
-    private String articles;
-    private String status;
+    private UUID id;
+    private String recordId; // tag 001
+    private String article;
     private String articlesExceptions;
+    private Boolean foundViaf;
     private Boolean foundEnglishAbstract;
     private Boolean foundHebrewAbstract;
+    private String status; // success or fail
     private Date summeryDateCreated;
 
     public String getArticles() {
-        return articles;
+        return article;
     }
 
     public void setArticles(String articles) {
-        this.articles = articles;
+        this.article = articles;
     }
 
     public String getStatus() {
@@ -70,7 +74,7 @@ public class ArticleSummery implements Serializable, Cloneable {
     @Override
     public String toString() {
         return "ArticleSummery => [" + 
-                "articles: " + articles + 
+                "article: " + article + 
                 ", status: " + status + 
                 ", articlesExceptions: " + articlesExceptions + 
                 ", foundEnglishAbstract: " + foundEnglishAbstract + 
