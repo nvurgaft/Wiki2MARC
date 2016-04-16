@@ -26,11 +26,9 @@ public class LocalSparqlModel {
 
     public static Logger logger = LoggerFactory.getLogger(LocalSparqlModel.class);
 
-    private DatabaseProperties dbProps;
-
-    private String connection_string;
-    private String login;
-    private String password;
+    private final String connection_string;
+    private final String login;
+    private final String password;
 
     private static final String GET_VIAF_FROM_HEBREW_AUTHORS = StringUtils.join(
             new String[]{
@@ -50,16 +48,32 @@ public class LocalSparqlModel {
                 "}"
             }, "\n");
 
-    public LocalSparqlModel() {
-        this.dbProps = new DatabaseProperties("application.properties");
+    public LocalSparqlModel(DatabaseProperties databaseProperties) {
 
-        login = this.dbProps.getProperty("login");
-        password = this.dbProps.getProperty("password");
-        String host = this.dbProps.getProperty("host");
-        String port = this.dbProps.getProperty("port");
+        this.login = databaseProperties.getProperty("login");
+        this.password = databaseProperties.getProperty("password");
+        String host = databaseProperties.getProperty("host");
+        String port = databaseProperties.getProperty("port");
 
         //connection_string = "jdbc:virtuoso://localhost:1111/CHARSET=UTF-8/log_enable=2";
-        connection_string = new StringBuilder().append("jdbc:virtuoso://").append(host).append(":").append(port).append("/CHARSET=UTF-8/log_enable=2").toString();
+        StringBuilder sb = new StringBuilder();
+        this.connection_string = sb.append("jdbc:virtuoso://")
+                .append(host)
+                .append(":")
+                .append(port)
+                .append("/CHARSET=UTF-8/log_enable=2").toString();
+    }
+    
+    public LocalSparqlModel(String login, String password, String host, Integer port) {
+        this.login = login;
+        this.password = password;
+        
+        StringBuilder sb = new StringBuilder();
+        this.connection_string = sb.append("jdbc:virtuoso://")
+                .append(host)
+                .append(":")
+                .append(port)
+                .append("/CHARSET=UTF-8/log_enable=2").toString();
     }
 
     /**

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <title>{{reportName}}</title>
+        <style>
+            small {
+                color: gray;
+            }
+
+            ol {
+                font-size: 12px;
+            }
+
+            .report-table {
+                border: black solid 1px;
+                margin: auto;
+            }
+
+            .report-table th {
+                border: gray solid 1px;
+                background-color: orange;
+                padding-left: 0.5em;
+                padding-right: 0.5em;
+            }
+
+            .report-table tbody td {
+                border: gray solid 1px;
+                background-color: white;
+                text-align: center;
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+
+            .report-table tfoot td {
+                border: gray solid 1px;
+                text-align: center;
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+
+            .footer-success {
+                background-color: lightskyblue;
+            }
+
+            .footer-failed {
+                background-color: lightpink;
+            }
+        </style>
+    </head>
+    <body>
+        <h2>{{reportName}} <small>generated at {{dateGenerated}}</small></h2>
+        <hr/>
+
+        <p>MARC file transformation statistics: </p>
+        <ol>
+            <li>Record ID - The record ID inside the MARC file (corresponds to tag 001 in a MARC record)</li>
+            <li>English name - Article label in English</li>
+            <li>Hebrew name - Article label in Hebrew</li>
+            <li>VIAF - The subject's VIAF ID (corresponds to tag 900 in a MARC record)</li>
+            <li>Found English abstracts - Indicates if a Wikipedia abstract was found for the English language, if not the field will be empty</li>
+            <li>Found Hebrew abstracts - Indicates if a Wikipedia abstract was found for the Hebrew language, if not the field will be empty</li>
+            <li>Status - Was the article data correctly processed, values can be either "SUCCESS" or "FAILED" </li>
+        </ol>
+
+        <table class="report-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Record ID</th>
+                    <th>English name</th>
+                    <th>Hebrew name</th>
+                    <th>VIAF</th>
+                    <th>Found English abstracts</th>
+                    <th>Found Hebrew abstracts</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#recordSummeries}}
+                <tr>
+                    <td>{{index}}</td>
+                    <td>{{recordId}}</td>
+                    <td>{{labelHe}}</td>
+                    <td>{{labelEn}}</td>
+                    <td>{{viaf}}</td>
+                    <td>{{foundEnglishAbstract}}</td>
+                    <td>{{foundHebrewAbstract}}</td>
+                    <td>{{status}}</td>
+                </tr>
+                {{/recordSummeries}}
+            </tbody>
+            <tfoot>
+                <tr class="footer-success">
+                    <td></td>
+                    <td></td>
+                    <td>Found: {{totalEnglishLabelsFound}}</td>
+                    <td>Found: {{totalHebrewLabelsFound}}</td>
+                    <td>Total viaf id's: {{totalFoundViaf}}</td>
+                    <td>Found: {{totalEnglishAbstractsFound}}</td>
+                    <td>Found: {{totalHebrewAbstractsFound}}</td>
+                    <td>
+                        Total succeeded: {{totalSuccessful}}<br/>
+                    </td>
+                </tr>
+                <tr class="footer-failed">
+                    <td></td>
+                    <td></td>
+                    <td>Not found: {{totalEnglishLabelsNotFound}}</td>
+                    <td>Not found: {{totalHebrewLabelsNotFound}}</td>
+                    <td></td>
+                    <td>Not found: {{totalEnglishAbstractsNotFound}}</td>
+                    <td>Not found: {{totalHebrewAbstractsNotFound}}</td>
+                    <td>
+                        Total failed: {{totalFailed}}
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <h3>Report summery</h3>
+        <hr/>
+        <p>{{summery}}</p>
+    </body>
+</html>

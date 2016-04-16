@@ -105,14 +105,9 @@
             <version>1.0.0</version>
         </dependency>
         <dependency>
-            <groupId>net.sourceforge.dynamicreports</groupId>
-            <artifactId>dynamicreports-core</artifactId>
-            <version>4.1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>net.sourceforge.dynamicreports</groupId>
-            <artifactId>dynamicreports-adhoc</artifactId>
-            <version>4.1.0</version>
+            <groupId>com.github.spullara.mustache.java</groupId>
+            <artifactId>compiler</artifactId>
+            <version>0.8.18</version>
         </dependency>
         <dependency>
             <groupId>javax</groupId>

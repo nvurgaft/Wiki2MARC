@@ -37,6 +37,10 @@ public class DatabaseProperties {
         this.properties = this.readProperties(file);
         this.fileName = file;
     }
+    
+    public void setProperty(String key, String value) {
+        this.properties.setProperty(key, value);
+    }
 
     public void setProperties(File file) {
         this.fileName = file.getName();
@@ -84,7 +88,7 @@ public class DatabaseProperties {
      * Retrieves a property value using a property key
      *
      * @param key property key
-     * @return key's value
+     * @return value assigned to the key
      */
     public String getProperty(String key) {
         return this.properties.getProperty(key);

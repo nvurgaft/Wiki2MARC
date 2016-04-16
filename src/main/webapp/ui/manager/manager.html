@@ -1,0 +1,56 @@
+<div class="row">
+    <div class="col-sm-offset-2 col-sm-8">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="panel-title">Manager settings</div>
+            </div>
+            <div class="panel-body">
+                
+                <form class="form-horizontal" name="settingsForm">
+                    
+                    <div class="form-group" ng-class="{'has-error': settingsForm.login.$invalid && settingsForm.login.$dirty, 'has-success': settingsForm.login.$valid}">
+                        <label class="control-label col-sm-2">Login</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="login" ng-model="vm.preferences.login" class="form-control" placeholder="Enter database login" required>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-class="{'has-error': settingsForm.password.$invalid && settingsForm.password.$dirty, 'has-success': settingsForm.password.$valid}">
+                        <label class="control-label col-sm-2">Password</label>
+                        <div class="col-sm-4">
+                            <input type="password" name="password" ng-model="vm.preferences.password" class="form-control" placeholder="Enter database password" required>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-class="{'has-error': settingsForm.host.$invalid && settingsForm.host.$dirty, 'has-success': settingsForm.host.$valid}">
+                        <label class="control-label col-sm-2">Host</label>
+                        <div class="col-sm-4">
+                            <input type="text" name="host" ng-model="vm.preferences.host" class="form-control" placeholder="Enter database host address" required>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-class="{'has-error': settingsForm.port.$invalid && settingsForm.port.$dirty, 'has-success': settingsForm.port.$valid}">
+                        <label class="control-label col-sm-2">Port</label>
+                        <div class="col-sm-4">
+                            <input type="number" name="port" ng-model="vm.preferences.port" class="form-control" min="0" max="65535" placeholder="Enter database host port" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-sm-2"></label>
+                        <div class="checkbox col-sm-10">
+                            <label>
+                                <input type="checkbox" ng-model="vm.preferences.disableLocalPersistence">
+                                Save records on local SPARQL database
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-primary" ng-disabled="settingsForm.$invalid" ng-click="vm.save()">Save</button>
+                            &nbsp<span ng-show="vm.saved>-1" ng-class="{'text-success': vm.saved===0, 'text-error': vm.saved===1}">Saved</span>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -2,6 +2,7 @@
 package com.protowiki.model;
 
 import com.protowiki.beans.Author;
+import com.protowiki.utils.DatabaseProperties;
 import java.util.List;
 import org.junit.After;
 import static org.junit.Assert.assertNotNull;
@@ -42,7 +43,7 @@ public class LocalSparqlModelTest {
     @Test
     public void testGetAuthorsWithVIAF() {
        
-        LocalSparqlModel instance = new LocalSparqlModel();
+        LocalSparqlModel instance = new LocalSparqlModel(new DatabaseProperties("application.properties"));
         List<Author> authors = instance.getAuthorsWithVIAF();
         assertNotNull(authors);
         assertTrue(authors.size() > 0);

@@ -1,4 +1,9 @@
 
+
+angular.module('app', ['ui.bootstrap', 'ui.router', 'smart-table', 'ui.ace',
+    'angularFileUpload', 'ui.select', 'ngSanitize', 'confirm'])
+        .config(config);
+
 function config($stateProvider, $urlRouterProvider, confirmProvider) {
     $urlRouterProvider.otherwise("/main");
     $stateProvider
@@ -21,14 +26,12 @@ function config($stateProvider, $urlRouterProvider, confirmProvider) {
                 url: "/import",
                 controller: "importController as vm",
                 templateUrl: "ui/import/import.html"
+            })
+            .state('main.manager', {
+                url: "/manager",
+                controller: "managerController as vm",
+                templateUrl: "ui/manager/manager.html"
             });
-            
-            confirmProvider.setSize('sm');
+
+    confirmProvider.setSize('sm');
 }
-
-function run() { }
-
-angular.module('app', ['ui.bootstrap', 'ui.router', 'smart-table', 'ui.ace',
-    'angularFileUpload' ,'ui.select', 'ngSanitize', 'confirm'])
-        .config(config)
-        .run(run);

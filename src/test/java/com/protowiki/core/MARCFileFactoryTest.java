@@ -23,7 +23,7 @@ import static org.junit.Assert.assertTrue;
  *
  * @author Nick
  */
-//@Ignore
+@Ignore
 public class MARCFileFactoryTest {
 
     public static Logger logger = LoggerFactory.getLogger(MARCFileFactoryTest.class);
