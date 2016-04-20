@@ -45,23 +45,35 @@ public class WikidataRemoteAPIModel {
                 "}",
                 "}"
             }, "\n");
-    
+
     private static final String GET_AUTHOR_LABEL_BY_VIAF_EN_HE = StringUtils.join(
             new String[]{
                 Prefixes.WIKIBASE, Prefixes.WD, Prefixes.WDT, Prefixes.RDFS, Prefixes.BD,
-                "SELECT ?name ?enTranslated ?heTranslated WHERE {",
-                "?name wdt:P214 '%s'", // a numerical value, ex: 50566653
-                "SERVICE wikibase:label {",
-                "bd:serviceParam wikibase:language 'en' .",
-                "?name rdfs:label ?enTranslated",
-                "}",
-                "SERVICE wikibase:label {",
-                "bd:serviceParam wikibase:language 'he' .",
-                "?name rdfs:label ?heTranslated",
-                "}",
+                "SELECT ?name ?enTranslated ?heTranslated ",
+                "WHERE {",
+                "?name wdt:P214 '%s' .",
+                "?name rdfs:label ?enTranslated .",
+                "?name rdfs:label ?heTranslated .",
+                "FILTER (LANG(?enTranslated)='en') .",
+                "FILTER (LANG(?heTranslated)='he')",
                 "}"
             }, "\n");
 
+//    private static final String GET_AUTHOR_LABEL_BY_VIAF_EN_HE = StringUtils.join(
+//            new String[]{
+//                Prefixes.WIKIBASE, Prefixes.WD, Prefixes.WDT, Prefixes.RDFS, Prefixes.BD,
+//                "SELECT ?name ?enTranslated ?heTranslated WHERE {",
+//                "?name wdt:P214 '%s'", // a numerical value, ex: 50566653
+//                "SERVICE wikibase:label {",
+//                "bd:serviceParam wikibase:language 'en' .",
+//                "?name rdfs:label ?enTranslated",
+//                "}",
+//                "SERVICE wikibase:label {",
+//                "bd:serviceParam wikibase:language 'he' .",
+//                "?name rdfs:label ?heTranslated",
+//                "}",
+//                "}"
+//            }, "\n");
     private static final String GET_WIKIPEDIA_ABSTRACT_USING_LABEL = StringUtils.join(
             new String[]{
                 Prefixes.ONTOLOGY, Prefixes.PROPERTY, Prefixes.RDFS,
@@ -217,7 +229,7 @@ public class WikidataRemoteAPIModel {
         }
         return result;
     }
-    
+
     //GET_AUTHOR_LABEL_BY_VIAF_EN_HE
     public Map<String, String> getMultipleAuthorLabelsByViaf(String viafId) {
         if (viafId == null || viafId.isEmpty()) {
@@ -225,18 +237,24 @@ public class WikidataRemoteAPIModel {
         }
 
         String queryString = String.format(GET_AUTHOR_LABEL_BY_VIAF_EN_HE, viafId);
-        Query query = QueryFactory.create(queryString);
-        QueryExecution qe = QueryExecutionFactory.sparqlService(Providers.WIKIDATA, query);
-        Map<String, String> result = new HashMap<>();
-        ResultSet rs = qe.execSelect();
-        while (rs.hasNext()) {
-            QuerySolution qs = rs.nextSolution();
-            RDFNode _name = qs.get("name");
-            RDFNode _enTranslated = qs.get("enTranslated");
-            RDFNode _heTranslated = qs.get("heTranslated");
-            logger.info("Label: " + _name + ", Translated: " + _enTranslated + "\n Translated: " + _heTranslated);
-            result.put("en", _enTranslated.toString());
-            result.put("he", _heTranslated.toString());
+        Map<String, String> result = null;
+        try {
+            Query query = QueryFactory.create(queryString);
+            QueryExecution qe = QueryExecutionFactory.sparqlService(Providers.WIKIDATA, query);
+            ResultSet rs = qe.execSelect();
+            result = new HashMap<>();
+            while (rs.hasNext()) {
+                QuerySolution qs = rs.nextSolution();
+                RDFNode _name = qs.get("name");
+                RDFNode _enTranslated = qs.get("enTranslated");
+                RDFNode _heTranslated = qs.get("heTranslated");
+                logger.info("Label: " + _name + ", English: " + _enTranslated + ", Hebrew: " + _heTranslated);
+                result.put("en", _enTranslated.toString());
+                result.put("he", _heTranslated.toString());
+            }
+        } catch (Exception e) {
+            logger.error("Exception while getting author label from viaf", e);
+            System.out.println("Failed on query: " + queryString);
         }
         return result;
     }
@@ -378,12 +396,12 @@ public class WikidataRemoteAPIModel {
             RDFNode _abstract = qs.get("abstract");
             String viaf = RDFUtils.spliceLiteralType(_viaf.toString());
             String abs = RDFUtils.spliceLiteralLaguageTag(_abstract.toString());
-            
+
             Author author = new Author();
             author.setViafId(viaf);
             author.getNames().put("en", _name.toString());
             author.getWikipediaArticleAbstract().put("en", abs);
-            
+
             resultMap.put(viaf, author);
         }
         return resultMap;

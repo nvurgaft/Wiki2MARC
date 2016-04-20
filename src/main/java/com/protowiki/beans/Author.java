@@ -9,6 +9,16 @@ import java.util.Map;
  */
 public class Author implements Serializable {
     
+    /**
+     * String ENGLISH = "en" // English
+     */
+    public static final String ENGLISH = "en";
+    
+    /**
+     * String HEBREW = "he" // Hebrew
+     */
+    public static final String HEBREW = "he";
+    
     private String marcId;
     private Map<String, String> names; // language prefix, name
     private String wikipediaUri;
@@ -77,6 +87,6 @@ public class Author implements Serializable {
 
     @Override
     public String toString() {
-        return "Author details => names: " + names + ", wikipediaUrl: " + wikipediaUri + ", viafId: " + viafId + ", nliId: " + nliId + ", years: " + years;
+        return "Author details => marcId: " + marcId + ", wikipediaUrl: " + wikipediaUri + ", viafId: " + viafId + ", nliId: " + nliId;
     }
 }

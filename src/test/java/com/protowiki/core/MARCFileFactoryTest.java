@@ -14,7 +14,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import static org.junit.Assert.assertTrue;
 
 /**
  * These tests act as Integration tests between the various components in this
@@ -30,6 +29,8 @@ public class MARCFileFactoryTest {
 
     private static final String FILE_PATH = "./src/test/";
     
+    private final Boolean useLocalDatabase = false;
+    
     
     /**
      * This tests the main process
@@ -38,7 +39,7 @@ public class MARCFileFactoryTest {
     public void testRunProcess() {
 
         String fileName = "test_marc.xml";
-        MARCFileFactory factory = new MARCFileFactory();
+        MARCFileFactory factory = new MARCFileFactory(useLocalDatabase);
         int result = factory.runProcess(FILE_PATH + fileName);
 
         logger.debug("Result: " + result);
@@ -103,18 +104,18 @@ public class MARCFileFactoryTest {
         });
     }
 
-    @Test
-    public void testEntireProcess() {
-
-        String fileName = "authbzi.xml";
-        DataTransformer optimus = new DataTransformer();
-
-        logger.info("connect remotly and query abstracts for these viaf ids");
-        AuthorModel authorModel = new AuthorModel();
-        Map<String, String> rdfList = authorModel.getAuthorsViafAndAbstracts();
-
-        logger.info("generate the updated MARC file");
-        boolean result = optimus.generateMARCXMLFile(FILE_PATH, rdfList);
-        assertTrue("Should be successful", result);
-    }
+//    @Test
+//    public void testEntireProcess() {
+//
+//        String fileName = "authbzi.xml";
+//        DataTransformer optimus = new DataTransformer();
+//
+//        logger.info("connect remotly and query abstracts for these viaf ids");
+//        AuthorModel authorModel = new AuthorModel();
+//        Map<String, String> rdfList = authorModel.getAuthorsViafAndAbstracts();
+//
+//        logger.info("generate the updated MARC file");
+//        boolean result = optimus.generateMARCXMLFile(FILE_PATH, rdfList);
+//        assertTrue("Should be successful", result);
+//    }
 }

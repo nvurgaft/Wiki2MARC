@@ -1,6 +1,5 @@
 package com.protowiki.rest;
 
-import com.protowiki.entities.DatabasePropertiesEntity;
 import com.protowiki.utils.DatabaseProperties;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,13 +33,14 @@ public class ManageResource {
         try {
             DatabaseProperties properties = new DatabaseProperties(propertiesFile);
             properties.getProperties().keySet().stream().forEach(key -> {
+                logger.info(String.format("key: %s, value: %s", key, properties.getProperty((String) key)));
                 props.put(key, properties.getProperty((String) key));
             });
+            return Response.ok(props).build();
         } catch (Exception e) {
             logger.error("An Exception has occured while marshalling database properties", e);
-            return Response.status(Status.INTERNAL_SERVER_ERROR).build();
         }
-        return Response.ok(props).build();
+        return Response.status(Status.INTERNAL_SERVER_ERROR).build();
     }
 
     @PUT

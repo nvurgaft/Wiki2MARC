@@ -81,7 +81,7 @@ public class WikipediaRemoteAPIModel {
                 if (inter != null) {
                     response = JsonUtils.extractAbstractFromJson(inter);
                 } else {
-                    response = "null";
+                    response = "N/A";
                 }
                 
 //                InputStream inputStream= new FileInputStream(file);

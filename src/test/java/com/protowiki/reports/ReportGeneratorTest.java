@@ -7,6 +7,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.Rule;
 import org.junit.rules.TestName;
@@ -17,6 +18,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Nick
  */
+@Ignore
 public class ReportGeneratorTest {
 
     public Logger logger = LoggerFactory.getLogger(ReportGeneratorTest.class);
@@ -77,8 +79,18 @@ public class ReportGeneratorTest {
         rs3.setLabelHe("מלקולם");
         rs3.setStatus("SUCCESS");
         rs3.setDateCreated(new Date());
+        
+        RecordSummery rs4 = new RecordSummery();
+        rs4.setRecordId("012200017");
+        rs4.setFoundEnglishAbstract(false);
+        rs4.setFoundHebrewAbstract(false);
+        rs4.setViaf("440002243");
+        rs4.setLabelEn("Richard");
+        rs4.setLabelHe("ריצארד");
+        rs4.setStatus("FAILED");
+        rs4.setDateCreated(new Date());
 
-        List<RecordSummery> summeries = Arrays.asList(rs1, rs2, rs3, rs1, rs2, rs3, rs1, rs2, rs3);
+        List<RecordSummery> summeries = Arrays.asList(rs1, rs2, rs3, rs4);
 
         String fileName = "Test_Report";
         ProcessReportContext processSummery = new ProcessReportContext(summeries, "Test Report ECHO", "Some verbose description about the process");

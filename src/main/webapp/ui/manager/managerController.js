@@ -13,6 +13,7 @@ function managerController($log, managerService) {
         disableLocalPersistence: false
     };
     managerService.getAll().then(function (response) {
+        $log.debug("getAll: ", response);
         vm.preferences = {
             login: response.login,
             password: response.password,

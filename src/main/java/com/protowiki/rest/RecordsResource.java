@@ -3,6 +3,7 @@ package com.protowiki.rest;
 import com.protowiki.beans.FileDetails;
 import com.protowiki.beans.ResponseMessage;
 import com.protowiki.core.MARCFileFactory;
+import com.protowiki.utils.DatabaseProperties;
 import com.protowiki.utils.FileUtils;
 import com.protowiki.values.Values;
 import java.io.File;
@@ -124,8 +125,11 @@ public class RecordsResource {
     public Response xmlParseFile(@QueryParam("file") String fileName) {
 
         String path = Values.FILE_PATH;
+        
+        DatabaseProperties dbprop = new DatabaseProperties("application.properties"); //use_database
+        String useDatabase = dbprop.getProperty("use_database");
 
-        MARCFileFactory proc = new MARCFileFactory();
+        MARCFileFactory proc = new MARCFileFactory(useDatabase.equals("true"));
         logger.debug("File path is : " + path + fileName);
         int result = proc.runProcess(path + fileName);
         ResponseMessage rm = new ResponseMessage();

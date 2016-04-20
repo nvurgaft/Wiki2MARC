@@ -3,10 +3,8 @@ package com.protowiki.model;
 import com.protowiki.values.Predicates;
 import com.protowiki.beans.Author;
 import com.protowiki.entities.RDFStatement;
-import com.protowiki.utils.RDFUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.slf4j.Logger;
@@ -61,10 +59,12 @@ public class AuthorModel {
                 // build a statement model
                 List<RDFStatement> stmts = Arrays.asList(
                         new RDFStatement(author.getMarcId(), Predicates.URI, author.getWikipediaUri()),
-                        new RDFStatement(author.getMarcId(), Predicates.EN_NAME, author.getNames().get("en")),
-                        new RDFStatement(author.getMarcId(), Predicates.HE_NAME, author.getNames().get("he")),
+                        new RDFStatement(author.getMarcId(), Predicates.EN_NAME, author.getNames().get(Author.ENGLISH)),
+                        new RDFStatement(author.getMarcId(), Predicates.HE_NAME, author.getNames().get(Author.HEBREW)),
                         new RDFStatement(author.getMarcId(), Predicates.VIAF_ID, author.getViafId()),
-                        new RDFStatement(author.getMarcId(), Predicates.NLI_ID, author.getNliId())
+                        new RDFStatement(author.getMarcId(), Predicates.NLI_ID, author.getNliId()),
+                        new RDFStatement(author.getMarcId(), Predicates.EN_ABSTRACT, author.getWikipediaArticleAbstract().get(Author.ENGLISH)),
+                        new RDFStatement(author.getMarcId(), Predicates.HE_ABSTRACT, author.getWikipediaArticleAbstract().get(Author.HEBREW))
                 );
                 queryHandler.batchInsertStatements(stmts);
             });
@@ -89,7 +89,11 @@ public class AuthorModel {
         try {
             List<RDFStatement> stmts = new ArrayList<>();
             abstractsMap.keySet().stream().forEach(key -> {
-                stmts.add(new RDFStatement(key, Predicates.ABSTRACT, abstractsMap.get(key)));
+                if (key.equals(Author.ENGLISH)) {
+                    stmts.add(new RDFStatement(key, Predicates.EN_ABSTRACT, abstractsMap.get(key)));
+                } else if (key.equals(Author.HEBREW)) {
+                    stmts.add(new RDFStatement(key, Predicates.HE_ABSTRACT, abstractsMap.get(key)));
+                }
             });
 
             queryHandler.batchInsertStatements(stmts);
@@ -128,17 +132,17 @@ public class AuthorModel {
      *
      * @return a map of <viad id keys, abstracts values> pairs
      */
-    public Map<String, String> getAuthorsViafAndAbstracts() {
-        List<RDFStatement> resultList;
-        Map<String, String> resultMap = new HashMap<>();
+    public List<RDFStatement> getAuthorsViafAndAbstracts() {
+        List<RDFStatement> resultList = null;
         try {
-            resultList = queryHandler.selectTriples("?viaf", Predicates.ABSTRACT, "?abstract");
-            resultList.stream().forEach(r -> {
-                resultMap.put(r.getSubject().trim(), r.getObject().trim());
-            });
+            List<String> prefixes = Arrays.asList(Predicates.EN_ABSTRACT, Predicates.HE_ABSTRACT);
+            resultList = new ArrayList<>();
+            for (String pref : prefixes) {
+                resultList.addAll(queryHandler.selectTriples("?viaf", pref, "?abstract"));
+            }
         } catch (Exception ex) {
             logger.error("Exception while fetching author abstracts from model", ex);
         }
-        return resultMap;
+        return resultList;
     }
 }

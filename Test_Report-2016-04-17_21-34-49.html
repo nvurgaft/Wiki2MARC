@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>{{reportName}}</title>
+        <link rel="stylesheet" href="style.css">
+        <title>Test Report ECHO</title>
         <style>
             small {
                 color: gray;
@@ -48,8 +49,7 @@
         </style>
     </head>
     <body>
-        {{!generated using mustach.java}}
-        <h2>{{reportName}} <small>generated at {{dateGenerated}}</small></h2>
+        <h2>Test Report ECHO <small>generated at 2016-04-17 21:34:50.048</small></h2>
         <hr/>
 
         <p>MARC file transformation statistics: </p>
@@ -77,51 +77,93 @@
                 </tr>
             </thead>
             <tbody>
-                {{#recordSummeries}}
                 <tr>
-                    <td>{{index}}</td>
-                    <td>{{recordId}}</td>
-                    <td>{{labelHe}}</td>
-                    <td>{{labelEn}}</td>
-                    <td>{{viaf}}</td>
+                    <td>1</td>
+                    <td>000000011</td>
+                    <td>ברנדון</td>
+                    <td>Brandon</td>
+                    <td>440002211</td>
                     <td>
-                        {{#foundEnglishAbstract}}<strong style="color: #4cae4c">&check;</strong>{{/foundEnglishAbstract}}
-                        {{^foundEnglishAbstract}}<strong style="color: #D44950">&times;</strong>{{/foundEnglishAbstract}}
+                            <strong style="color: #4cae4c">&check;</strong>
                     </td>
                     <td>
-                        {{#foundHebrewAbstract}}<strong style="color: #4cae4c">&check;</strong>{{/foundHebrewAbstract}}
-                        {{^foundHebrewAbstract}}<strong style="color: #D44950">&times;</strong>{{/foundHebrewAbstract}}
+                            <strong style="color: #4cae4c">&check;</strong>
                     </td>
-                    <td><strong>{{status}}</strong></td>
+                    <td><strong>SUCCESS</strong></td>
                 </tr>
-                {{/recordSummeries}}
+                <tr>
+                    <td>2</td>
+                    <td>000000012</td>
+                    <td>זאנטיה</td>
+                    <td>Zanthia</td>
+                    <td>440002212</td>
+                    <td>
+                            <strong style="color: #4cae4c">&check;</strong>
+                    </td>
+                    <td>
+                            <strong style="color: #D44950">&times;</strong>
+                    </td>
+                    <td><strong>SUCCESS</strong></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>000000013</td>
+                    <td>מלקולם</td>
+                    <td>Malcolm</td>
+                    <td>440002222</td>
+                    <td>
+                            <strong style="color: #4cae4c">&check;</strong>
+                    </td>
+                    <td>
+                            <strong style="color: #4cae4c">&check;</strong>
+                    </td>
+                    <td><strong>SUCCESS</strong></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>012200017</td>
+                    <td>ריצארד</td>
+                    <td>Richard</td>
+                    <td>440002243</td>
+                    <td>
+                            <strong style="color: #D44950">&times;</strong>
+                    </td>
+                    <td>
+                            <strong style="color: #D44950">&times;</strong>
+                    </td>
+                    <td><strong>FAILED</strong></td>
+                </tr>
             </tbody>
             <tfoot>
                 <tr class="footer-success">
                     <td></td>
                     <td></td>
-                    <td>Found: {{totalEnglishLabelsFound}}</td>
-                    <td>Found: {{totalHebrewLabelsFound}}</td>
-                    <td>Total viaf id's: {{totalFoundViaf}}</td>
-                    <td>Found: {{totalEnglishAbstractsFound}}</td>
-                    <td>Found: {{totalHebrewAbstractsFound}}</td>
-                    <td>Total succeeded: {{totalSuccessful}}<br/></td>
+                    <td>Found: 4</td>
+                    <td>Found: 4</td>
+                    <td>Total viaf id's: 4</td>
+                    <td>Found: 3</td>
+                    <td>Found: 2</td>
+                    <td>
+                        Total succeeded: 3<br/>
+                    </td>
                 </tr>
                 <tr class="footer-failed">
                     <td></td>
                     <td></td>
-                    <td>Not found: {{totalEnglishLabelsNotFound}}</td>
-                    <td>Not found: {{totalHebrewLabelsNotFound}}</td>
+                    <td>Not found: 0</td>
+                    <td>Not found: 0</td>
                     <td></td>
-                    <td>Not found: {{totalEnglishAbstractsNotFound}}</td>
-                    <td>Not found: {{totalHebrewAbstractsNotFound}}</td>
-                    <td>Total failed: {{totalFailed}}</td>
+                    <td>Not found: 1</td>
+                    <td>Not found: 2</td>
+                    <td>
+                        Total failed: 1
+                    </td>
                 </tr>
             </tfoot>
         </table>
 
         <h3>Report summery</h3>
         <hr/>
-        <p>{{summery}}</p>
+        <p>Some verbose description about the process</p>
     </body>
 </html>

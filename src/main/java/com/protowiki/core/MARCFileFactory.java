@@ -21,10 +21,22 @@ public class MARCFileFactory {
 
     public static Logger logger = LoggerFactory.getLogger(MARCFileFactory.class);
 
-    AuthorModel authorModel;
+    private Boolean useLocalDatabase;
+    private final AuthorModel authorModel;
 
-    public MARCFileFactory() {
-        authorModel = new AuthorModel();
+    /**
+     * MARCFileFactory Constructor
+     *
+     * @param useLocalDatabase flag indicates should data fetched remotely be
+     * saved on a local Virtuoso database, by being false, no data connection
+     * will be made to the DB.
+     */
+    public MARCFileFactory(Boolean useLocalDatabase) {
+        if (useLocalDatabase) {
+            authorModel = new AuthorModel();
+        } else {
+            authorModel = null;
+        }
     }
 
     /**
@@ -56,6 +68,11 @@ public class MARCFileFactory {
             this.injectWikipediaAbstracts(authors);
 
             this.updateMARCFile(filePath, authors);
+
+            if (useLocalDatabase && authorModel != null) {
+                logger.info("Inserting authors into database");
+                authorModel.insertAuthorsIntoDB(authors);
+            }
 
         } catch (Exception ex) {
             logger.error("Exception while running mapping process", ex);
@@ -103,15 +120,15 @@ public class MARCFileFactory {
         WikidataRemoteAPIModel wikidata = new WikidataRemoteAPIModel();
 
         for (Author author : authors) {
-
-            if (author.getViafId() == null || author.getViafId().isEmpty()) {
-                continue;
-            }
-
-            Map<String, String> names = wikidata.getMultipleAuthorLabelsByViaf(author.getViafId());
-            for (String key : names.keySet()) {
-                String value = names.get(key);
-                author.getNames().put(key, RDFUtils.spliceLiteralLaguageTag(value));
+            if (author.getViafId() != null && !author.getViafId().isEmpty()) {
+                logger.info("Serving viaf: " + author.getViafId());
+                Map<String, String> names = wikidata.getMultipleAuthorLabelsByViaf(author.getViafId());
+                for (String key : names.keySet()) {
+                    String value = names.get(key);
+                    author.getNames().put(key, RDFUtils.spliceLiteralLaguageTag(value));
+                }
+            } else {
+                logger.info("No viaf id found for this article");
             }
         }
 
@@ -164,17 +181,16 @@ public class MARCFileFactory {
      * @param filePath the MARC XML file path
      * @return true if file generation was successful
      */
-    @Deprecated
-    private boolean generateNewFile(String filePath) throws Exception {
-        DataTransformer transformer = new DataTransformer();
-
-        logger.debug("connect remotly and query abstracts for these viaf ids");
-        Map<String, String> rdfList = authorModel.getAuthorsViafAndAbstracts();
-
-        logger.debug("generate the updated MARC file");
-        return transformer.generateMARCXMLFile(filePath, rdfList);
-    }
-
+//    @Deprecated
+//    private boolean generateNewFile(String filePath) throws Exception {
+//        DataTransformer transformer = new DataTransformer();
+//
+//        logger.debug("connect remotly and query abstracts for these viaf ids");
+//        List<RDFStatement> rdfList = authorModel.getAuthorsViafAndAbstracts();
+//
+//        logger.debug("generate the updated MARC file");
+//        return transformer.generateMARCXMLFile(filePath, rdfList);
+//    }
     private boolean updateMARCFile(String file, List<Author> authors) throws Exception {
         DataTransformer transformer = new DataTransformer();
 

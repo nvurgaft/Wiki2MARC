@@ -34,24 +34,24 @@ public class AuthorModelTest {
         logger.info("after: " + testName.getMethodName());
     }
 
-    @Test
-    public void testClerGraph() {
-
-        AuthorModel instance = new AuthorModel();
-        instance.clearGraph();
-        // after the graph is cleared, try fetching data from it
-        Map<String, String> results = instance.getAuthorsViafAndAbstracts();
-        if (results != null) {
-            if (results.isEmpty()) {
-                logger.info("results list is empty");
-            }
-            results.keySet().stream().forEach(k -> {
-                logger.info(k + " : " + results.get(k));
-            });
-        } else {
-            logger.info("results is null");
-        }
-    }
+//    @Test
+//    public void testClerGraph() {
+//
+//        AuthorModel instance = new AuthorModel();
+//        instance.clearGraph();
+//        // after the graph is cleared, try fetching data from it
+//        Map<String, String> results = instance.getAuthorsViafAndAbstracts();
+//        if (results != null) {
+//            if (results.isEmpty()) {
+//                logger.info("results list is empty");
+//            }
+//            results.keySet().stream().forEach(k -> {
+//                logger.info(k + " : " + results.get(k));
+//            });
+//        } else {
+//            logger.info("results is null");
+//        }
+//    }
     
     @Test
     public void testPurgeGraph() {
@@ -77,21 +77,21 @@ public class AuthorModelTest {
     /**
      * Test of getAuthorsViafAndAbstracts method, of class AuthorModel.
      */
-    @Test
-    public void testGetAuthorsViafAndAbstracts() {
-
-        AuthorModel instance = new AuthorModel();
-        Map<String, String> results = instance.getAuthorsViafAndAbstracts();
-        if (results != null) {
-            if (results.isEmpty()) {
-                logger.info("results list is empty");
-            }
-            results.keySet().stream().forEach(k -> {
-                logger.info(k + " : " + results.get(k));
-            });
-        } else {
-            logger.info("results is null");
-        }
-    }
+//    @Test
+//    public void testGetAuthorsViafAndAbstracts() {
+//
+//        AuthorModel instance = new AuthorModel();
+//        Map<String, String> results = instance.getAuthorsViafAndAbstracts();
+//        if (results != null) {
+//            if (results.isEmpty()) {
+//                logger.info("results list is empty");
+//            }
+//            results.keySet().stream().forEach(k -> {
+//                logger.info(k + " : " + results.get(k));
+//            });
+//        } else {
+//            logger.info("results is null");
+//        }
+//    }
 
 }
