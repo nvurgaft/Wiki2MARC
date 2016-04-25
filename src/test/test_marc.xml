@@ -1,4 +1,4 @@
-<?xml version = "1.0" encoding = "UTF-8"?>
+ï»¿<?xml version = "1.0" encoding = "UTF-8"?>
   <collection xmlns="http://www.loc.gov/MARC21/slim"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://www.loc.gov/MARC21/slim
@@ -152,7 +152,7 @@ http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
     <subfield code="9">lat</subfield>
   </datafield>
   <datafield tag="410" ind1="2" ind2=" ">
-    <subfield code="a">Orchestre philharmonique d&apos;Israël</subfield>
+    <subfield code="a">Orchestre philharmonique d&apos;IsraÃ«l</subfield>
     <subfield code="9">lat</subfield>
   </datafield>
   <datafield tag="410" ind1="2" ind2=" ">
@@ -217,7 +217,7 @@ http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
     <subfield code="9">heb</subfield>
   </datafield>
   <datafield tag="410" ind1="2" ind2=" ">
-    <subfield code="a">Chants d&apos;Israël chorale rinat</subfield>
+    <subfield code="a">Chants d&apos;IsraÃ«l chorale rinat</subfield>
     <subfield code="9">lat</subfield>
   </datafield>
   <datafield tag="410" ind1="2" ind2=" ">

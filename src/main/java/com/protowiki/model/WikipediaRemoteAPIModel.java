@@ -3,12 +3,10 @@ package com.protowiki.model;
 import com.google.gson.JsonObject;
 import com.protowiki.beans.Author;
 import com.protowiki.utils.JsonUtils;
+import com.protowiki.utils.StringLib;
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -17,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.xml.sax.InputSource;
 
 /**
  * This model is responsible for the interaction with the Wikipedia article
@@ -58,7 +55,6 @@ public class WikipediaRemoteAPIModel {
                 .append(".wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&redirects=1&titles=")
                 .append(articleName);
 
-        System.out.println("Query: " + sb.toString());
         String response = null;
         try {
             URL url = new URL(sb.toString());
@@ -78,21 +74,33 @@ public class WikipediaRemoteAPIModel {
 
                 JsonObject inter = JsonUtils.parseToJsonObject(respBuff.toString());
 
+                System.out.println("inter => " + inter);
                 if (inter != null) {
-                    response = JsonUtils.extractAbstractFromJson(inter);
+                    // clean the response string
+                    String rawAbstract = JsonUtils.extractAbstractFromJson(inter);
+                    if (!rawAbstract.isEmpty()) {
+                        response = rawAbstract
+                                .replace("\\n", "")
+                                .replace("\n", " ")
+                                .replace('\r', ' ')
+                                .replace("\\", "")
+                                .trim();
+                    } else {
+                        response = "N/A";
+                    }
+                    response = StringLib.trimQuotationMarks(response);
                 } else {
                     response = "N/A";
                 }
-                
+
 //                InputStream inputStream= new FileInputStream(file);
 //            Reader reader = new InputStreamReader(inputStream, "UTF-8");
 //
 //            InputSource is = new InputSource(reader);
 //            is.setEncoding("UTF-8");
-            
-            String value = new String(response.getBytes("UTF-8")).trim();
+                response = new String(response.getBytes("UTF-8")).trim();
 
-                System.out.println("response => " + value);
+                System.out.println("response => " + response);
             }
         } catch (MalformedURLException murlex) {
             logger.error("MalformedURLException occured while parsing URL string onto a URL object", murlex);

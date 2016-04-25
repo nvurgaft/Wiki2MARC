@@ -20,9 +20,11 @@ public class ReportGenerator {
     public static Logger logger = LoggerFactory.getLogger(ReportGenerator.class);
     
     /**
+     *  Generates a report using mustache.java
      * 
-     * @param processSummery
-     * @param reportName 
+     * @param processSummery report context 
+     * @param reportName report file name (this name will have a formatted date 
+     * and an .html extension appended to it)
      */
     public void generateBasicReport(ProcessReportContext processSummery, String reportName) {
 

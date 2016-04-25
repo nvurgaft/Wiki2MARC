@@ -98,8 +98,8 @@ public class DataTransformerTest {
             logger.error("Exception in testProcess", ex);
         }
 
-        assertNotNull("Objects should have been initialized", authors);
-        assertNotNull("Objects should have been initialized", filteredAuthors);
+        assertNotNull("Authors should have been initialized", authors);
+        assertNotNull("Filtered authors should have been initialized", filteredAuthors);
         assertTrue("Filtered authors size should not exceed original authors size", filteredAuthors.size() <= authors.size());
     }
 

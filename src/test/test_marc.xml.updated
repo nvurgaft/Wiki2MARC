@@ -113,11 +113,11 @@
       </datafield>
     <datafield ind1=" " ind2=" " tag="999">
 <subfield code="9">lat</subfield>
-<subfield code="a">"The Habima Theatre (תיאטורון הבימה - Teat'ron HaBima, lit. \"The Stage Theatre\") is the national theatre of Israel and one of the first Hebrew language theatres. It is located in Habima Square in the center of Tel Aviv."</subfield>
+<subfield code="a">The Habima Theatre (×ª×™×�×˜×•×¨×•×Ÿ ×”×‘×™×ž×” - Teat'ron HaBima, lit. "The Stage Theatre") is the national theatre of Israel and one of the first Hebrew language theatres. It is located in Habima Square in the center of Tel Aviv.</subfield>
 </datafield>
 <datafield ind1=" " ind2=" " tag="999">
 <subfield code="9">heb</subfield>
-<subfield code="a">"הבימה הוא התיאטרון הלאומי של ישראל. הוא פועל ברציפות, מאז הקמתו הרשמית בשנת 1917, תחילה במוסקבה ואחר כך בארץ ישראל. משנת 1945 משמש את התיאטרון בית הבימה בתל אביב. התיאטרון חבר ב\"איחוד תיאטרוני אירופה\"."</subfield>
+<subfield code="a">×”×‘×™×ž×” ×”×•×� ×”×ª×™×�×˜×¨×•×Ÿ ×”×œ×�×•×ž×™ ×©×œ ×™×©×¨×�×œ. ×”×•×� ×¤×•×¢×œ ×‘×¨×¦×™×¤×•×ª, ×ž×�×– ×”×§×ž×ª×• ×”×¨×©×ž×™×ª ×‘×©× ×ª 1917, ×ª×—×™×œ×” ×‘×ž×•×¡×§×‘×” ×•×�×—×¨ ×›×š ×‘×�×¨×¥ ×™×©×¨×�×œ. ×ž×©× ×ª 1945 ×ž×©×ž×© ×�×ª ×”×ª×™×�×˜×¨×•×Ÿ ×‘×™×ª ×”×‘×™×ž×” ×‘×ª×œ ×�×‘×™×‘. ×”×ª×™×�×˜×¨×•×Ÿ ×—×‘×¨ ×‘"×�×™×—×•×“ ×ª×™×�×˜×¨×•× ×™ ×�×™×¨×•×¤×”".</subfield>
 </datafield>
 </record>
 
@@ -151,7 +151,7 @@
     <subfield code="9">lat</subfield>
   </datafield>
   <datafield ind1="2" ind2=" " tag="410">
-    <subfield code="a">Orchestre philharmonique d'Isra�l</subfield>
+    <subfield code="a">Orchestre philharmonique d'Israël</subfield>
     <subfield code="9">lat</subfield>
   </datafield>
   <datafield ind1="2" ind2=" " tag="410">
@@ -193,6 +193,14 @@
   <datafield ind1=" " ind2=" " tag="901">
     <subfield code="a">144786858</subfield>
   </datafield>
+<datafield ind1=" " ind2=" " tag="999">
+<subfield code="9">lat</subfield>
+<subfield code="a">The Israel Philharmonic Orchestra (abbreviation IPO; Hebrew: ×”×ª×–×ž×•×¨×ª ×”×¤×™×œ×”×¨×ž×•× ×™×ª ×”×™×©×¨×�×œ×™×ª, ha-Tizmoret ha-Filharmonit ha-Yisre'elit), formerly Palestine Orchestra, is the leading symphony orchestra in Israel.</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="999">
+<subfield code="9">heb</subfield>
+<subfield code="a">×”×ª×–×ž×•×¨×ª ×”×¤×™×œ×”×¨×ž×•× ×™×ª ×”×™×©×¨×�×œ×™×ª ×”×™×� ×”×ª×–×ž×•×¨×ª ×”×¡×™×ž×¤×•× ×™×ª ×”×¢×™×§×¨×™×ª ×•×”×™×“×•×¢×” ×‘×™×•×ª×¨ ×‘×ž×“×™× ×ª ×™×©×¨×�×œ.</subfield>
+</datafield>
 </record>
 
 <record xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
@@ -213,7 +221,7 @@
     <subfield code="9">heb</subfield>
   </datafield>
   <datafield ind1="2" ind2=" " tag="410">
-    <subfield code="a">Chants d'Isra�l chorale rinat</subfield>
+    <subfield code="a">Chants d'Israël chorale rinat</subfield>
     <subfield code="9">lat</subfield>
   </datafield>
   <datafield ind1="2" ind2=" " tag="410">
@@ -348,6 +356,14 @@
   <datafield ind1=" " ind2=" " tag="921">
     <subfield code="a">hhl 201312</subfield>
   </datafield>
+<datafield ind1=" " ind2=" " tag="999">
+<subfield code="9">lat</subfield>
+<subfield code="a">N/A</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="999">
+<subfield code="9">heb</subfield>
+<subfield code="a">N/A</subfield>
+</datafield>
 </record>
 
 <record xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
@@ -399,6 +415,14 @@
   <datafield ind1=" " ind2=" " tag="985">
     <subfield code="a">ACUM-00000116858</subfield>
   </datafield>
+<datafield ind1=" " ind2=" " tag="999">
+<subfield code="9">lat</subfield>
+<subfield code="a">Joseph Yulyevich Achron, also seen as Akhron (Russian: Ð˜Ð¾Ñ�Ð¸Ñ„ Ð®Ð»ÑŒÐµÐ²Ð¸Ñ‡ Ð�Ñ…Ñ€Ð¾Ð½) (May 13, 1886 â€“ April 29, 1943) was a Russian composer and violinist of Jewish origin, who settled in the United States. His preoccupation with Jewish elements and his desire to develop a "Jewish" harmonic and contrapuntal idiom, underscored and informed much of his work. His friend, the composer Arnold Schoenberg, described Achron in his obituary as "one of the most underrated modern composers".</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="999">
+<subfield code="9">heb</subfield>
+<subfield code="a">×™×•×¡×£ ×�Ö·×—Ö°×¨×•Ö¹×Ÿ (Joseph Achron;â€� 13 ×‘×ž×�×™ 1886, ×œ×�×–×“Ö´×™×�Ö·×™×™, ×œ×™×˜×� (×¨×•×¡×™×”) â€“ 29 ×‘×�×¤×¨×™×œ 1943, ×”×•×œ×™×•×•×“, ×�×¨×¦×•×ª ×”×‘×¨×™×ª) ×”×™×” ×ž×œ×—×™×Ÿ ×•×›× ×¨ ×™×”×•×“×™, ×—×‘×¨ ×”×�×’×•×“×” ×œ×©×™×ž×•×¨ ×”×ž×•×–×™×§×” ×”×™×”×•×“×™×ª ×”×¢×ž×ž×™×ª ×©×”×•×§×ž×” ×¢×œ ×™×“×™ ×™×•×�×œ ×�× ×’×œ. ×�×—×™×• ×”×¦×¢×™×¨ ×”×™×” ×”×¤×¡× ×ª×¨×Ÿ ×•×”×ž×œ×—×™×Ÿ ×�×™×–×™×“×•×¨ ×�×—×¨×•×Ÿ.</subfield>
+</datafield>
 </record>
 
 <record xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
@@ -457,6 +481,14 @@
   <datafield ind1=" " ind2=" " tag="901">
     <subfield code="a">13282759</subfield>
   </datafield>
+<datafield ind1=" " ind2=" " tag="999">
+<subfield code="9">lat</subfield>
+<subfield code="a">N/A</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="999">
+<subfield code="9">heb</subfield>
+<subfield code="a">N/A</subfield>
+</datafield>
 </record>
 
 <record xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
@@ -561,6 +593,14 @@
   <datafield ind1=" " ind2=" " tag="985">
     <subfield code="a">ACUM-00000201186</subfield>
   </datafield>
+<datafield ind1=" " ind2=" " tag="999">
+<subfield code="9">lat</subfield>
+<subfield code="a">N/A</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="999">
+<subfield code="9">heb</subfield>
+<subfield code="a">N/A</subfield>
+</datafield>
 </record>
 
 <record xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
@@ -590,6 +630,14 @@
   <datafield ind1=" " ind2=" " tag="985">
     <subfield code="a">ACUM-00513772852</subfield>
   </datafield>
+<datafield ind1=" " ind2=" " tag="999">
+<subfield code="9">lat</subfield>
+<subfield code="a">N/A</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="999">
+<subfield code="9">heb</subfield>
+<subfield code="a">N/A</subfield>
+</datafield>
 </record>
 
 <record xsi:schemaLocation="http://www.loc.gov/MARC21/slim http://www.loc.gov/standards/marcxml/schema/MARC21slim.xsd">
@@ -627,5 +675,13 @@
   <datafield ind1=" " ind2=" " tag="985">
     <subfield code="a">ACUM-00142947072</subfield>
   </datafield>
+<datafield ind1=" " ind2=" " tag="999">
+<subfield code="9">lat</subfield>
+<subfield code="a">N/A</subfield>
+</datafield>
+<datafield ind1=" " ind2=" " tag="999">
+<subfield code="9">heb</subfield>
+<subfield code="a">×ž×�×™×¨ ×�×’×¡×™ (1947 - 1998), ×¡×•×¤×¨, ×¦×™×™×¨, ×ž×ª×¨×’×�, ×¢×™×ª×•× ×�×™ ×•×ž×‘×§×¨ ×�×ž× ×•×ª.</subfield>
+</datafield>
 </record>
 </collection>

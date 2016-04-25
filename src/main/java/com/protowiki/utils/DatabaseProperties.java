@@ -17,6 +17,15 @@ public class DatabaseProperties {
 
     private Properties properties;
     private String fileName;
+    
+    /**
+     * Constructs the PropertiesHandler using the default application.properties
+     * path
+     */
+    public DatabaseProperties() {
+        this.properties = this.readProperties("application.properties");
+        this.fileName = "application.properties";
+    }
 
     /**
      * Constructs the PropertiesHandler using a file reference

@@ -5,11 +5,20 @@ import com.protowiki.beans.Record;
 import com.protowiki.model.WikipediaRemoteAPIModel;
 import com.protowiki.model.AuthorModel;
 import com.protowiki.model.WikidataRemoteAPIModel;
+import com.protowiki.reports.ProcessReportContext;
+import com.protowiki.reports.RecordSummery;
+import com.protowiki.reports.ReportGenerator;
 import com.protowiki.utils.RDFUtils;
 import com.protowiki.utils.RecordSAXParser;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.text.DateFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +30,7 @@ public class MARCFileFactory {
 
     public static Logger logger = LoggerFactory.getLogger(MARCFileFactory.class);
 
-    private Boolean useLocalDatabase;
+    private boolean useLocalDatabase;
     private final AuthorModel authorModel;
 
     /**
@@ -32,7 +41,8 @@ public class MARCFileFactory {
      * will be made to the DB.
      */
     public MARCFileFactory(Boolean useLocalDatabase) {
-        if (useLocalDatabase) {
+
+        if (this.useLocalDatabase) {
             authorModel = new AuthorModel();
         } else {
             authorModel = null;
@@ -59,7 +69,7 @@ public class MARCFileFactory {
 //            this.obtainAbstractsViaWikipediaAPI(authors);
 //            this.generateNewFile(filePath);
             logger.info(String.format("Parsed out %d authors", authors.size()));
-            authors.stream().forEach(a -> System.out.println(a));
+            authors.stream().forEach(System.out::println);
 
             logger.info("injectWikipediaLabels");
             this.injectWikipediaLabels(authors);
@@ -72,6 +82,47 @@ public class MARCFileFactory {
             if (useLocalDatabase && authorModel != null) {
                 logger.info("Inserting authors into database");
                 authorModel.insertAuthorsIntoDB(authors);
+            }
+
+            List<RecordSummery> recordSummeries = new ArrayList<>();
+
+            authors.stream().forEach(author -> {
+                RecordSummery articleSummery = new RecordSummery();
+
+                boolean gotEnAbstract = author.getNames().get("en") == null ? false : !author.getNames().get("en").isEmpty();
+                boolean gotHeAbstract = author.getNames().get("he") == null ? false : !author.getNames().get("he").isEmpty();
+                String articleStatus = (author.getNames()==null || author.getWikipediaArticleAbstract()==null) ? "FAILED" : "SUCCESS";
+
+                articleSummery
+                        .setLabelEn(author.getNames().get("en"))
+                        .setLabelHe(author.getNames().get("he"))
+                        .setViaf(author.getViafId())
+                        .setRecordId(author.getMarcId())
+                        .setFoundEnglishAbstract(gotEnAbstract)
+                        .setFoundHebrewAbstract(gotHeAbstract)
+                        .setStatus(articleStatus);
+
+                articleSummery.setDateCreated(new Date());
+
+                recordSummeries.add(articleSummery);
+            });
+
+            ReportGenerator reportGenerator = new ReportGenerator();
+            String now = new DateFormatter().valueToString(new Date());
+            String reportFileName = "wiki2marc-report";
+
+            ProcessReportContext c = new ProcessReportContext(recordSummeries, reportFileName, now);
+            reportGenerator.generateBasicReport(c, reportFileName);
+
+            try {
+                if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+                    String cmd = "rundll32 url.dll,FileProtocolHandler " + new File(filePath).getCanonicalPath();
+                    Runtime.getRuntime().exec(cmd);
+                } else {
+                    Desktop.getDesktop().edit(new File(filePath));
+                }
+            } catch (IOException ioex) {
+                logger.error("IOException", ioex);
             }
 
         } catch (Exception ex) {

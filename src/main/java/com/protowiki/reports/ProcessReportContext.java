@@ -16,6 +16,12 @@ public class ProcessReportContext {
     private final List<RecordSummery> recordSummeries;
     private Integer index = 0;
 
+    /**
+     * Process Report Context Constructor
+     * @param recordSummeries A List of RedordSummery objects
+     * @param reportName the name of the report
+     * @param summery a textual summery to append to end of the report
+     */
     public ProcessReportContext(List<RecordSummery> recordSummeries, String reportName, String summery) {
         this.recordSummeries = recordSummeries;
         this.reportName = reportName;

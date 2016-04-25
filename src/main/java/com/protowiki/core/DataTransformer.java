@@ -272,13 +272,13 @@ public class DataTransformer {
             builder = domFactory.newDocumentBuilder();
 
             File file = new File(filePath);
-            InputStream inputStream= new FileInputStream(file);
-            Reader reader = new InputStreamReader(inputStream, "UTF-8");
+            //InputStream inputStream= new FileInputStream(file);
+            //Reader reader = new InputStreamReader(inputStream, "UTF-8");
 
-            InputSource is = new InputSource(reader);
-            is.setEncoding("UTF-8");
+            //InputSource is = new InputSource(new FileInputStream(file));
+            //is.setEncoding("UTF-8");
 
-            doc = builder.parse(is);
+            doc = builder.parse(new FileInputStream(file));
             NodeList records = doc.getElementsByTagName("record");
 
             for (int i = 0; i < records.getLength(); i++) {
@@ -303,7 +303,7 @@ public class DataTransformer {
                     // remove later
                     System.out.println("map: " + author.getWikipediaArticleAbstract());
 
-                    if (attrMap != null) {
+                    if (attrMap != null && author.getWikipediaArticleAbstract()!=null) {
                         if (attrMap.getNamedItem("tag") != null && attrMap.getNamedItem("tag").getNodeValue().equals(MARCIdentifiers.VIAF_ID)) {
 
                             // create new subfield

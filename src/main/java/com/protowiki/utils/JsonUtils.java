@@ -39,10 +39,12 @@ public class JsonUtils {
             }
             if (v != null && v.getAsJsonPrimitive("extract")!=null) {
                 result = v.getAsJsonPrimitive("extract").toString();
+            } else {
+                return "";
             }
         } catch (Exception ex) {
             logger.error("Exception occured while attempting to extract article abstract from result json", ex);
-            return null;
+            return "";
         }
         return result;
     }

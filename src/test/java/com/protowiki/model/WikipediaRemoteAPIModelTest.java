@@ -1,8 +1,10 @@
 package com.protowiki.model;
 
 import com.protowiki.beans.Author;
+import java.awt.Desktop;
 import java.io.File;
-import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -56,7 +58,7 @@ public class WikipediaRemoteAPIModelTest {
 
         String result = "koby\n\n\n".replace('\n', ' ');
 
-        System.out.println("KO: " + result);
+        System.out.println("result: " + result);
 
     }
 
@@ -75,19 +77,39 @@ public class WikipediaRemoteAPIModelTest {
                 .replace("\\n", "")
                 .replace("\n", " ")
                 .replace('\r', ' ')
+                .replace("\\", "")
                 .trim();
+        result = trimQuotationMarks(result);
 
         File file = new File("temp1.txt");
-        try (FileOutputStream writer = new FileOutputStream(file)) {
-
-            writer.write(result.getBytes("UTF-8"));
+        try (FileWriter writer = new FileWriter(file)) {
+            writer.write(result);
             writer.flush();
-
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception", e);
         }
 
         logger.info("Result: " + result);
+        try {
+            if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+                String cmd = "rundll32 url.dll,FileProtocolHandler " + file.getCanonicalPath();
+                Runtime.getRuntime().exec(cmd);
+            } else {
+                Desktop.getDesktop().edit(file);
+            }
+        } catch (IOException ioex) {
+            logger.error("IOException", ioex);
+        }
+    }
+
+    public String trimQuotationMarks(String str) {
+        if (str.charAt(0) == '\"') {
+            str = str.substring(1, str.length() - 1);
+        }
+        if (str.charAt(str.length() - 1) == '\"') {
+            str = str.substring(0, str.length() - 2);
+        }
+        return str;
     }
 
     /**
