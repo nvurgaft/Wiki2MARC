@@ -1,10 +1,10 @@
-<!DOCTYPE html>
 <div class="row">
-    <div class="col-lg-8">
+    <div class="col-lg-offset-2 col-lg-5 col-md-8">
         <div class="panel panel-default">
             <div class="panel-body">
                 <section>
                     <label class="control-label">SPARQL query</label>
+                    <hr/>
                     <div ui-ace="vm.aceOptions" ng-model="vm.aceModel"></div>
                     <div ng-model="vm.mode"></div>
                 </section>
@@ -31,10 +31,11 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-3 col-md-4">
         <div class="panel panel-default">
             <div class="panel-body">
                 <label class="control-label">Options</label>
+                <hr/>
                 <form class="form-horizontal">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">Mode: </label>
