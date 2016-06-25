@@ -29,9 +29,8 @@
                                                 ng-mouseover="onHoverDl = true"
                                                 ng-mouseleave="onHoverDl = false"
                                                 ng-class="{'btn-success': onHoverDl, 'btn-default': !onHoverDl}"
-                                                uib-tooltip="Download"
-                                                ng-click="vm.downloadFile(file.name)"
-                                                ng-show="file.extension === 'xml'">
+                                                uib-tooltip="Save"
+                                                ng-click="vm.downloadFile(file.name)">
                                             <i class="fa fa-download"></i>
                                         </button>
                                         <button class="btn btn-xs" 
