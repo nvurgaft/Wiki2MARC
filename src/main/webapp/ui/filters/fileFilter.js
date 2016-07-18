@@ -1,4 +1,5 @@
 
+fileFilter.$inject = [];
 function fileFilter() {
     return function (data, extension) {
         if (angular.isString(extension)) {

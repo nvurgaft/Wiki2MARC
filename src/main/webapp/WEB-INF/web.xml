@@ -7,6 +7,9 @@
     </session-config>
     <description>WikiToMARC is a web application used for quering and storing of RDF data from Wikimedia API's</description>
     <display-name>WikiToMARC</display-name>
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
     <servlet>
         <servlet-name>WikiToMARC</servlet-name>
         <servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>

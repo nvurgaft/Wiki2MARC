@@ -1,6 +1,7 @@
 
 /* global parseFloat */
 
+decimalFilter.$inject = [];
 function decimalFilter() {
     return function (input, places) {
         if (angular.isNumber(input) && angular.isNumber(places)) {
@@ -10,5 +11,3 @@ function decimalFilter() {
         }
     };
 }
-
-angular.module('app').filter('decimalFilter', decimalFilter);

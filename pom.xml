@@ -132,6 +132,50 @@
                 </configuration>
             </plugin>
             <plugin>
+                <groupId>com.samaxes.maven</groupId>
+                <artifactId>minify-maven-plugin</artifactId>
+                <version>1.7.4</version>
+                <executions>
+                    <execution>
+                        <id>default-minify</id>
+                        <configuration>
+                            <!-- General properties -->
+                            <charset>UTF-8</charset>
+                            <jsEngine>YUI</jsEngine>
+                            <yuiPreserveSemicolons>true</yuiPreserveSemicolons>
+                            <yuiDisableOptimizations>true</yuiDisableOptimizations>
+                            <yuiLineBreak>true</yuiLineBreak>
+                            <verbose>true</verbose>
+                            <webappSourceDir>${basedir}/src/main/webapp</webappSourceDir>
+                            <webappTargetDir>${project.build.directory}/${project.build.finalName}</webappTargetDir>
+                            <!-- CSS -->
+                            <cssSourceDir>/ui/style/</cssSourceDir>
+                            <cssSourceIncludes>
+                                <cssSourceInclude>**/*.css</cssSourceInclude>
+                            </cssSourceIncludes>
+                            <cssSourceExcludes>
+                                <cssSourceExclude>**/*.min.css</cssSourceExclude>
+                            </cssSourceExcludes>
+                            <cssFinalFile>style.css</cssFinalFile>
+                            <cssTargetDir>/</cssTargetDir>
+                            <!-- JS -->
+                            <jsSourceDir>/ui/</jsSourceDir>
+                            <jsSourceIncludes>
+                                <jsSourceInclude>**/*.js</jsSourceInclude>
+                            </jsSourceIncludes>
+                            <jsSourceExcludes>
+                                <jsSourceExclude>**/*.min.js</jsSourceExclude>
+                            </jsSourceExcludes>
+                            <jsFinalFile>main.js</jsFinalFile>
+                            <jsTargetDir>/</jsTargetDir>
+                        </configuration>
+                        <goals>
+                            <goal>minify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.3</version>

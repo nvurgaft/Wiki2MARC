@@ -1,17 +1,10 @@
 
-function confirmModalController(title, message, $uibModalInstance) {
+confirmModalController.$inject = ["title", "message"];
+function confirmModalController(title, message) {
     var vm = this;
 
     vm.title = title;
     vm.message = message;
-
-    vm.ok = function () {
-        $uibModalInstance.close(true);
-    };
-
-    vm.cancel = function () {
-        $uibModalInstance.dismiss(false);
-    };
 }
 
 angular.module('confirmModalController', []).controller('confirmModalController', confirmModalController);
@@ -24,7 +17,7 @@ function confirm() {
             size = value;
             return this;
         },
-        $get: function ($uibModal) {
+        $get: ["$uibModal", function ($uibModal) {
             return {
                 show: function(message, title) {
                     return $uibModal.open({
@@ -43,7 +36,7 @@ function confirm() {
                     }).result;
                 }
             };
-        }
+        }]
     };
 }
 

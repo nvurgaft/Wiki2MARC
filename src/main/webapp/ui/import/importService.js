@@ -1,4 +1,5 @@
 
+importService.$inject = ["$http", "$q", "$log"];
 function importService($http, $q, $log) {
 
     var path = "";
@@ -28,5 +29,3 @@ function importService($http, $q, $log) {
         }
     };
 }
-
-angular.module('app').factory('importService', importService);

@@ -1,4 +1,5 @@
 
+managerService.$inject = ["$http", "$q", "$log"];
 function managerService($http, $q, $log) {
 
     var path = "";
@@ -22,5 +23,3 @@ function managerService($http, $q, $log) {
         }
     };
 }
-
-angular.module('app').factory('managerService', managerService);

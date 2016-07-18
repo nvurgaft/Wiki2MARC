@@ -1,4 +1,5 @@
 
+managerController.$inject = ["$log", "managerService"];
 function managerController($log, managerService) {
 
     var vm = this;
@@ -38,5 +39,3 @@ function managerController($log, managerService) {
         });
     };
 }
-
-angular.module('app').controller('managerController', managerController);

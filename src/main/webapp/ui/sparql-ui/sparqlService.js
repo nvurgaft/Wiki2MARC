@@ -1,4 +1,5 @@
 
+sparqlService.$inject = ["$http", "$log"];
 function sparqlService($http, $log) {
     return {
         postQuery: function(query, endpoint) {
@@ -19,5 +20,3 @@ function sparqlService($http, $log) {
         }
     };
 }
-
-angular.module("app").factory('sparqlService', sparqlService);

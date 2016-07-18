@@ -1,6 +1,7 @@
 
 /* global _ */
 
+importController.$inject = ["$log", "FileUploader"];
 function importController($log, FileUploader) {
     var vm = this;
     vm.uploader = new FileUploader({
@@ -45,5 +46,3 @@ function importController($log, FileUploader) {
         $log.info('File queue cleared');
     };
 }
-
-angular.module('app').controller('importController', importController);

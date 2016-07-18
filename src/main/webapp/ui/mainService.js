@@ -1,4 +1,5 @@
 
+mainService.$inject = ['$log', '$q', '$http'];
 function mainService($log, $q, $http) {
     return {
         getServerHeartbeat: function() {
@@ -19,5 +20,3 @@ function mainService($log, $q, $http) {
         }
     };
 }
-
-angular.module('app').factory('mainService', mainService);

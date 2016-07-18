@@ -1,4 +1,5 @@
 
+sparqlController.$inject = ["$log", "sparqlService"];
 function sparqlController($log, sparqlService) {
 
     var vm = this;
@@ -50,5 +51,3 @@ function sparqlController($log, sparqlService) {
         vm.aceModel = "";
     };
 }
-
-angular.module('app').controller('sparqlController', sparqlController);

@@ -1,4 +1,5 @@
 
+recordsService.$inject = ["$http", "$q", "$log"];
 function recordsService($http, $q, $log) {
 
     var path = "rest/records";
@@ -60,7 +61,7 @@ function recordsService($http, $q, $log) {
         },
         deleteFile: function (file) {
             $log.debug("Deleting file: " + file);
-            return $http.delete(path + '/remove-file', {
+            return $http["delete"](path + '/remove-file', {
                 params: {
                     fileName: file
                 }
@@ -72,5 +73,3 @@ function recordsService($http, $q, $log) {
         }
     };
 }
-
-angular.module('app').factory('recordsService', recordsService);

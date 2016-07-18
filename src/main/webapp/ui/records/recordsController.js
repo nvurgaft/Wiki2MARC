@@ -1,6 +1,7 @@
 
 /* global _ */
 
+recordsController.$inject = ["$log", "confirm", "recordsService", "$timeout"];
 function recordsController($log, confirm, recordsService, $timeout) {
 
     var vm = this;
@@ -98,5 +99,3 @@ function recordsController($log, confirm, recordsService, $timeout) {
 
     };
 }
-
-angular.module('app').controller('recordsController', recordsController);

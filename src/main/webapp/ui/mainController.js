@@ -1,4 +1,5 @@
 
+mainController.$inject = ['mainService']
 function mainController(mainService) {
     var vm = this;
 
@@ -20,5 +21,3 @@ function mainController(mainService) {
         vm.databaseStatusOK = false;
     });
 }
-
-angular.module('app').controller('mainController', mainController);
