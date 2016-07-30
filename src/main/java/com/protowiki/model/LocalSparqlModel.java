@@ -50,10 +50,10 @@ public class LocalSparqlModel {
 
     public LocalSparqlModel(DatabaseProperties databaseProperties) {
 
-        this.login = databaseProperties.getProperty("login");
-        this.password = databaseProperties.getProperty("password");
-        String host = databaseProperties.getProperty("host");
-        String port = databaseProperties.getProperty("port");
+        this.login = databaseProperties.getString("login", "admin");
+        this.password = databaseProperties.getString("password", "admin");
+        String host = databaseProperties.getString("host", "localhost");
+        int port = databaseProperties.getInt("port", 1111);
 
         //connection_string = "jdbc:virtuoso://localhost:1111/CHARSET=UTF-8/log_enable=2";
         StringBuilder sb = new StringBuilder();

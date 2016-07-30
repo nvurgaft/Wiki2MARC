@@ -111,7 +111,7 @@ public class RDFConnectionManager {
      * @return String value
      */
     public String getProperty(String property, String defaultsTo) {
-        return dbProperties.getProperty(property) == null ? defaultsTo : dbProperties.getProperty(property);
+        return dbProperties.getString(property, defaultsTo);
     }
 
     public boolean isConnected() {

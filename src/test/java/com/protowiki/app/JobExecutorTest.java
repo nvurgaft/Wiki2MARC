@@ -1,11 +1,12 @@
 package com.protowiki.app;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -19,6 +20,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Nick
  */
+//@Ignore
 public class JobExecutorTest {
 
     public static Logger logger = LoggerFactory.getLogger(JobExecutorTest.class);
@@ -44,7 +46,7 @@ public class JobExecutorTest {
      */
     @Test
     public void testGetInstance() {
-        
+
         JobExecutor instance = JobExecutor.getInstance();
         Assert.assertNotNull("Instance should not be null", instance);
     }
@@ -84,7 +86,7 @@ public class JobExecutorTest {
         result.stream().forEach(future -> {
             try {
                 String str = (String) future.get();
-                logger.info("str: " + str);
+                logger.info("output: " + str);
             } catch (InterruptedException | ExecutionException ex) {
                 logger.error("Exception", ex);
             }
@@ -94,22 +96,12 @@ public class JobExecutorTest {
 
     public List<Callable<?>> batchJobs() {
 
-        Callable<String> c1 = (Callable<String>) () -> {
-            TimeUnit.SECONDS.sleep(3);
-            return "job 1 has finished";
-        };
-
-        Callable<String> c2 = (Callable<String>) () -> {
-            TimeUnit.SECONDS.sleep(3);
-            return "job 2 has finished";
-        };
-
-        Callable<String> c3 = (Callable<String>) () -> {
-            TimeUnit.SECONDS.sleep(3);
-            return "job 3 has finished";
-        };
-
-        return Arrays.asList(c1, c2, c3);
+        return IntStream.range(0, 50).boxed().map(i -> {
+            return (Callable<String>) () -> {
+                TimeUnit.SECONDS.sleep(3);
+                return "job " + i + "  has finished";
+            };
+        }).collect(Collectors.toList());
     }
 
 }

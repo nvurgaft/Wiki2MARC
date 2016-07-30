@@ -144,7 +144,7 @@
                             <jsEngine>YUI</jsEngine>
                             <yuiPreserveSemicolons>true</yuiPreserveSemicolons>
                             <yuiDisableOptimizations>true</yuiDisableOptimizations>
-                            <yuiLineBreak>true</yuiLineBreak>
+                            <yuiLineBreak>-1</yuiLineBreak>
                             <verbose>true</verbose>
                             <webappSourceDir>${basedir}/src/main/webapp</webappSourceDir>
                             <webappTargetDir>${project.build.directory}/${project.build.finalName}</webappTargetDir>

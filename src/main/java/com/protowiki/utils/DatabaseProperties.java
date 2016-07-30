@@ -17,7 +17,7 @@ public class DatabaseProperties {
 
     private Properties properties;
     private String fileName;
-    
+
     /**
      * Constructs the PropertiesHandler using the default application.properties
      * path
@@ -46,7 +46,7 @@ public class DatabaseProperties {
         this.properties = this.readProperties(file);
         this.fileName = file;
     }
-    
+
     public void setProperty(String key, String value) {
         this.properties.setProperty(key, value);
     }
@@ -94,12 +94,50 @@ public class DatabaseProperties {
     }
 
     /**
-     * Retrieves a property value using a property key
+     * Retrieves a property value as a string
      *
      * @param key property key
-     * @return value assigned to the key
+     * @return string value assigned to the key
      */
-    public String getProperty(String key) {
-        return this.properties.getProperty(key);
+    public String getString(String key, String defaultValue) {
+        if (this.properties.getProperty(key) != null) {
+            return this.properties.getProperty(key);
+        } else {
+            return defaultValue;
+        }
+    }
+
+    /**
+     * Retrieves a property value as a integer
+     *
+     * @param key property key
+     * @return int value assigned to the key
+     */
+    public int getInt(String key, int defaultValue) {
+        if (this.properties.getProperty(key) != null) {
+            int value = -1;
+            try {
+                value = Integer.valueOf(this.properties.getProperty(key));
+            } catch (NumberFormatException nfe) {
+                logger.error("NumberFormatException occured parsing property value for key: " + key, nfe);
+            }
+            return value;
+        } else {
+            return defaultValue;
+        }
+    }
+
+    /**
+     * Retrieves a property value as a boolean
+     *
+     * @param key property key
+     * @return boolean value assigned to the key
+     */
+    public boolean getBoolean(String key, boolean defaultValue) {
+        if (this.properties.getProperty(key) != null) {
+            return Boolean.valueOf(this.properties.getProperty(key));
+        } else {
+            return defaultValue;
+        }
     }
 }

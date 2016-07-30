@@ -127,10 +127,9 @@ public class RecordsResource {
         String path = Values.FILE_PATH;
         
         DatabaseProperties dbprop = new DatabaseProperties("application.properties"); //use_database
-        String useDatabase = dbprop.getProperty("use_database");
+        boolean useDatabase = dbprop.getBoolean("use_database", false);
 
-        MARCFileFactory proc = new MARCFileFactory(useDatabase.equals("true"));
-        logger.debug("File path is : " + path + fileName);
+        MARCFileFactory proc = new MARCFileFactory(useDatabase);
         int result = proc.runProcess(path + fileName);
         ResponseMessage rm = new ResponseMessage();
         if (result == 0) {
@@ -153,7 +152,6 @@ public class RecordsResource {
     public Response removeFile(@QueryParam("fileName") String fileName) {
 
         File file = new File(Values.FILE_PATH + fileName);
-
         try {
             if (file.exists()) {
                 file.delete();

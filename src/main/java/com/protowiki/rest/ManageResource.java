@@ -32,10 +32,9 @@ public class ManageResource {
         Map props = new HashMap();
         try {
             DatabaseProperties properties = new DatabaseProperties(propertiesFile);
-            properties.getProperties().keySet().stream().forEach(key -> {
-                logger.info(String.format("key: %s, value: %s", key, properties.getProperty((String) key)));
-                props.put(key, properties.getProperty((String) key));
-            });
+            properties.getProperties().keySet().stream()
+                    .map(obj -> (String) obj)
+                    .forEach(key -> props.put(key, properties.getString(key, "")));
             return Response.ok(props).build();
         } catch (Exception e) {
             logger.error("An Exception has occured while marshalling database properties", e);
