@@ -2,7 +2,7 @@ package com.protowiki.model;
 
 import com.protowiki.values.Predicates;
 import com.protowiki.beans.Author;
-import com.protowiki.entities.RDFStatement;
+import com.protowiki.beans.RDFStatement;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -119,7 +119,7 @@ public class AuthorModel {
             return false;
         }
         try {
-            logger.info("Inserting viaf: " + viaf + ", and abstract: " + articleAbstract);
+            logger.info("Inserting viaf: {}, and abstract: {}", viaf, articleAbstract);
             queryHandler.insertStatement(viaf, "rdf:abstract", articleAbstract);
         } catch (Exception ex) {
             logger.error("Exception while inserting abstracts to model", ex);

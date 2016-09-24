@@ -1,5 +1,5 @@
 
-mainController.$inject = ['mainService']
+mainController.$inject = ['mainService'];
 function mainController(mainService) {
     var vm = this;
 

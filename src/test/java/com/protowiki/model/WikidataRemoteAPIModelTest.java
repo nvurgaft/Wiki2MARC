@@ -31,12 +31,12 @@ public class WikidataRemoteAPIModelTest {
 
     @Before
     public void before() {
-        logger.info("before: " + testName.getMethodName());
+        logger.info("before: {}", testName.getMethodName());
     }
 
     @After
     public void after() {
-        logger.info("after: " + testName.getMethodName());
+        logger.info("after: {}", testName.getMethodName());
     }
 
     /**
@@ -57,7 +57,7 @@ public class WikidataRemoteAPIModelTest {
                 "}", "\n");
         WikidataRemoteAPIModel instance = new WikidataRemoteAPIModel();
         String results = instance.runRemoteQuery(minimumViableQuery, Providers.WIKIDATA);
-        System.out.println(results);
+        logger.info(results);
     }
 
     @Test
@@ -68,7 +68,7 @@ public class WikidataRemoteAPIModelTest {
         WikidataRemoteAPIModel instance = new WikidataRemoteAPIModel();
         String result = instance.getAuthorLabelByViaf(viafId, language);
 
-        logger.info("result: " + result);
+        logger.info("result: {}", result);
     }
 
     @Test
@@ -79,7 +79,7 @@ public class WikidataRemoteAPIModelTest {
         WikidataRemoteAPIModel instance = new WikidataRemoteAPIModel();
         Map<String, String> labelsMap = instance.getMultipleAuthorLabelsByViaf(viafId);
         labelsMap.keySet().forEach(key -> {
-            System.out.println("key: " + key + " ,value: " + labelsMap.get(key));
+            logger.info("key: {} ,value: {}" , key, labelsMap.get(key));
         });
     }
 
@@ -109,7 +109,7 @@ public class WikidataRemoteAPIModelTest {
         WikidataRemoteAPIModel instance = new WikidataRemoteAPIModel();
         String articleAbstract = instance.getWikipediaAbstractByViafId(viafId, language);
 
-        logger.info("abstract: " + articleAbstract);
+        logger.info("abstract: {}", articleAbstract);
         assertNotNull("Should not be null (meaning the resultset should be at least 1 row)", articleAbstract);
         assertTrue("Should contain the abstract for Douglas Noel Adams", articleAbstract.length() > 0);
     }

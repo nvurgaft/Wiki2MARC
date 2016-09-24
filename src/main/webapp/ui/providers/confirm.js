@@ -10,7 +10,6 @@ function confirmModalController(title, message) {
 angular.module('confirmModalController', []).controller('confirmModalController', confirmModalController);
 
 function confirm() {
-
     var size;
     return {
         setSize: function (value) {
@@ -27,10 +26,10 @@ function confirm() {
                         size: size,
                         resolve: {
                             title: function () {
-                                return title || "Confirm";
+                                return angular.isString(title) ? title : "Confirm";
                             },
                             message: function () {
-                                return message || "Are you sure ?";
+                                return angular.isString(message) ? message : "Are you sure ?";
                             }
                         }
                     }).result;

@@ -1,6 +1,7 @@
 package com.protowiki.utils;
 
 import com.protowiki.beans.Record;
+import static com.protowiki.utils.Validators.isBlank;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -41,7 +42,7 @@ public class RecordSAXParser {
      */
     public List<Record> parseXMLFileForRecords(String fileName) {
 
-        if (fileName == null || fileName.isEmpty()) {
+        if (isBlank(fileName)) {
             return null;
         }
 

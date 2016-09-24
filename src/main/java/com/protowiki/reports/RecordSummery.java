@@ -95,6 +95,7 @@ public class RecordSummery implements Serializable {
 
     @Override
     public String toString() {
-        return "ArticleSummery{recordId=" + recordId + ", labelHe=" + labelHe + ", labelEn=" + labelEn + ", viaf=" + viaf + ", foundEnglishAbstract=" + foundEnglishAbstract + ", foundHebrewAbstract=" + foundHebrewAbstract + ", status=" + status + ", dateCreated=" + dateCreated + '}';
+        return String.format("ArticleSummery{recordId: %s, labelHe: %s, labelEn: %s, viaf: %s, foundEnglishAbstract: %o, foundHebrewAbstract: $o, status: $s, dateCreated: $o", 
+                recordId, labelHe, labelEn, viaf, foundEnglishAbstract, foundHebrewAbstract, status, dateCreated);
     }
 }

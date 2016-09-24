@@ -1,6 +1,6 @@
 package com.protowiki.model;
 
-import com.protowiki.entities.RDFStatement;
+import com.protowiki.beans.RDFStatement;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -39,12 +39,12 @@ public class QueryHandlerTest {
     
     @Before
     public void before() {
-        logger.info("before: " + testName.getMethodName());
+        logger.info("before: {}", testName.getMethodName());
     }
     
     @After
     public void after() {
-        logger.info("after: " + testName.getMethodName());
+        logger.info("after: {}", testName.getMethodName());
     }
 
     /**
@@ -57,7 +57,7 @@ public class QueryHandlerTest {
 
         Collection<RDFStatement> result = qh.getStatements(subject);
         result.stream().forEach(r -> {
-            logger.info("record: " + r.toString());
+            logger.info("record: {}", r.toString());
         });
     }
 
@@ -70,7 +70,7 @@ public class QueryHandlerTest {
         List<RDFStatement> stmts = Arrays.asList(new RDFStatement("?a", "?b", "?c"));
         List<RDFStatement> result = qh.selectTriples(stmts);
         result.stream().forEach(r-> {
-            logger.info("record: " + r);
+            logger.info("record: {}", r);
         });
     }
 
@@ -84,7 +84,7 @@ public class QueryHandlerTest {
         List<RDFStatement> result = qh.selectTriples("?a", "?b", "?c");
         
         result.stream().forEach(r -> {
-            logger.info("record: " + r);
+            logger.info("record: {}", r);
         });
     }
 
@@ -98,7 +98,7 @@ public class QueryHandlerTest {
         String p = "http://www.w3.org/1999/02/22-rdf-syntax-ns#brName";
         String o = "jorge_smith";
         boolean result = qh.insertStatement(s, p, o);
-        logger.info("insert result: " + result);
+        logger.info("insert result: {}", result);
         assertEquals("Should successfult insert a triple" ,true, result);
     }
     
@@ -109,7 +109,7 @@ public class QueryHandlerTest {
         String o = "Dame Agatha Mary Clarissa Christie, DBE (née Miller; 15 September 1890 – 12 January 1976) was an English crime novelist, short story writer and playwright. She also wrote six romances under the name Mary Westmacott, but she is best known for the 66 detective novels and 14 short story collections that she wrote under her own name, most of which revolve around the investigative work of such characters as Hercule Poirot, Jane Marple, Parker Pyne, Harley Quin/Mr Satterthwaite and Tommy and Tuppence Beresford. She wrote the world's longest-running play, a murder mystery, The Mousetrap. In 1971 she was made a Dame for her contribution to literature.Christie was born into a wealthy upper-middle-class family in Torquay, Devon. She served in a hospital during the First World War before marrying and starting a family in London. She was initially unsuccessful at getting her work published, but in 1920 The Bodley Head press published her novel The Mysterious Affair at Styles, featuring the character of Hercule Poirot. This launched her literary career.The Guinness Book of World Records lists Christie as the best-selling novelist of all time. Her novels have sold roughly 2 billion copies, and her estate claims that her works come third in the rankings of the world's most-widely published books, behind only Shakespeare's works and the Bible. According to Index Translationum, she remains the most-translated individual author – having been translated into at least 103 languages. And Then There Were None is Christie's best-selling novel with 100 million sales to date, making it the world's best-selling mystery ever, and one of the best-selling books of all time.Christie's stage play The Mousetrap holds the record for the longest initial run: it opened at the Ambassadors Theatre in the West End on 25 November 1952 and as of 2015 is still running after more than 25,000 performances. In 1955 Christie was the first recipient of the Mystery Writers of America's highest honour, the Grand Master Award, and in the same year Witness for the Prosecution received an Edgar Award by the MWA for Best Play. In 2013, The Murder of Roger Ackroyd was voted the best crime novel ever by 600 fellow writers of the Crime Writers' Association. On 15 September 2015, coinciding with Agatha Christie's 125th birthday, And Then There Were None was voted as the \"World's Favorite Christie\", followed closely by Murder on the Orient Express and The Murder of Roger Ackroyd. Most of her books and short stories have been adapted for television, radio, video games and comics, and more than thirty feature films have been based on her work";
         
         boolean result = qh.insertStatement(s, p, o);
-        logger.info("insert result: " + result);
+        logger.info("insert result: {}", result);
         assertEquals("Should successfult insert a triple" ,true, result);
     }
     
@@ -124,7 +124,7 @@ public class QueryHandlerTest {
         String p = "http://www.w3.org/1999/02/22-rdf-syntax-ns#enName";
         String o = "john_yates";
         boolean result = qh.insertStatement(new RDFStatement(s, p, o));
-        logger.info("insert result: " + result);
+        logger.info("insert result: {}", result);
         assertEquals("Should successfult insert an RDFStatement object" ,true, result);
     }
 
@@ -209,7 +209,7 @@ public class QueryHandlerTest {
         IntStream.range(42, 47).map(i -> {
             return (int) Math.pow(i, 2);
         }).forEach(n -> {
-            System.out.println(n);
+            logger.info("{}", n);
         });
     }
     

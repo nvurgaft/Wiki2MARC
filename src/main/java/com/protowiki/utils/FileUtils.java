@@ -78,7 +78,25 @@ public class FileUtils {
                 outputStream.write(bytes, 0, read);
             }
             outputStream.flush();
-            logger.debug("File saved to location " + fileLocation);
+            logger.debug("File saved to location {}", fileLocation);
+            result = true;
+        } catch (IOException ioex) {
+            logger.error("IOException while saving file to disk", ioex);
+            result = false;
+        }
+        return result;
+    }
+    
+    public static boolean saveFile1(InputStream inputStream, String fileLocation) {
+        boolean result;
+        try (OutputStream outputStream = new FileOutputStream(new File(fileLocation))) {
+            int read;
+            byte[] bytes = new byte[1024];
+            while ((read = inputStream.read(bytes)) != -1) {
+                outputStream.write(bytes, 0, read);
+            }
+            outputStream.flush();
+            logger.debug("File saved to location {}", fileLocation);
             result = true;
         } catch (IOException ioex) {
             logger.error("IOException while saving file to disk", ioex);

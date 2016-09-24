@@ -7,15 +7,13 @@ import com.protowiki.beans.Record;
 import com.protowiki.beans.Subfield;
 import com.protowiki.values.MARCIdentifiers;
 import com.protowiki.model.WikipediaRemoteAPIModel;
+import static com.protowiki.utils.Validators.isBlank;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.Reader;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +37,6 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 /**
@@ -63,7 +60,7 @@ public class DataTransformer {
             return null;
         }
 
-        List<Author> authorsList = recordsList.stream().map(r -> {
+        return recordsList.stream().map(r -> {
             Author author = new Author();
             for (Controlfield cf : r.getControlfields()) {
                 if (cf.getTag().equals("001")) {
@@ -79,22 +76,27 @@ public class DataTransformer {
                         String lang = "",
                          name = "";
                         for (Subfield sf : df.getSubfields()) {
-                            if (sf.getCode().equals("a")) {
-                                name = sf.getValue();
-                            } else if (sf.getCode().equals("9")) {
-                                switch (sf.getValue()) {
-                                    case "lat":
-                                        lang = "en";
-                                        break;
-                                    case "heb":
-                                        lang = "he";
-                                        break;
-                                    default:
-
-                                }
-
-                            } else if (sf.getCode().equals("d")) {
-                                author.setYears(sf.getValue());
+                            switch (sf.getCode()) {
+                                case "a":
+                                    name = sf.getValue();
+                                    break;
+                                case "9":
+                                    switch (sf.getValue()) {
+                                        case "lat":
+                                            lang = "en";
+                                            break;
+                                        case "heb":
+                                            lang = "he";
+                                            break;
+                                        default:
+                                            logger.warn("Language [{}] is not supported", sf.getValue());
+                                    }
+                                    break;
+                                case "d":
+                                    author.setYears(sf.getValue());
+                                    break;
+                                default:
+                                    logger.warn("XML code [{}] is not supported", sf.getValue());
                             }
                         }
                         if (!name.isEmpty() && !lang.isEmpty()) {
@@ -114,7 +116,6 @@ public class DataTransformer {
             }
             return author;
         }).collect(Collectors.toList());
-        return authorsList;
     }
 
     /**
@@ -259,7 +260,7 @@ public class DataTransformer {
      */
     public boolean dynamicallyGenerateMARCXMLFile(String filePath, Map<String, Author> viafAuthorsMap) {
         // sanity checking the file path
-        if (filePath == null || filePath.isEmpty()) {
+        if (isBlank(filePath)) {
             return false;
         }
 
@@ -277,7 +278,6 @@ public class DataTransformer {
 
             //InputSource is = new InputSource(new FileInputStream(file));
             //is.setEncoding("UTF-8");
-
             doc = builder.parse(new FileInputStream(file));
             NodeList records = doc.getElementsByTagName("record");
 
@@ -300,10 +300,7 @@ public class DataTransformer {
                         continue;
                     }
 
-                    // remove later
-                    System.out.println("map: " + author.getWikipediaArticleAbstract());
-
-                    if (attrMap != null && author.getWikipediaArticleAbstract()!=null) {
+                    if (attrMap != null && author.getWikipediaArticleAbstract() != null) {
                         if (attrMap.getNamedItem("tag") != null && attrMap.getNamedItem("tag").getNodeValue().equals(MARCIdentifiers.VIAF_ID)) {
 
                             // create new subfield

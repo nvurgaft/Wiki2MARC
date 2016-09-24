@@ -5,7 +5,7 @@ import com.hp.hpl.jena.query.QueryFactory;
 import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.RDFNode;
-import com.protowiki.entities.RDFStatement;
+import com.protowiki.beans.RDFStatement;
 import com.protowiki.model.QueryHandler;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,12 +43,12 @@ public class TestJenaProvider {
     
     @Before
     public void before() {
-        logger.info("before: " + testName.getMethodName());
+        logger.info("before: {}", testName.getMethodName());
     }
     
     @After
     public void after() {
-        logger.info("after: " + testName.getMethodName());
+        logger.info("after: {}", testName.getMethodName());
     }
     
     @Test
@@ -57,7 +57,7 @@ public class TestJenaProvider {
         
         String url = g.getGraphUrl();
         
-        System.out.println("URL: " + url);
+        logger.info("URL: " + url);
     }
 
     @Test
@@ -65,11 +65,11 @@ public class TestJenaProvider {
 
         VirtGraph g = new VirtGraph(connection_string, login, password);
         
-        String insertStatementQuery = "INSERT INTO GRAPH <" + GRAPH_NAME + "> { <testSubject> <testPredicate> 'testLiteral'}";
+        String insertStatementQuery = String.format("INSERT INTO GRAPH <%s> { <testSubject> <testPredicate> 'testLiteral'}", GRAPH_NAME);
         VirtuosoUpdateRequest vur = VirtuosoUpdateFactory.create(insertStatementQuery, g);
         vur.exec();
 
-        String query = "SELECT * FROM <" + GRAPH_NAME + "> WHERE {?s ?p ?o}";
+        String query = String.format("SELECT * FROM <%s> WHERE {?s ?p ?o}", GRAPH_NAME);
         Query sparqlQuery = QueryFactory.create(query);
         VirtuosoQueryExecution vqe = VirtuosoQueryExecutionFactory.create(sparqlQuery, g);
         ResultSet rs = vqe.execSelect();
@@ -90,7 +90,7 @@ public class TestJenaProvider {
         
         // CLEAR the graph
         String clearGraphQuery = "CLEAR GRAPH <http://test_author>";
-        logger.info("execute: " + clearGraphQuery);
+        logger.info("execute: {}", clearGraphQuery);
         VirtuosoUpdateRequest vur = VirtuosoUpdateFactory.create(clearGraphQuery, graph);
         vur.exec();
         
@@ -105,7 +105,7 @@ public class TestJenaProvider {
         
         // SELECT data from the graph and print it
         String selectQueryString = "SELECT * FROM <http://test_author> WHERE { ?s ?p ?o }";
-        logger.info("execute: " + selectQueryString);
+        logger.info("execute: {}", selectQueryString);
         Query sparqlQuery = QueryFactory.create(selectQueryString);
         VirtuosoQueryExecution vqe = VirtuosoQueryExecutionFactory.create(sparqlQuery, graph);
 
@@ -115,7 +115,7 @@ public class TestJenaProvider {
             RDFNode s = qs.get("s");
             RDFNode p = qs.get("p");
             RDFNode o = qs.get("o");
-            logger.info("Subject: " + s.toString() + ", Predicate: " + p.toString() + ", Object: " + o.toString());
+            logger.info("Subject: {}, Predicate: {}, Object: {}", s.toString(), p.toString(), o.toString());
         }
     }
 
@@ -126,19 +126,19 @@ public class TestJenaProvider {
 
         // CLEAR the graph
         String clearGraphQuery = "CLEAR GRAPH <" + GRAPH_NAME + ">";
-        logger.info("execute: " + clearGraphQuery);
+        logger.info("execute: {}", clearGraphQuery);
         VirtuosoUpdateRequest vur = VirtuosoUpdateFactory.create(clearGraphQuery, graph);
         vur.exec();
 
         // INSERT data into the graph
-        String insertStatementQuery = "INSERT INTO GRAPH <" + GRAPH_NAME + "> { <aa> <bb> 'cc' . <aa1> <bb1> 123. }";
-        logger.info("execute: " + insertStatementQuery);
+        String insertStatementQuery = String.format("INSERT INTO GRAPH <%s> { <aa> <bb> 'cc' . <aa1> <bb1> 123. }", GRAPH_NAME);
+        logger.info("execute: {}", insertStatementQuery);
         vur = VirtuosoUpdateFactory.create(insertStatementQuery, graph);
         vur.exec();
 
         // SELECT data from the graph and print it
-        String selectQueryString = "SELECT * FROM <" + GRAPH_NAME + "> WHERE { ?s ?p ?o }";
-        logger.info("execute: " + selectQueryString);
+        String selectQueryString = String.format("SELECT * FROM <%s> WHERE { ?s ?p ?o }", GRAPH_NAME);
+        logger.info("execute: {}", selectQueryString);
         Query sparqlQuery = QueryFactory.create(selectQueryString);
         VirtuosoQueryExecution vqe = VirtuosoQueryExecutionFactory.create(sparqlQuery, graph);
 
@@ -148,17 +148,17 @@ public class TestJenaProvider {
             RDFNode s = qs.get("s");
             RDFNode p = qs.get("p");
             RDFNode o = qs.get("o");
-            logger.info("Subject: " + s.toString() + ", Predicate: " + p.toString() + ", Object: " + o.toString());
+            logger.info("Subject: {}, Predicate: {}, Object: {}", s.toString(), p.toString(), o.toString());
         }
 
         // DELETE statement from graph
-        String deleteQuery = "DELETE FROM GRAPH <" + GRAPH_NAME + "> { <aa> <bb> 'cc' }";
-        logger.info("execute: " + deleteQuery);
+        String deleteQuery = String.format("DELETE FROM GRAPH <%s> { <aa> <bb> 'cc' }", GRAPH_NAME);
+        logger.info("execute: {}", deleteQuery);
         vur = VirtuosoUpdateFactory.create(deleteQuery, graph);
         vur.exec();
 
         // SELECT (again) data from the graph and print it
-        logger.info("execute: " + selectQueryString);
+        logger.info("execute: {}", selectQueryString);
         Query sparqlQuery1 = QueryFactory.create(selectQueryString);
         vqe = VirtuosoQueryExecutionFactory.create(sparqlQuery1, graph);
 
@@ -168,7 +168,7 @@ public class TestJenaProvider {
             RDFNode s = qs.get("s");
             RDFNode p = qs.get("p");
             RDFNode o = qs.get("o");
-            logger.info("Subject: " + s.toString() + ", Predicate: " + p.toString() + ", Object: " + o.toString());
+            logger.info("Subject: {}, Predicate: {}, Object: {}", s.toString(), p.toString(), o.toString());
         }
     }
 }

@@ -24,12 +24,12 @@ public class RDFUtilsTest {
 
     @Before
     public void before() {
-        logger.info("before: " + testName.getMethodName());
+        logger.info("before: {}", testName.getMethodName());
     }
 
     @After
     public void after() {
-        logger.info("after: " + testName.getMethodName());
+        logger.info("after: {}", testName.getMethodName());
     }
     
     /**

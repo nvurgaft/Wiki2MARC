@@ -12,7 +12,7 @@ function config($stateProvider, $urlRouterProvider, confirmProvider) {
             .state('main', {
                 url: "/main",
                 controller: "mainController as vm",
-                templateUrl: "ui/main.html"
+                templateUrl: "ui/main/main.html"
             })
             .state('main.sparql', {
                 url: "/sparql",
@@ -37,7 +37,7 @@ function config($stateProvider, $urlRouterProvider, confirmProvider) {
 
     confirmProvider.setSize('sm');
 }
-
+angular.module(APP_NAME).config(config);
 angular.module(APP_NAME).factory('mainService', mainService);
 
 angular.module(APP_NAME).controller('mainController', mainController);

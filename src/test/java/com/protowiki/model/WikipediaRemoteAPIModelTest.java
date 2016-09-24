@@ -32,12 +32,12 @@ public class WikipediaRemoteAPIModelTest {
 
     @Before
     public void setUp() {
-        logger.info("Before method: " + testName.getMethodName());
+        logger.info("Before method: {}", testName.getMethodName());
     }
 
     @After
     public void tearDown() {
-        logger.info("After method: " + testName.getMethodName());
+        logger.info("After method: {}", testName.getMethodName());
     }
 
     /**
@@ -59,7 +59,7 @@ public class WikipediaRemoteAPIModelTest {
 
         String result = "koby\n\n\n".replace('\n', ' ');
 
-        System.out.println("result: " + result);
+        logger.info("result: {}", result);
 
     }
 
@@ -90,7 +90,7 @@ public class WikipediaRemoteAPIModelTest {
             logger.error("Exception", e);
         }
 
-        logger.info("Result: " + result);
+        logger.info("Result: {}", result);
         try {
             if (System.getProperty("os.name").toLowerCase().contains("windows")) {
                 String cmd = "rundll32 url.dll,FileProtocolHandler " + file.getCanonicalPath();
@@ -121,12 +121,12 @@ public class WikipediaRemoteAPIModelTest {
     public void testGetAbstractsByArticleNames() {
 
         Author a1 = new Author();
-        a1.setNames(new HashMap<String, String>());
+        a1.setNames(new HashMap<>());
         a1.getNames().put("en", "Mark_Twain");
         a1.setViafId("1");
 
         Author a2 = new Author();
-        a2.setNames(new HashMap<String, String>());
+        a2.setNames(new HashMap<>());
         a2.getNames().put("en", "Steve_Jobs");
         a2.setViafId("2");
 
@@ -134,7 +134,7 @@ public class WikipediaRemoteAPIModelTest {
         WikipediaRemoteAPIModel instance = new WikipediaRemoteAPIModel();
         Map<String, String> result = instance.getMultipleAbstractsByAuthors(authors, "en");
         result.keySet().forEach(key -> {
-            logger.info("Key: " + key + ", Value: " + result.get(key));
+            logger.info("Key: {}, Value: {}", key, result.get(key));
         });
     }
 

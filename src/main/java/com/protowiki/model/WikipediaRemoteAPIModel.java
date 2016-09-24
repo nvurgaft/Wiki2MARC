@@ -10,9 +10,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,11 +71,10 @@ public class WikipediaRemoteAPIModel {
                         respBuff.append(line).append("\n");
                     }
                 }
-                System.out.println("respBuff => " + respBuff.toString());
+                logger.debug("respBuff => {}", respBuff.toString());
 
                 JsonObject inter = JsonUtils.parseToJsonObject(respBuff.toString());
-
-                System.out.println("inter => " + inter);
+                logger.debug("inter => {}", inter);
                 if (inter != null) {
                     // clean the response string
                     String rawAbstract = JsonUtils.extractAbstractFromJson(inter);
@@ -100,7 +100,7 @@ public class WikipediaRemoteAPIModel {
 //            is.setEncoding("UTF-8");
                 response = new String(response.getBytes("UTF-8")).trim();
 
-                System.out.println("response => " + response);
+                logger.debug("response => {}", response);
             }
         } catch (MalformedURLException murlex) {
             logger.error("MalformedURLException occured while parsing URL string onto a URL object", murlex);
@@ -129,17 +129,14 @@ public class WikipediaRemoteAPIModel {
             return null;
         }
 
-        Map<String, String> resultMap = new HashMap<>();
+        return authors.stream()
+                .map(author -> {
+                    logger.debug("{} => {}", language, author.getNames().get(language));
+                    String abs = this.getAbstractByArticleName(author.getNames().get(language), language);
+                    return new ImmutablePair<>(author.getViafId(), abs);
 
-        authors.stream().forEach(a -> {
-
-            System.out.println(String.format("%s -> %s", language, a.getNames().get(language)));
-
-            String abs = this.getAbstractByArticleName(a.getNames().get(language), language);
-            resultMap.put(a.getViafId(), abs);
-        });
-
-        return resultMap;
+                })
+                .collect(Collectors.toMap(p -> p.getLeft(), p -> p.getRight()));
     }
 
 }

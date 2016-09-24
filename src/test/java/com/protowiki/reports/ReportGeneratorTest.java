@@ -36,12 +36,12 @@ public class ReportGeneratorTest {
 
     @Before
     public void before() {
-        logger.debug("before: " + testName.getMethodName());
+        logger.debug("before: {}", testName.getMethodName());
     }
 
     @After
     public void after() {
-        logger.debug("after: " + testName.getMethodName());
+        logger.debug("after: {}", testName.getMethodName());
     }
 
     /**
@@ -97,7 +97,5 @@ public class ReportGeneratorTest {
         
         ReportGenerator reportGenerator = new ReportGenerator();
         reportGenerator.generateBasicReport(processSummery, fileName);
-
     }
-
 }

@@ -11,7 +11,7 @@ import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.Model;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.hp.hpl.jena.util.iterator.ExtendedIterator;
-import com.protowiki.entities.RDFStatement;
+import com.protowiki.beans.RDFStatement;
 import com.protowiki.utils.RDFUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -90,9 +90,9 @@ public class QueryHandler {
 
         try {
             // define a describe query
-            String query = String.format("DESCRIBE %s FROM <%s>", subject, this.graphName);
+            String query = String.format("DESCRIBE %s FROM < %s >", subject, this.graphName);
 
-            System.out.println("Query: \n" + query);
+            logger.debug("Query: \n{}", query);
             Query sparqlQuery = QueryFactory.create(query);
             VirtuosoQueryExecution vqe = VirtuosoQueryExecutionFactory.create(sparqlQuery, this.graph);
             // execute the query and get the graph
@@ -132,7 +132,7 @@ public class QueryHandler {
             s.setObject(RDFUtils.escapeString(s.getObject()));
             sb.append(s.getSubject()).append(" ").append(s.getPredicate()).append(" ").append(s.getObject()).append(" .\n");
         });
-        String query = this.defaultPrefices + "SELECT * FROM <" + this.graphName + "> WHERE { " + sb.toString() + " }";
+        String query = String.format(this.defaultPrefices + "SELECT * FROM <%s> WHERE { %s }", this.graphName, sb.toString());
         Query sparqlQuery = QueryFactory.create(query);
         VirtuosoQueryExecution vqe = VirtuosoQueryExecutionFactory.create(sparqlQuery, this.graph);
         List<RDFStatement> stmtsList = new ArrayList<>();
@@ -148,7 +148,7 @@ public class QueryHandler {
                     o != null ? RDFUtils.escapeString(o.toString()) : "null"
             );
             stmtsList.add(stmt);
-            logger.info("fetched: " + stmt.toString());
+            logger.info("fetched: {}", stmt.toString());
         }
         return stmtsList;
     }
@@ -261,7 +261,7 @@ public class QueryHandler {
         }
         try {
             stmt.setObject(RDFUtils.escapeString(stmt.getObject()));
-            String query = "DELETE FROM GRAPH <" + this.graphName + "> { " + RDFUtils.escapeString(stmt.toString()) + " }";
+            String query = String.format("DELETE FROM GRAPH <%s> { %s }", this.graphName, RDFUtils.escapeString(stmt.toString()));
             VirtuosoUpdateRequest vur = VirtuosoUpdateFactory.create(query, this.graph);
             vur.exec();
             return true;

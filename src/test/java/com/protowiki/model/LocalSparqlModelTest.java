@@ -29,12 +29,12 @@ public class LocalSparqlModelTest {
     
     @Before
     public void before() {
-        logger.info("Before: " + testName.getMethodName());
+        logger.info("Before: {}", testName.getMethodName());
     }
     
     @After
     public void after() {
-        logger.info("After: " + testName.getMethodName());
+        logger.info("After: {}", testName.getMethodName());
     }
 
     /**

@@ -94,13 +94,13 @@ public class TestJena {
             Property predicate = stmt.getPredicate();
             RDFNode object = stmt.getObject();
 
-            System.out.print("Subject: " + subject + ", Predicate: " + predicate + " ");
+            logger.info("Subject: {}, Predicate: {}", subject);
             if (object instanceof Resource) {
-                System.out.print(" " + object.toString());
+                logger.debug(" " + object.toString());
             } else {
-                System.out.print(" \"" + object.toString() + "\"");
+                logger.debug(" \"{}\"", object.toString());
             }
-            System.out.print(" .");
+            logger.info(" .");
         }
     }
 
@@ -173,11 +173,10 @@ public class TestJena {
         vcard.addProperty(VCARD.NICKNAME, "Smithy")
                 .addProperty(VCARD.NICKNAME, "Adman");
 
-        System.out.println("The nicknames of \"" + fullName + "\" are:");
-
+        logger.info("The nicknames of \"{}\" are:", fullName);
         StmtIterator iter = vcard.listProperties(VCARD.NICKNAME);
         while (iter.hasNext()) {
-            System.out.println("    " + iter.nextStatement().getObject().toString());
+            logger.info("    {}", iter.nextStatement().getObject().toString());
         }
     }
 
@@ -198,12 +197,12 @@ public class TestJena {
         model.read(in, "");
         ResIterator iter = model.listResourcesWithProperty(VCARD.FN);
         if (iter.hasNext()) {
-            System.out.println("The database contains vcards for:");
+            logger.info("The database contains vcards for:");
             while (iter.hasNext()) {
-                System.out.println("  " + iter.nextResource().getRequiredProperty(VCARD.FN).getString());
+                logger.info("  {}", iter.nextResource().getRequiredProperty(VCARD.FN).getString());
             }
         } else {
-            System.out.println("No vcards were found in the database");
+            logger.info("No vcards were found in the database");
         }
     }
     
@@ -230,12 +229,12 @@ public class TestJena {
         });
         
         if (iter.hasNext()) {
-            System.out.println("The database contains vcards for these Smith's:");
+            logger.info("The database contains vcards for these Smith's:");
             while (iter.hasNext()) {
-                System.out.println("  " + iter.nextStatement().getString());
+                logger.info("  {}", iter.nextStatement().getString());
             }
         } else {
-            System.out.println("No Smith's were found in the database");
+            logger.info("No Smith's were found in the database");
         }
     }
 }

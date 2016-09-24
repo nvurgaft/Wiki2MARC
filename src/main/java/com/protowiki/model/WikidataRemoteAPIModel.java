@@ -224,7 +224,7 @@ public class WikidataRemoteAPIModel {
             QuerySolution qs = rs.nextSolution();
             RDFNode _name = qs.get("name");
             RDFNode _translated = qs.get("translated");
-            logger.info("Label: " + _name + ", Translated: " + _translated);
+            logger.info("Label: {}, Translated: {}", _name, _translated);
             result = _translated.toString();
         }
         return result;
@@ -248,13 +248,13 @@ public class WikidataRemoteAPIModel {
                 RDFNode _name = qs.get("name");
                 RDFNode _enTranslated = qs.get("enTranslated");
                 RDFNode _heTranslated = qs.get("heTranslated");
-                logger.info("Label: " + _name + ", English: " + _enTranslated + ", Hebrew: " + _heTranslated);
+                logger.info("Label: {}, English: {}, Hebrew: {}", _name, _enTranslated, _heTranslated);
                 result.put("en", _enTranslated.toString());
                 result.put("he", _heTranslated.toString());
             }
         } catch (Exception e) {
             logger.error("Exception while getting author label from viaf", e);
-            System.out.println("Failed on query: " + queryString);
+            logger.info("Failed on query: {}", queryString);
         }
         return result;
     }
@@ -286,7 +286,7 @@ public class WikidataRemoteAPIModel {
             QuerySolution qs = rs.nextSolution();
             RDFNode _name = qs.get("name");
             RDFNode _abstract = qs.get("abstract");
-            logger.info("Name: " + _name + ", Abstract: " + _abstract);
+            logger.info("Name: {}, Abstract: {}", _name, _abstract);
             result = _abstract.toString();
         }
         return result;
@@ -319,7 +319,7 @@ public class WikidataRemoteAPIModel {
             QuerySolution qs = rs.nextSolution();
             RDFNode _name = qs.get("name");
             RDFNode _abstract = qs.get("abstract");
-            logger.info("Name: " + _name + ", Abstract: " + _abstract);
+            logger.info("Name: {}, Abstract: {}", _name, _abstract);
             result = _abstract.toString();
         }
         return result;
@@ -384,7 +384,7 @@ public class WikidataRemoteAPIModel {
         String joinedViafs = StringUtils.join(viafIds, " ");
 
         String queryString = String.format(GET_MULTIPLE_WIKIPEDIA_ABSTRACT_BY_VIAF, joinedViafs, language);
-        System.out.println("Query string: \n" + queryString);
+        logger.info("Query string: \n{}", queryString);
         Query query = QueryFactory.create(queryString);
         QueryExecution qe = QueryExecutionFactory.sparqlService(Providers.DBPEDIA, query);
         Map<String, Author> resultMap = new HashMap<>();
@@ -421,7 +421,6 @@ public class WikidataRemoteAPIModel {
         List<Author> authors = null;
         try {
             Query query = QueryFactory.create(GET_VIAF_FROM_HEBREW_AUTHORS);
-
             QueryExecution qe = QueryExecutionFactory.sparqlService(Providers.WIKIDATA, query);
             ResultSet rs = ResultSetFactory.copyResults(qe.execSelect());
             authors = new ArrayList<>();

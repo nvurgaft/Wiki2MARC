@@ -27,12 +27,12 @@ public class PropertiesHandlerTest {
 
     @Before
     public void before() {
-        logger.info("before: " + testName.getMethodName());
+        logger.info("before: {}", testName.getMethodName());
     }
 
     @After
     public void after() {
-        logger.info("after: " + testName.getMethodName());
+        logger.info("after: {}", testName.getMethodName());
     }
 
     /**
@@ -46,7 +46,7 @@ public class PropertiesHandlerTest {
         properties.keySet().stream()
                 .map(obj -> (String) obj)
                 .forEach(key -> {
-                    logger.info("Key: " + key + " ,Value: " + properties.getProperty(key));
+                    logger.info("Key: {}, Value: {}", key, properties.getProperty(key));
                 });
         Assert.assertTrue("Properties should hold more than 0 Key/Value pairs", properties.keySet().size() > 0);
     }
@@ -72,7 +72,7 @@ public class PropertiesHandlerTest {
 
         int result = instance.getInt(port_key, 1111);
         logger.info("Should match port 1111");
-        logger.info("Fetched port value: " + result);
+        logger.info("Fetched port value: {}", result);
         Assert.assertEquals("Should read the property key of port", result, expResult);
     }
 

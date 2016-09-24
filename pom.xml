@@ -144,7 +144,7 @@
                             <jsEngine>YUI</jsEngine>
                             <yuiPreserveSemicolons>true</yuiPreserveSemicolons>
                             <yuiDisableOptimizations>true</yuiDisableOptimizations>
-                            <yuiLineBreak>-1</yuiLineBreak>
+                            <yuiLineBreak>500</yuiLineBreak>
                             <verbose>true</verbose>
                             <webappSourceDir>${basedir}/src/main/webapp</webappSourceDir>
                             <webappTargetDir>${project.build.directory}/${project.build.finalName}</webappTargetDir>
@@ -175,6 +175,23 @@
                     </execution>
                 </executions>
             </plugin>
+<!--            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+                                <delete file="${project.build.directory}/${project.build.finalName}/main.js"/>
+                                <delete file="${project.build.directory}/${project.build.finalName}/style.css"/>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>

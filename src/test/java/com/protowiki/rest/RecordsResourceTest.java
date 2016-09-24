@@ -28,12 +28,12 @@ public class RecordsResourceTest {
 
     @Before
     public void before() {
-        logger.info("before: " + testName.getMethodName());
+        logger.info("before: {}", testName.getMethodName());
     }
 
     @After
     public void after() {
-        logger.info("after: " + testName.getMethodName());
+        logger.info("after: {}", testName.getMethodName());
     }
 
     /**
@@ -45,7 +45,7 @@ public class RecordsResourceTest {
         logger.debug("Scanning for files");
         File[] files = file.listFiles();
         for (File f : files) {
-            logger.info("Found: " + f.getName());
+            logger.info("Found: {}", f.getName());
             int fileSize = 0;
             try (BufferedReader reader = new BufferedReader(new FileReader(f))) {
                 String line;
@@ -57,7 +57,7 @@ public class RecordsResourceTest {
             } catch (IOException ioex) {
                 logger.error("IOException while reading file " + f.getName(), ioex);
             }
-            logger.info("Size: " + fileSize);
+            logger.info("Size: {}", fileSize);
         }
     }
 

@@ -42,7 +42,7 @@ public class MARCFileFactoryTest {
         MARCFileFactory factory = new MARCFileFactory(useLocalDatabase);
         int result = factory.runProcess(FILE_PATH + fileName);
 
-        logger.debug("Result: " + result);
+        logger.debug("Result: {}", result);
     }
 
     @Test
@@ -71,7 +71,7 @@ public class MARCFileFactoryTest {
         WikipediaRemoteAPIModel remoteJsonApi = new WikipediaRemoteAPIModel();
         //remoteJsonApi.getAbstractByArticleName(fileName, fileName)
 
-        logger.info("inserting locally " + absMap.keySet().size() + " keys");
+        logger.info("inserting locally {} keys", absMap.keySet().size());
         AuthorModel authorModel = new AuthorModel();
 
         for (String key : absMap.keySet()) {
@@ -95,12 +95,12 @@ public class MARCFileFactoryTest {
 
         Map<String, String> labelsMap = instance.getMultipleAuthorLabelsByViaf(viafId);
         labelsMap.keySet().forEach(key -> {
-            System.out.println("key: " + key + " ,value: " + labelsMap.get(key));
+            logger.debug("key: {} ,value: {}", key, labelsMap.get(key));
 
             String name = RDFUtils.spliceLiteralLaguageTag(labelsMap.get(key));
 
             String abs = wiki.getAbstractByArticleName(name, key);
-            System.out.println("abstract: " + abs);
+            logger.debug("abstract: {}", abs);
         });
     }
 

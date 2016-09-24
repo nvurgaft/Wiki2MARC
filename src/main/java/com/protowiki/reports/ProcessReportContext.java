@@ -14,7 +14,7 @@ public class ProcessReportContext {
     private final String reportName;
     private final String summery;
     private final List<RecordSummery> recordSummeries;
-    private Integer index = 0;
+    private Integer count = 0;
 
     /**
      * Process Report Context Constructor
@@ -82,26 +82,26 @@ public class ProcessReportContext {
     }
     
     public Long totalEnglishAbstractsNotFound() {     
-        return this.index - this.totalEnglishAbstractsFound();
+        return this.count - this.totalEnglishAbstractsFound();
     }
     
     public Long totalHebrewAbstractsNotFound() {     
-        return this.index - this.totalHebrewAbstractsFound();
+        return this.count - this.totalHebrewAbstractsFound();
     }
     
     public Long totalEnglishLabelsNotFound() {     
-        return this.index - this.totalEnglishLabelsFound();
+        return this.count - this.totalEnglishLabelsFound();
     }
     
     public Long totalHebrewLabelsNotFound() {     
-        return this.index - this.totalHebrewLabelsFound();
+        return this.count - this.totalHebrewLabelsFound();
     }
     
     public Long totalFailed() {
-        return this.index - this.totalSuccessful();
+        return this.count - this.totalSuccessful();
     }
     
     public Integer index() {
-        return ++this.index;
+        return ++this.count;
     }
 }

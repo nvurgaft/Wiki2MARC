@@ -4,10 +4,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map.Entry;
 import javax.ws.rs.client.Client;
@@ -42,26 +40,22 @@ public class JerseyClientTest {
     public void testHtppUrlConnection() {
 
         try {
-
             URL con = new URL(TRAGET_URL);
-
             HttpURLConnection request = (HttpURLConnection) con.openConnection();
             request.setRequestMethod("GET");
 
             int status = request.getResponseCode();
-            System.out.println("Status: " + status);
-
+            logger.info("Status: {}", status);
             StringBuilder sb = new StringBuilder();
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(request.getInputStream()))) {
                 String line;
                 while ((line = reader.readLine()) != null) {
                     sb.append(line).append("\n");
                 }
-                System.out.println("Response: " + sb.toString());
+                logger.info("Response: {}", sb.toString());
             }
 
             JsonObject jsonObject = jsonObject = new JsonParser().parse(sb.toString()).getAsJsonObject();
-
             JsonObject jo = jsonObject.getAsJsonObject("query").getAsJsonObject("pages");
 
             JsonObject v = null;
@@ -69,13 +63,10 @@ public class JerseyClientTest {
                 v = (JsonObject) elem.getValue();
             }
             String extract = v.getAsJsonPrimitive("extract").toString();
+            logger.info("Extract: {}", extract);
 
-            System.out.println("Extract: " + extract);
-
-        } catch (MalformedURLException ex) {
-            logger.error("MalformedURLException", ex);
-        } catch (IOException ex) {
-            logger.error("IOException", ex);
+        } catch (Throwable ex) {
+            logger.error("Exception", ex);
         }
     }
 
@@ -94,6 +85,6 @@ public class JerseyClientTest {
         Invocation.Builder invocationBuilder = target.request(MediaType.TEXT_HTML);
         Response response = invocationBuilder.get();
 
-        System.out.println("Status: " + response.getStatus());
+        logger.info("Status: {}", response.getStatus());
     }
 }

@@ -1,4 +1,4 @@
-package com.protowiki.entities;
+package com.protowiki.beans;
 
 import java.util.Objects;
 

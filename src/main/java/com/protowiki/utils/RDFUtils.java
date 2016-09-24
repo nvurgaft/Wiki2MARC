@@ -1,5 +1,6 @@
 package com.protowiki.utils;
 
+import static com.protowiki.utils.Validators.isBlank;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 /**
@@ -77,8 +78,8 @@ public class RDFUtils {
      * @return the "normalized" name
      */
     public static String normalizeMARCName(String marcName) {
-        if (marcName == null) {
-            return null;
+        if (isBlank(marcName)) {
+            return marcName;
         }
 
         String[] fname = marcName.split(",");

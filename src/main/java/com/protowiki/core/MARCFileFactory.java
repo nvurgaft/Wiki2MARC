@@ -1,5 +1,6 @@
 package com.protowiki.core;
 
+import com.protowiki.app.JobExecutorService;
 import com.protowiki.beans.Author;
 import com.protowiki.beans.Record;
 import com.protowiki.model.WikipediaRemoteAPIModel;
@@ -18,6 +19,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import java.util.stream.Collectors;
 import javax.swing.text.DateFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,18 +71,14 @@ public class MARCFileFactory {
         try {
 
             authors = this.parseMARCFileForAuthors(filePath);
-
-//            this.obtainAbstractsViaSPARQLAPI(authors);
-//            this.obtainAbstractsViaWikipediaAPI(authors);
-//            this.generateNewFile(filePath);
-            logger.info(String.format("Parsed out %d authors", authors.size()));
+            logger.info("Parsed out {} authors", authors.size());
             authors.stream().forEach(System.out::println);
 
             logger.info("injectWikipediaLabels");
             this.injectWikipediaLabels(authors);
 
             logger.info("injectWikipediaAbstracts");
-            this.injectWikipediaAbstracts(authors);
+            List<String> abstractList = this.injectWikipediaAbstracts(authors);
 
             this.updateMARCFile(filePath, authors);
 
@@ -91,7 +94,7 @@ public class MARCFileFactory {
 
                 boolean gotEnAbstract = author.getNames().get("en") == null ? false : !author.getNames().get("en").isEmpty();
                 boolean gotHeAbstract = author.getNames().get("he") == null ? false : !author.getNames().get("he").isEmpty();
-                String articleStatus = (author.getNames()==null || author.getWikipediaArticleAbstract()==null) ? "FAILED" : "SUCCESS";
+                String articleStatus = (author.getNames() == null || author.getWikipediaArticleAbstract() == null) ? "FAILED" : "SUCCESS";
 
                 articleSummery
                         .setLabelEn(author.getNames().get("en"))
@@ -114,22 +117,27 @@ public class MARCFileFactory {
             ProcessReportContext c = new ProcessReportContext(recordSummeries, reportFileName, now);
             reportGenerator.generateBasicReport(c, reportFileName);
 
-            try {
-                if (System.getProperty("os.name").toLowerCase().contains("windows")) {
-                    String cmd = "rundll32 url.dll,FileProtocolHandler " + new File(filePath).getCanonicalPath();
-                    Runtime.getRuntime().exec(cmd);
-                } else {
-                    Desktop.getDesktop().edit(new File(filePath));
-                }
-            } catch (IOException ioex) {
-                logger.error("IOException", ioex);
-            }
+            this.openResults(reportFileName);
 
         } catch (Exception ex) {
             logger.error("Exception while running mapping process", ex);
             return 1;
         }
         return 0;
+    }
+
+    private void openResults(String filePath) {
+        try {
+            // find the system's default program to open the file
+            if (System.getProperty("os.name").toLowerCase().contains("windows")) {
+                String cmd = "rundll32 url.dll,FileProtocolHandler " + new File(filePath).getCanonicalPath();
+                Runtime.getRuntime().exec(cmd);
+            } else {
+                Desktop.getDesktop().edit(new File(filePath));
+            }
+        } catch (IOException ioex) {
+            logger.error("IOException", ioex);
+        }
     }
 
     /**
@@ -145,7 +153,7 @@ public class MARCFileFactory {
         DataTransformer transformer = new DataTransformer();
 
         List<Record> records = parser.parseXMLFileForRecords(filePath);
-        logger.info("records => " + records.size());
+        logger.info("records => {}", records.size());
         return transformer.transformRecordsListToAuthors(records);
     }
 
@@ -161,7 +169,7 @@ public class MARCFileFactory {
         Map<String, String> absMap = wikipediaRemoteApi.getMultipleAbstractsByAuthors(authorsList, "he"); // list<viaf, abstracts>
         // insert locally
         absMap.keySet().stream().forEach((key) -> {
-            logger.info("Key: " + key + ", Value: " + absMap.get(key));
+            logger.info("Key: {}, Value: {}", key, absMap.get(key));
             authorModel.insertAuthorsViafAndAbstracts(key, absMap.get(key));
         });
     }
@@ -170,41 +178,68 @@ public class MARCFileFactory {
 
         WikidataRemoteAPIModel wikidata = new WikidataRemoteAPIModel();
 
-        for (Author author : authors) {
-            if (author.getViafId() != null && !author.getViafId().isEmpty()) {
-                logger.info("Serving viaf: " + author.getViafId());
-                Map<String, String> names = wikidata.getMultipleAuthorLabelsByViaf(author.getViafId());
-                for (String key : names.keySet()) {
-                    String value = names.get(key);
-                    author.getNames().put(key, RDFUtils.spliceLiteralLaguageTag(value));
-                }
-            } else {
-                logger.info("No viaf id found for this article");
-            }
-        }
+        List<Map<String, String>> nameLists = authors.stream()
+                .map(author -> {
+                    return wikidata.getMultipleAuthorLabelsByViaf(author.getViafId());
+                })
+                .filter(result -> {
+                    return result != null;
+                })
+                .collect(Collectors.toList());
+
+        nameLists.stream().forEach(nameMap -> {
+            nameMap.keySet().stream()
+                    .forEach(key -> {
+                        nameMap.put(key, RDFUtils.spliceLiteralLaguageTag(nameMap.get(key)));
+                    });
+        });
 
         return authors;
     }
 
-    private List<Author> injectWikipediaAbstracts(List<Author> authors) throws Exception {
+    private List<String> injectWikipediaAbstracts(List<Author> authors) throws Exception {
+
+        if (authors == null || authors.isEmpty()) {
+            return null;
+        }
 
         WikipediaRemoteAPIModel wikipedia = new WikipediaRemoteAPIModel();
 
-        for (Author author : authors) {
+        // load the callable jobs
+        List<Callable<?>> asyncTasks = authors.stream()
+                .flatMap(author -> {
+                    return author.getNames().keySet().stream()
+                            .map(lang -> callAbstract(wikipedia, author, lang));
+                })
+                .collect(Collectors.toList());
 
-            for (String lang : author.getNames().keySet()) {
-                String name = author.getNames().get(lang);
-                String abs = wikipedia.getAbstractByArticleName(name, lang);
-                logger.info("abstract: " + abs);
+        // execute the jobs and wait for all of them to complete
+        List<Future<?>> futures = JobExecutorService.submitMultipleJobs(asyncTasks);
+        List<String> results = futures.stream()
+                .map(future -> {
+                    Object f = null;
+                    try {
+                        f = future.get(10, TimeUnit.SECONDS);
+                    } catch (InterruptedException | ExecutionException | TimeoutException e) {
+                        logger.error("Failed getting result from future job", e);
+                    }
+                    return (String) f;
+                })
+                .collect(Collectors.toList());
 
-                if (author.getWikipediaArticleAbstract() == null) {
-                    author.setWikipediaArticleAbstract(new HashMap<String, String>());
-                }
+        return results;
+    }
 
-                author.getWikipediaArticleAbstract().put(lang, abs);
+    protected Callable<?> callAbstract(WikipediaRemoteAPIModel api, Author author, String lang) {
+        return () -> {
+            String name = author.getNames().get(lang);
+            String abs = api.getAbstractByArticleName(name, lang);
+            logger.info("abstract: {}", abs);
+            if (author.getWikipediaArticleAbstract() == null) {
+                author.setWikipediaArticleAbstract(new HashMap<>());
             }
-        }
-        return authors;
+            return author.getWikipediaArticleAbstract().put(lang, abs);
+        };
     }
 
     /**
@@ -247,10 +282,8 @@ public class MARCFileFactory {
 
 //        logger.debug("connect remotly and query abstracts for these viaf ids");
 //        Map<String, String> rdfList = authorModel.getAuthorsViafAndAbstracts();
-        Map<String, Author> viafAuthorsMap = new HashMap<>();
-        for (Author author : authors) {
-            viafAuthorsMap.put(author.getViafId(), author);
-        }
+        Map<String, Author> viafAuthorsMap = authors.stream()
+                .collect(Collectors.toMap(author -> author.getViafId(), author -> author));
 
         logger.debug("generate the updated MARC file");
         return transformer.dynamicallyGenerateMARCXMLFile(file, viafAuthorsMap);
