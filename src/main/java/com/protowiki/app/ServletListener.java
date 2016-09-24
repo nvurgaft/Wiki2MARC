@@ -18,20 +18,21 @@ public class ServletListener implements ServletContextListener {
     
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        logger.info("Servlet context initialized");
-        
+        logger.info("Servlet context initialized");    
         File initDir = new File(Values.FILE_PATH);
         if (!initDir.exists()) {
             if (initDir.mkdir()) {
-                logger.info(String.format("Directory %s was created", Values.FILE_PATH));
+                logger.info("Directory {} was created", Values.FILE_PATH);
             } else {
-                logger.info(String.format("Directory %s found", Values.FILE_PATH));
+                logger.info("Directory {} found", Values.FILE_PATH);
             }
         }
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
+        logger.info("Killing executor service");
+        JobExecutorService.killExecutor();
         logger.info("Servlet context destroyed");
     }
     

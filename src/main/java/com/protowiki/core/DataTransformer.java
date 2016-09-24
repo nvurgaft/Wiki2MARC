@@ -56,7 +56,7 @@ public class DataTransformer {
      */
     public List<Author> transformRecordsListToAuthors(List<Record> recordsList) {
 
-        if (recordsList == null || recordsList.isEmpty()) {
+        if (isBlank(recordsList)) {
             return null;
         }
 
@@ -140,11 +140,11 @@ public class DataTransformer {
      */
     public boolean generateMARCXMLFile(String filePath, Map<String, String> articleAbstracts) {
         // sanity checking the file path
-        if (filePath == null || filePath.isEmpty()) {
+        if (isBlank(filePath)) {
             return false;
         }
         // sanity checking the abstracts collection
-        if (articleAbstracts == null || articleAbstracts.isEmpty()) {
+        if (isBlank(articleAbstracts)) {
             return false;
         }
 

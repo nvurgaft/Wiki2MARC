@@ -87,7 +87,6 @@ public class LocalSparqlModel {
         List<Author> authors = null;
         try {
             VirtGraph graph = new VirtGraph(connection_string, login, password);
-
             Query query = QueryFactory.create(GET_VIAF_FROM_HEBREW_AUTHORS);
             VirtuosoQueryExecution vqe = VirtuosoQueryExecutionFactory.create(query, graph);
             ResultSet rs = vqe.execSelect();

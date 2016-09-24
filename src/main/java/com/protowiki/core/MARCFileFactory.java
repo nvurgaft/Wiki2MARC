@@ -127,6 +127,10 @@ public class MARCFileFactory {
     }
 
     private void openResults(String filePath) {
+        
+        if (filePath == null || filePath.isEmpty()) {
+            return;
+        }
         try {
             // find the system's default program to open the file
             if (System.getProperty("os.name").toLowerCase().contains("windows")) {
@@ -148,6 +152,10 @@ public class MARCFileFactory {
      * @return List of Author objects
      */
     private List<Author> parseMARCFileForAuthors(String filePath) throws Exception {
+
+        if (filePath == null || filePath.isEmpty()) {
+            return null;
+        }
 
         RecordSAXParser parser = new RecordSAXParser();
         DataTransformer transformer = new DataTransformer();
@@ -175,6 +183,10 @@ public class MARCFileFactory {
     }
 
     private List<Author> injectWikipediaLabels(List<Author> authors) throws Exception {
+
+        if (authors == null || authors.isEmpty()) {
+            return null;
+        }
 
         WikidataRemoteAPIModel wikidata = new WikidataRemoteAPIModel();
 
