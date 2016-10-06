@@ -19,14 +19,10 @@ public class RDFUtils {
      * @return the uri text without the Literal type
      */
     public static String spliceLiteralType(String integerUri) {
-        if (integerUri == null || integerUri.isEmpty()) {
-            return null;
+        if (isBlank(integerUri) || !integerUri.contains("^^")) {
+            return integerUri;
         }
-        if (integerUri.contains("^^")) {
-            return integerUri.substring(0, integerUri.indexOf("^^"));
-        } else {
-            return integerUri.trim();
-        }
+        return integerUri.substring(0, integerUri.indexOf("^^"));
     }
 
     /**
@@ -39,14 +35,10 @@ public class RDFUtils {
      * @return a language tag suffix spliced out version of the text
      */
     public static String spliceLiteralLaguageTag(String text) {
-        if (text == null || text.isEmpty()) {
-            return null;
-        }
-        if (text.contains("@")) {
-            return text.substring(0, text.indexOf("@"));
-        } else {
+        if (isBlank(text) || !text.contains("@")) {
             return text;
         }
+        return text.substring(0, text.indexOf("@"));
     }
 
     /**
@@ -78,7 +70,7 @@ public class RDFUtils {
      * @return the "normalized" name
      */
     public static String normalizeMARCName(String marcName) {
-        if (isBlank(marcName)) {
+        if (isBlank(marcName) || !marcName.contains(",")) {
             return marcName;
         }
 
@@ -88,16 +80,17 @@ public class RDFUtils {
 
     /**
      * Slices an article name from a given wikipedia URL
-     * 
-     * Example: for input "http://www.wikipedia.com/Stan_Lee", the result would 
+     *
+     * Example: for input "http://www.wikipedia.com/Stan_Lee", the result would
      * be "Stan_Lee"
+     *
      * @param url Wikipedia article url string
      * @return sliced article name
      */
     public static String sliceNameFromUrl(String url) {
-        if (url == null) {
-            return null;
-        } 
-        return url.substring(url.lastIndexOf("/")+1, url.length()).trim();
+        if (isBlank(url)) {
+            return url;
+        }
+        return url.substring(url.lastIndexOf("/") + 1, url.length()).trim();
     }
 }

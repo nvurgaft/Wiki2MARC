@@ -13,7 +13,7 @@ public class ProcessReportContext {
 
     private final String reportName;
     private final String summery;
-    private final List<RecordSummery> recordSummeries;
+    private final List<RecordSummary> recordSummeries;
     private Integer count = 0;
 
     /**
@@ -22,7 +22,7 @@ public class ProcessReportContext {
      * @param reportName the name of the report
      * @param summery a textual summery to append to end of the report
      */
-    public ProcessReportContext(List<RecordSummery> recordSummeries, String reportName, String summery) {
+    public ProcessReportContext(List<RecordSummary> recordSummeries, String reportName, String summery) {
         this.recordSummeries = recordSummeries;
         this.reportName = reportName;
         this.summery = summery;
@@ -32,7 +32,7 @@ public class ProcessReportContext {
         return this.reportName;
     }
     
-    public List<RecordSummery> recordSummeries() {
+    public List<RecordSummary> recordSummeries() {
         return this.recordSummeries;
     }
 
@@ -77,7 +77,7 @@ public class ProcessReportContext {
     
     public Long totalSuccessful() {
         return this.recordSummeries.stream().filter(s -> {
-            return s.getStatus().equals("SUCCESS");
+            return s.getStatus().equalsIgnoreCase("SUCCESS");
         }).count();
     }
     

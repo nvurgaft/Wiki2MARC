@@ -1,5 +1,6 @@
 package com.protowiki.utils;
 
+import static com.protowiki.utils.Validators.isBlank;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -15,28 +16,30 @@ import org.slf4j.LoggerFactory;
  * @author Nick
  */
 public class FileUtils {
-
+    
     public static Logger logger = LoggerFactory.getLogger(FileUtils.class);
 
     /**
-     *  Checks the file exists in the specified path
+     * Checks the file exists in the specified path
+     *
      * @param path string absolute path to file
      * @return true if file exists
      */
     public static boolean exists(String path) {
-        if (path == null || path.isEmpty()) {
+        if (isBlank(path)) {
             return false;
         }
         return new File(path).exists();
     }
 
     /**
-     *  Creates a file in the specified path
+     * Creates a file in the specified path
+     *
      * @param path string absolute path to file
-     * @return true if file was successfully created 
+     * @return true if file was successfully created
      */
     public static boolean createFile(String path) {
-        if (path == null || path.isEmpty()) {
+        if (isBlank(path)) {
             return false;
         }
         try {
@@ -50,22 +53,29 @@ public class FileUtils {
     }
 
     /**
-     *  Creates a directory in the specified path
+     * Creates a directory in the specified path
+     *
      * @param path string absolute path to file
      * @return true if directory was successfully created
      */
     public static boolean createDir(String path) {
-        if (path == null || path.isEmpty()) {
+        if (isBlank(path)) {
             return false;
         }
-        File dir = new File(path);
-        dir.mkdir();
-        return true;
+        try {
+            File dir = new File(path);
+            return dir.mkdir();
+        } catch (Throwable e) {
+            logger.error("Exception while creating directory", e);
+            return false;
+        }
     }
 
     /**
-     *  Reads an input stream and writes it's data into a file on the specified fileLocation
-     * @param inputStream input stream 
+     * Reads an input stream and writes it's data into a file on the specified
+     * fileLocation
+     *
+     * @param inputStream input stream
      * @param fileLocation string absolute path to file
      * @return true is stream was successfully read and the file was created
      */
@@ -104,15 +114,18 @@ public class FileUtils {
         }
         return result;
     }
-    
+
     /**
-     *  Reads a file from the provided file path and returns it's content
+     * Reads a file from the provided file path and returns it's content
+     *
      * @param file the file to read
      * @return the file's content as a string
      * @throws IOException
      */
     public static String fileReader(File file) throws IOException {
-        if (file==null) return null;
+        if (file == null) {
+            return null;
+        }
         
         StringBuilder content = new StringBuilder();
         String line;

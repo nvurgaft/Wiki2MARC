@@ -7,7 +7,7 @@ import com.protowiki.model.WikipediaRemoteAPIModel;
 import com.protowiki.model.AuthorModel;
 import com.protowiki.model.WikidataRemoteAPIModel;
 import com.protowiki.reports.ProcessReportContext;
-import com.protowiki.reports.RecordSummery;
+import com.protowiki.reports.RecordSummary;
 import com.protowiki.reports.ReportGenerator;
 import com.protowiki.utils.RDFUtils;
 import com.protowiki.utils.RecordSAXParser;
@@ -87,10 +87,10 @@ public class MARCFileFactory {
                 authorModel.insertAuthorsIntoDB(authors);
             }
 
-            List<RecordSummery> recordSummeries = new ArrayList<>();
+            List<RecordSummary> recordSummeries = new ArrayList<>();
 
             authors.stream().forEach(author -> {
-                RecordSummery articleSummery = new RecordSummery();
+                RecordSummary articleSummery = new RecordSummary();
 
                 boolean gotEnAbstract = author.getNames().get("en") == null ? false : !author.getNames().get("en").isEmpty();
                 boolean gotHeAbstract = author.getNames().get("he") == null ? false : !author.getNames().get("he").isEmpty();

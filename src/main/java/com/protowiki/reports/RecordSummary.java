@@ -10,7 +10,7 @@ import java.util.Date;
  * 
  * @author Nick
  */
-public class RecordSummery implements Serializable {
+public class RecordSummary implements Serializable {
     
     private String recordId; // tag 001
     private String labelHe;
@@ -25,7 +25,7 @@ public class RecordSummery implements Serializable {
         return recordId;
     }
 
-    public RecordSummery setRecordId(String recordId) {
+    public RecordSummary setRecordId(String recordId) {
         this.recordId = recordId;
         return this;
     }
@@ -34,7 +34,7 @@ public class RecordSummery implements Serializable {
         return labelHe;
     }
 
-    public RecordSummery setLabelHe(String labelHe) {
+    public RecordSummary setLabelHe(String labelHe) {
         this.labelHe = labelHe;
         return this;
     }
@@ -43,7 +43,7 @@ public class RecordSummery implements Serializable {
         return labelEn;
     }
 
-    public RecordSummery setLabelEn(String labelEn) {
+    public RecordSummary setLabelEn(String labelEn) {
         this.labelEn = labelEn;
         return this;
     }
@@ -52,7 +52,7 @@ public class RecordSummery implements Serializable {
         return viaf;
     }
 
-    public RecordSummery setViaf(String viaf) {
+    public RecordSummary setViaf(String viaf) {
         this.viaf = viaf;
         return this;
     }
@@ -61,7 +61,7 @@ public class RecordSummery implements Serializable {
         return status;
     }
 
-    public RecordSummery setStatus(String status) {
+    public RecordSummary setStatus(String status) {
         this.status = status;
         return this;
     }
@@ -70,7 +70,7 @@ public class RecordSummery implements Serializable {
         return foundEnglishAbstract;
     }
 
-    public RecordSummery setFoundEnglishAbstract(Boolean foundEnglishAbstract) {
+    public RecordSummary setFoundEnglishAbstract(Boolean foundEnglishAbstract) {
         this.foundEnglishAbstract = foundEnglishAbstract;
         return this;
     }
@@ -79,7 +79,7 @@ public class RecordSummery implements Serializable {
         return foundHebrewAbstract;
     }
 
-    public RecordSummery setFoundHebrewAbstract(Boolean foundHebrewAbstract) {
+    public RecordSummary setFoundHebrewAbstract(Boolean foundHebrewAbstract) {
         this.foundHebrewAbstract = foundHebrewAbstract;
         return this;
     }
@@ -88,7 +88,7 @@ public class RecordSummery implements Serializable {
         return dateCreated;
     }
 
-    public RecordSummery setDateCreated(Date dateCreated) {
+    public RecordSummary setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
         return this;
     }

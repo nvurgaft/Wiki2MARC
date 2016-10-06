@@ -22,13 +22,13 @@ public class ReportGenerator {
     /**
      *  Generates a report using mustache.java
      * 
-     * @param processSummery report context 
+     * @param processSummary report context 
      * @param reportName report file name (this name will have a formatted date 
      * and an .html extension appended to it)
      */
-    public void generateBasicReport(ProcessReportContext processSummery, String reportName) {
+    public void generateBasicReport(ProcessReportContext processSummary, String reportName) {
 
-        if (processSummery == null) {
+        if (processSummary == null) {
             return;
         }
 
@@ -40,7 +40,7 @@ public class ReportGenerator {
         try {
             MustacheFactory mf = new DefaultMustacheFactory();
             Mustache mustache = mf.compile("templates/report-template.mustache");
-            mustache.execute(new PrintWriter(new File(fileName), "UTF-8"), processSummery).flush();
+            mustache.execute(new PrintWriter(new File(fileName), "UTF-8"), processSummary).flush();
         } catch (IOException ioex) {
             logger.error("An IOException occured while attempting to generate a report", ioex);
         }

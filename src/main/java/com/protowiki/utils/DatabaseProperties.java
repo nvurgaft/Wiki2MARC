@@ -30,7 +30,7 @@ public class DatabaseProperties {
     /**
      * Constructs the PropertiesHandler using a file reference
      *
-     * @param propfile
+     * @param file
      */
     public DatabaseProperties(File file) {
         this.properties = this.readProperties(file.getPath());
@@ -97,6 +97,7 @@ public class DatabaseProperties {
      * Retrieves a property value as a string
      *
      * @param key property key
+     * @param defaultValue value to return in case the keyed value is missing
      * @return string value assigned to the key
      */
     public String getString(String key, String defaultValue) {
@@ -111,6 +112,7 @@ public class DatabaseProperties {
      * Retrieves a property value as a integer
      *
      * @param key property key
+     * @param defaultValue value to return in case the keyed value is missing
      * @return int value assigned to the key
      */
     public int getInt(String key, int defaultValue) {
@@ -131,6 +133,7 @@ public class DatabaseProperties {
      * Retrieves a property value as a boolean
      *
      * @param key property key
+     * @param defaultValue value to return in case the keyed value is missing
      * @return boolean value assigned to the key
      */
     public boolean getBoolean(String key, boolean defaultValue) {

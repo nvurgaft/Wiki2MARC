@@ -50,7 +50,7 @@ public class ReportGeneratorTest {
     @Test
     public void testGenerateBasicReport() {
 
-        RecordSummery rs1 = new RecordSummery();
+        RecordSummary rs1 = new RecordSummary();
         rs1.setRecordId("000000011");
         rs1.setFoundEnglishAbstract(true);
         rs1.setFoundHebrewAbstract(true);
@@ -60,7 +60,7 @@ public class ReportGeneratorTest {
         rs1.setStatus("SUCCESS");
         rs1.setDateCreated(new Date());
 
-        RecordSummery rs2 = new RecordSummery();
+        RecordSummary rs2 = new RecordSummary();
         rs2.setRecordId("000000012");
         rs2.setFoundEnglishAbstract(true);
         rs2.setFoundHebrewAbstract(false);
@@ -70,7 +70,7 @@ public class ReportGeneratorTest {
         rs2.setStatus("SUCCESS");
         rs2.setDateCreated(new Date());
 
-        RecordSummery rs3 = new RecordSummery();
+        RecordSummary rs3 = new RecordSummary();
         rs3.setRecordId("000000013");
         rs3.setFoundEnglishAbstract(true);
         rs3.setFoundHebrewAbstract(true);
@@ -80,7 +80,7 @@ public class ReportGeneratorTest {
         rs3.setStatus("SUCCESS");
         rs3.setDateCreated(new Date());
         
-        RecordSummery rs4 = new RecordSummery();
+        RecordSummary rs4 = new RecordSummary();
         rs4.setRecordId("012200017");
         rs4.setFoundEnglishAbstract(false);
         rs4.setFoundHebrewAbstract(false);
@@ -90,7 +90,7 @@ public class ReportGeneratorTest {
         rs4.setStatus("FAILED");
         rs4.setDateCreated(new Date());
 
-        List<RecordSummery> summeries = Arrays.asList(rs1, rs2, rs3, rs4);
+        List<RecordSummary> summeries = Arrays.asList(rs1, rs2, rs3, rs4);
 
         String fileName = "Test_Report";
         ProcessReportContext processSummery = new ProcessReportContext(summeries, "Test Report ECHO", "Some verbose description about the process");
