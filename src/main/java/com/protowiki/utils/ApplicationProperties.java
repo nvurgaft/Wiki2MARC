@@ -1,5 +1,6 @@
 package com.protowiki.utils;
 
+import com.protowiki.values.Values;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,20 +12,20 @@ import org.slf4j.LoggerFactory;
  *
  * @author Nick
  */
-public class DatabaseProperties {
+public class ApplicationProperties {
 
-    public static Logger logger = LoggerFactory.getLogger(DatabaseProperties.class);
+    public static Logger logger = LoggerFactory.getLogger(ApplicationProperties.class);
 
     private Properties properties;
-    private String fileName;
+    private final String fileName;
 
     /**
      * Constructs the PropertiesHandler using the default application.properties
      * path
      */
-    public DatabaseProperties() {
-        this.properties = this.readProperties("application.properties");
-        this.fileName = "application.properties";
+    public ApplicationProperties() {
+        this.properties = this.readProperties(Values.APP_PROPS_NAME);
+        this.fileName = Values.APP_PROPS_NAME;
     }
 
     /**
@@ -32,7 +33,7 @@ public class DatabaseProperties {
      *
      * @param file
      */
-    public DatabaseProperties(File file) {
+    public ApplicationProperties(File file) {
         this.properties = this.readProperties(file.getPath());
         this.fileName = file.getPath();
     }
@@ -42,25 +43,9 @@ public class DatabaseProperties {
      *
      * @param file
      */
-    public DatabaseProperties(String file) {
+    public ApplicationProperties(String file) {
         this.properties = this.readProperties(file);
         this.fileName = file;
-    }
-
-    public void setProperty(String key, String value) {
-        this.properties.setProperty(key, value);
-    }
-
-    public void setProperties(File file) {
-        this.fileName = file.getName();
-        this.properties = this.readProperties(file.getName());
-    }
-
-    public void setProperties(String fileName) {
-        if (fileName != null && !fileName.isEmpty()) {
-            this.fileName = fileName;
-            this.properties = this.readProperties(this.fileName);
-        }
     }
 
     private Properties readProperties(String filename) {
@@ -113,7 +98,7 @@ public class DatabaseProperties {
      *
      * @param key property key
      * @param defaultValue value to return in case the keyed value is missing
-     * @return int value assigned to the key
+     * @return integer value assigned to the key
      */
     public int getInt(String key, int defaultValue) {
         if (this.properties.getProperty(key) != null) {

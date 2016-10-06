@@ -1,5 +1,6 @@
 package com.protowiki.utils;
 
+import com.protowiki.values.Values;
 import java.util.Properties;
 import org.junit.After;
 import org.junit.Assert;
@@ -20,7 +21,7 @@ public class PropertiesHandlerTest {
 
     public static Logger logger = LoggerFactory.getLogger(PropertiesHandlerTest.class);
 
-    DatabaseProperties instance = new DatabaseProperties("application.properties");
+    ApplicationProperties instance = new ApplicationProperties(Values.APP_PROPS_NAME);
 
     @Rule
     public TestName testName = new TestName();
@@ -58,7 +59,7 @@ public class PropertiesHandlerTest {
     public void testGetFileName() {
 
         String name = instance.getFileName();
-        Assert.assertEquals("Should get this properties name", "application.properties", name);
+        Assert.assertEquals("Should get this properties name", Values.APP_PROPS_NAME, name);
     }
 
     /**

@@ -1,3 +1,5 @@
+/* global mainController, importController, recordsController, sparqlController, mainService, importService, recordsService, sparqlService, startAt, fileFilter, decimalFilter */
+
 "strict mode";
 
 var APP_NAME = "app";
@@ -28,11 +30,6 @@ function config($stateProvider, $urlRouterProvider, confirmProvider) {
                 url: "/import",
                 controller: "importController as vm",
                 templateUrl: "ui/import/import.html"
-            })
-            .state('main.manager', {
-                url: "/manager",
-                controller: "managerController as vm",
-                templateUrl: "ui/manager/manager.html"
             });
 
     confirmProvider.setSize('sm');
@@ -42,12 +39,10 @@ angular.module(APP_NAME).factory('mainService', mainService);
 
 angular.module(APP_NAME).controller('mainController', mainController);
 angular.module(APP_NAME).controller('importController', importController);
-angular.module(APP_NAME).controller('managerController', managerController);
 angular.module(APP_NAME).controller('recordsController', recordsController);
 angular.module(APP_NAME).controller('sparqlController', sparqlController);
 
 angular.module(APP_NAME).factory('importService', importService);
-angular.module(APP_NAME).factory('managerService', managerService);
 angular.module(APP_NAME).factory('recordsService', recordsService);
 angular.module(APP_NAME).factory('sparqlService', sparqlService);
 

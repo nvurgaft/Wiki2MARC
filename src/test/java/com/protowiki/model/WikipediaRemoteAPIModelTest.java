@@ -1,6 +1,8 @@
 package com.protowiki.model;
 
 import com.protowiki.beans.Author;
+import com.protowiki.utils.ApplicationProperties;
+import com.protowiki.values.Values;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.FileWriter;
@@ -26,6 +28,8 @@ import org.slf4j.LoggerFactory;
 public class WikipediaRemoteAPIModelTest {
 
     public static Logger logger = LoggerFactory.getLogger(WikipediaRemoteAPIModelTest.class);
+
+    ApplicationProperties applicationProperties = new ApplicationProperties(Values.APP_PROPS_NAME);
 
     @Rule
     public TestName testName = new TestName();
@@ -136,6 +140,22 @@ public class WikipediaRemoteAPIModelTest {
         result.keySet().forEach(key -> {
             logger.info("Key: {}, Value: {}", key, result.get(key));
         });
+    }
+
+    @Test
+    public void testOpenXMLFile() {
+        
+        try {
+            boolean shouldOpen = applicationProperties.getBoolean("attempt_to_open_result", true);
+            if (shouldOpen) {
+                logger.debug("Open");
+                Desktop.getDesktop().open(new File("C:\\CYGWIN_SYSLOG.TXT"));
+            } else {
+                logger.debug("Dont open");
+            }
+        } catch (IOException ex) {
+            logger.error("IOException", ex);
+        }
     }
 
 }

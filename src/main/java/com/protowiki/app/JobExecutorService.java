@@ -1,6 +1,6 @@
 package com.protowiki.app;
 
-import com.protowiki.utils.DatabaseProperties;
+import com.protowiki.utils.ApplicationProperties;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -23,7 +23,7 @@ public class JobExecutorService {
 
     private static ExecutorService executor = null;
 
-    protected static DatabaseProperties dbProperties;
+    protected static ApplicationProperties dbProperties;
 
     private static void init() {
         int threadPoolSize = 10;

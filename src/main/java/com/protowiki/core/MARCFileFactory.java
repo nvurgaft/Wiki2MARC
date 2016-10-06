@@ -11,6 +11,7 @@ import com.protowiki.reports.RecordSummary;
 import com.protowiki.reports.ReportGenerator;
 import com.protowiki.utils.RDFUtils;
 import com.protowiki.utils.RecordSAXParser;
+import static com.protowiki.utils.Validators.isBlank;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
@@ -63,7 +64,7 @@ public class MARCFileFactory {
      * @return 0 if the process was successful, otherwise 1
      */
     public int runProcess(String filePath) {
-        if (filePath == null || filePath.isEmpty()) {
+        if (isBlank(filePath)) {
             return 1;
         }
 
@@ -74,10 +75,10 @@ public class MARCFileFactory {
             logger.info("Parsed out {} authors", authors.size());
             authors.stream().forEach(System.out::println);
 
-            logger.info("injectWikipediaLabels");
+            logger.info("Injecting Wikipedia labels");
             this.injectWikipediaLabels(authors);
 
-            logger.info("injectWikipediaAbstracts");
+            logger.info("Injecting Wikipedia abstracts");
             List<String> abstractList = this.injectWikipediaAbstracts(authors);
 
             this.updateMARCFile(filePath, authors);
@@ -184,7 +185,7 @@ public class MARCFileFactory {
 
     private List<Author> injectWikipediaLabels(List<Author> authors) throws Exception {
 
-        if (authors == null || authors.isEmpty()) {
+        if (isBlank(authors)) {
             return null;
         }
 
@@ -211,7 +212,7 @@ public class MARCFileFactory {
 
     private List<String> injectWikipediaAbstracts(List<Author> authors) throws Exception {
 
-        if (authors == null || authors.isEmpty()) {
+        if (isBlank(authors)) {
             return null;
         }
 
@@ -279,16 +280,6 @@ public class MARCFileFactory {
      * @param filePath the MARC XML file path
      * @return true if file generation was successful
      */
-//    @Deprecated
-//    private boolean generateNewFile(String filePath) throws Exception {
-//        DataTransformer transformer = new DataTransformer();
-//
-//        logger.debug("connect remotly and query abstracts for these viaf ids");
-//        List<RDFStatement> rdfList = authorModel.getAuthorsViafAndAbstracts();
-//
-//        logger.debug("generate the updated MARC file");
-//        return transformer.generateMARCXMLFile(filePath, rdfList);
-//    }
     private boolean updateMARCFile(String file, List<Author> authors) throws Exception {
         DataTransformer transformer = new DataTransformer();
 

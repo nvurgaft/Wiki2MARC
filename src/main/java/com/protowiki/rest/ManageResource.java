@@ -1,10 +1,10 @@
 package com.protowiki.rest;
 
-import com.protowiki.utils.DatabaseProperties;
-import java.util.HashMap;
+import com.protowiki.utils.ApplicationProperties;
+import com.protowiki.values.Values;
 import java.util.Map;
+import java.util.stream.Collectors;
 import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -22,40 +22,25 @@ public class ManageResource {
 
     public static Logger logger = LoggerFactory.getLogger(ManageResource.class);
 
-    private final String propertiesFile = "application.properties";
+    private final String propertiesFile = Values.APP_PROPS_NAME;
 
     @GET
     @Path("get-all")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAll() {
 
-        Map props = new HashMap();
         try {
-            DatabaseProperties properties = new DatabaseProperties(propertiesFile);
-            properties.getProperties().keySet().stream()
-                    .map(obj -> (String) obj)
-                    .forEach(key -> props.put(key, properties.getString(key, "")));
+            ApplicationProperties properties = new ApplicationProperties(propertiesFile);
+
+            Map<String, String> props = properties.getProperties()
+                    .keySet()
+                    .stream()
+                    .map(key -> (String) key)
+                    .collect(Collectors.toMap(key -> key, key -> properties.getString(key, "")));
             return Response.ok(props).build();
         } catch (Exception e) {
             logger.error("An Exception has occured while marshalling database properties", e);
         }
         return Response.status(Status.INTERNAL_SERVER_ERROR).build();
-    }
-
-    @PUT
-    @Path("update")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response updatePreferences(Map<String, String> jsonProperties) {
-
-        DatabaseProperties dbProps = new DatabaseProperties(propertiesFile);
-        try {
-            jsonProperties.keySet().stream().forEach(key -> {
-                dbProps.setProperty(key, jsonProperties.get((String) key));
-            });
-        } catch (Exception e) {
-            logger.error("An Exception has occured while updating database properties", e);
-            return Response.status(Status.INTERNAL_SERVER_ERROR).build();
-        }
-        return Response.ok().build();
     }
 }

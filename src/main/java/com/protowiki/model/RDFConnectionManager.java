@@ -1,6 +1,7 @@
 package com.protowiki.model;
 
-import com.protowiki.utils.DatabaseProperties;
+import com.protowiki.utils.ApplicationProperties;
+import com.protowiki.values.Values;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import virtuoso.jena.driver.VirtGraph;
@@ -15,7 +16,7 @@ public class RDFConnectionManager {
 
     public static Logger logger = LoggerFactory.getLogger(RDFConnectionManager.class);
 
-    protected DatabaseProperties dbProperties;
+    protected ApplicationProperties dbProperties;
 
     private String username, password, host, connectionString;
     private final String graphName;
@@ -36,16 +37,15 @@ public class RDFConnectionManager {
     public void connectToDefaultDatabase() {
 
         try {
-            dbProperties = new DatabaseProperties("application.properties");
+            dbProperties = new ApplicationProperties(Values.APP_PROPS_NAME);
             this.username = this.getProperty("login", "admin");
             this.password = this.getProperty("password", "admin");
             this.host = this.getProperty("host", "localhost");
             this.port = Integer.valueOf(this.getProperty("port", "1111"));
 
-            String format = "jdbc:virtuoso://%s:%s/charset=UTF-8/log_enable=2";
-            this.connectionString = String.format(format, this.host, this.port);
+            this.connectionString = String.format("jdbc:virtuoso://%s:%s/charset=UTF-8/log_enable=2", this.host, this.port);
             this.setConnected(true);
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             logger.error("An exception occured while attempting to connect to database", e);
             this.setConnected(false);
         }
@@ -95,7 +95,8 @@ public class RDFConnectionManager {
      */
     private void clearGraph() {
         try {
-            VirtuosoUpdateRequest vur = VirtuosoUpdateFactory.create("CLEAR GRAPH <" + this.graphName + ">", this.graph);
+            String query = String.format("CLEAR GRAPH <%s>", this.graphName);
+            VirtuosoUpdateRequest vur = VirtuosoUpdateFactory.create(query, this.graph);
             vur.exec();
         } catch (Exception e) {
             logger.error("Exception while clearing " + this.graphName, e);

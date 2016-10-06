@@ -6,7 +6,7 @@ import com.hp.hpl.jena.query.QuerySolution;
 import com.hp.hpl.jena.query.ResultSet;
 import com.hp.hpl.jena.rdf.model.RDFNode;
 import com.protowiki.beans.Author;
-import com.protowiki.utils.DatabaseProperties;
+import com.protowiki.utils.ApplicationProperties;
 import com.protowiki.values.Prefixes;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,7 +48,7 @@ public class LocalSparqlModel {
                 "}"
             }, "\n");
 
-    public LocalSparqlModel(DatabaseProperties databaseProperties) {
+    public LocalSparqlModel(ApplicationProperties databaseProperties) {
 
         this.login = databaseProperties.getString("login", "admin");
         this.password = databaseProperties.getString("password", "admin");

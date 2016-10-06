@@ -7,7 +7,10 @@ import com.protowiki.beans.Record;
 import com.protowiki.beans.Subfield;
 import com.protowiki.values.MARCIdentifiers;
 import com.protowiki.model.WikipediaRemoteAPIModel;
+import com.protowiki.utils.ApplicationProperties;
 import static com.protowiki.utils.Validators.isBlank;
+import com.protowiki.values.Values;
+import java.awt.Desktop;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -46,6 +49,8 @@ import org.xml.sax.SAXException;
 public class DataTransformer {
 
     public static Logger logger = LoggerFactory.getLogger(DataTransformer.class);
+
+    ApplicationProperties applicationProperties = new ApplicationProperties(Values.APP_PROPS_NAME);
 
     /**
      * Takes a list of Record objects and transforms it into a list of Author
@@ -150,7 +155,7 @@ public class DataTransformer {
 
         DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
         domFactory.setIgnoringComments(true);
-        DocumentBuilder builder = null;
+        DocumentBuilder builder;
         Document doc = null;
 
         try {
@@ -266,7 +271,7 @@ public class DataTransformer {
 
         DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
         domFactory.setIgnoringComments(true);
-        DocumentBuilder builder = null;
+        DocumentBuilder builder;
         Document doc = null;
 
         try {
@@ -388,6 +393,11 @@ public class DataTransformer {
                 try (BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter)) {
                     bufferedWriter.write(xmlOutput);
                 }
+            }
+
+            boolean shouldOpen = applicationProperties.getBoolean("attempt_to_open_result", true);
+            if (shouldOpen) {
+                Desktop.getDesktop().open(file);
             }
 
         } catch (IllegalArgumentException | TransformerException | IOException ex) {

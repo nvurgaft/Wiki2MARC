@@ -6,10 +6,15 @@
             </div>
             <div class="panel-body">
 
-                <input type="file" nv-file-select uploader="vm.uploader"/><br/>
+                <div class="fileinput fileinput-new">
+                    <span class="btn btn-primary btn-sm btn-file"><span>Choose file</span>
+                        <input type="file" nv-file-select uploader="vm.uploader"/>
+                    </span>
+                </div>
+
                 <p>Amount: {{vm.uploader.queue.length}}</p>
 
-                <table class="table table-striped" ng-show="vm.uploader.queue.length > 0">
+                <table st-table="vm.uploader.queue" class="table table-striped" ng-show="vm.uploader.queue.length > 0">
                     <thead>
                         <tr>
                             <th>File name</th>
@@ -27,31 +32,38 @@
                                 {{ fileObj.file.size / 1024 / 1024|number:2 }} MB
                             </th>
                             <th>
-                    <uib-progressbar 
-                        class="progress-striped active" 
-                        value="fileObj.progress" 
-                        type="{{fileObj.progress<100 ? 'info' : 'success'}}">
-                        {{fileObj.progress}}
-                    </uib-progressbar>
-                    </th>
-                    <th>
-                        <button class="btn btn-info btn-xs" ng-click="vm.uploadFile(fileObj)">
-                            <span class="fa fa-upload"></span>&nbsp;Upload
-                        </button>
-                        <button class="btn btn-danger btn-xs" ng-click="vm.removeFile(fileObj)">
-                            <span class="fa fa-times"></span>&nbsp;Remove
-                        </button>
-                    </th>
-                    </tr>
+                                <uib-progressbar 
+                                    class="progress-striped active" 
+                                    value="fileObj.progress" 
+                                    type="{{fileObj.progress<100 ? 'info' : 'success'}}">
+                                    {{fileObj.progress}}
+                                </uib-progressbar>
+                            </th>
+                            <th>
+                                <button class="btn btn-info btn-xs" ng-click="vm.uploadFile(fileObj)">
+                                    <span class="fa fa-upload"></span>&nbsp;Upload
+                                </button>
+                                <button class="btn btn-danger btn-xs" ng-click="vm.removeFile(fileObj)">
+                                    <span class="fa fa-times"></span>&nbsp;Remove
+                                </button>
+                            </th>
+                        </tr>
                     </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4" class="text-center">
+                                <div st-pagination="" st-items-by-page="5" st-displayed-pages="7"></div>
+                            </td>
+                        </tr>
+                    </tfoot>
                 </table>
 
-                <button type="button" class="btn btn-warning" 
+                <button type="button" class="btn btn-sm btn-warning" 
                         ng-disabled="vm.uploader.queue.length === 0" 
                         ng-click="vm.clearUploadQueue()">
                     <span class="fa fa-trash-o"></span>&nbsp;Clear queue
                 </button>
-                <button type="button" class="btn" 
+                <button type="button" class="btn btn-sm" 
                         ng-class="{'btn-default': vm.uploader.queue.length === 0, 'btn-success': vm.uploader.queue.length > 0}"
                         ng-disabled="vm.uploader.queue.length === 0"
                         ng-click="vm.uploadQueue()">
