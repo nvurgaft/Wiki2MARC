@@ -380,13 +380,17 @@ public class DataTransformer {
 
             String xmlOutput = result.getWriter().toString();
             //System.out.println(xmlOutput);
-            File file = new File(filePath + ".updated");
+            
+            int dotIdx = filePath.lastIndexOf(".");
+            String newFilePAth = filePath.substring(0, dotIdx) + ".updated.xml";
+            
+            File file = new File(newFilePAth);
 
             if (file.exists()) {
                 file.delete();
             }
 
-            logger.info(filePath + ".updated created!");
+            logger.info(newFilePAth + " created!");
             if (file.createNewFile()) {
                 FileOutputStream fStream = new FileOutputStream(file.getAbsolutePath());
                 OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fStream, "UTF-8");
