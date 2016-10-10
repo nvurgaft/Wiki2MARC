@@ -107,7 +107,7 @@ public class RecordsResource {
                     .header("Content-Disposition", "attachment; filename=" + path.getFileName() + "")
                     .build());
 
-        } catch (Exception ex) {
+        } catch (Throwable ex) {
             logger.error("Error reading file", ex);
             asyncResponse.resume(Response.status(Status.INTERNAL_SERVER_ERROR).type(MediaType.TEXT_PLAIN).entity("Error reading file").build());
         }

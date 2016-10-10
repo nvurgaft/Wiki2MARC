@@ -35,9 +35,9 @@ import org.slf4j.LoggerFactory;
  * @author Nick
  */
 public class MARCFileFactory {
-
+    
     public static Logger logger = LoggerFactory.getLogger(MARCFileFactory.class);
-
+    
     private boolean useLocalDatabase;
     private final AuthorModel authorModel;
 
@@ -49,7 +49,7 @@ public class MARCFileFactory {
      * will be made to the DB.
      */
     public MARCFileFactory(Boolean useLocalDatabase) {
-
+        
         if (this.useLocalDatabase) {
             authorModel = new AuthorModel();
         } else {
@@ -67,36 +67,36 @@ public class MARCFileFactory {
         if (isBlank(filePath)) {
             return 1;
         }
-
+        
         List<Author> authors;
         try {
-
+            
             authors = this.parseMARCFileForAuthors(filePath);
             logger.info("Parsed out {} authors", authors.size());
             authors.stream().forEach(System.out::println);
-
+            
             logger.info("Injecting Wikipedia labels");
             this.injectWikipediaLabels(authors);
-
+            
             logger.info("Injecting Wikipedia abstracts");
             List<String> abstractList = this.injectWikipediaAbstracts(authors);
-
+            
             this.updateMARCFile(filePath, authors);
-
+            
             if (useLocalDatabase && authorModel != null) {
                 logger.info("Inserting authors into database");
                 authorModel.insertAuthorsIntoDB(authors);
             }
-
+            
             List<RecordSummary> recordSummeries = new ArrayList<>();
-
+            
             authors.stream().forEach(author -> {
                 RecordSummary articleSummery = new RecordSummary();
-
+                
                 boolean gotEnAbstract = author.getNames().get("en") == null ? false : !author.getNames().get("en").isEmpty();
                 boolean gotHeAbstract = author.getNames().get("he") == null ? false : !author.getNames().get("he").isEmpty();
                 String articleStatus = (author.getNames() == null || author.getWikipediaArticleAbstract() == null) ? "FAILED" : "SUCCESS";
-
+                
                 articleSummery
                         .setLabelEn(author.getNames().get("en"))
                         .setLabelHe(author.getNames().get("he"))
@@ -105,30 +105,30 @@ public class MARCFileFactory {
                         .setFoundEnglishAbstract(gotEnAbstract)
                         .setFoundHebrewAbstract(gotHeAbstract)
                         .setStatus(articleStatus);
-
+                
                 articleSummery.setDateCreated(new Date());
-
+                
                 recordSummeries.add(articleSummery);
             });
-
+            
             ReportGenerator reportGenerator = new ReportGenerator();
             String now = new DateFormatter().valueToString(new Date());
             String reportFileName = "wiki2marc-report";
-
+            
             ProcessReportContext c = new ProcessReportContext(recordSummeries, reportFileName, now);
             reportGenerator.generateBasicReport(c, reportFileName);
-
+            
             this.openResults(reportFileName);
-
+            
         } catch (Exception ex) {
             logger.error("Exception while running mapping process", ex);
             return 1;
         }
         return 0;
     }
-
+    
     private void openResults(String filePath) {
-
+        
         if (filePath == null || filePath.isEmpty()) {
             return;
         }
@@ -153,14 +153,14 @@ public class MARCFileFactory {
      * @return List of Author objects
      */
     private List<Author> parseMARCFileForAuthors(String filePath) throws Exception {
-
+        
         if (filePath == null || filePath.isEmpty()) {
             return null;
         }
-
+        
         RecordSAXParser parser = new RecordSAXParser();
         DataTransformer transformer = new DataTransformer();
-
+        
         List<Record> records = parser.parseXMLFileForRecords(filePath);
         logger.info("records => {}", records.size());
         return transformer.transformRecordsListToAuthors(records);
@@ -182,15 +182,15 @@ public class MARCFileFactory {
             authorModel.insertAuthorsViafAndAbstracts(key, absMap.get(key));
         });
     }
-
+    
     private List<Author> injectWikipediaLabels(List<Author> authors) throws Exception {
-
+        
         if (isBlank(authors)) {
             return null;
         }
-
+        
         WikidataRemoteAPIModel wikidata = new WikidataRemoteAPIModel();
-
+        
         List<Map<String, String>> nameLists = authors.stream()
                 .map(author -> {
                     return wikidata.getMultipleAuthorLabelsByViaf(author.getViafId());
@@ -199,23 +199,23 @@ public class MARCFileFactory {
                     return result != null;
                 })
                 .collect(Collectors.toList());
-
+        
         nameLists.stream().forEach(nameMap -> {
             nameMap.keySet().stream()
                     .forEach(key -> {
                         nameMap.put(key, RDFUtils.spliceLiteralLaguageTag(nameMap.get(key)));
                     });
         });
-
+        
         return authors;
     }
-
+    
     private List<String> injectWikipediaAbstracts(List<Author> authors) throws Exception {
-
+        
         if (isBlank(authors)) {
             return null;
         }
-
+        
         WikipediaRemoteAPIModel wikipedia = new WikipediaRemoteAPIModel();
 
         // load the callable jobs
@@ -239,10 +239,10 @@ public class MARCFileFactory {
                     return (String) f;
                 })
                 .collect(Collectors.toList());
-
+        
         return results;
     }
-
+    
     protected Callable<?> callAbstract(WikipediaRemoteAPIModel api, Author author, String lang) {
         return () -> {
             String name = author.getNames().get(lang);
@@ -281,7 +281,6 @@ public class MARCFileFactory {
      * @return true if file generation was successful
      */
     private boolean updateMARCFile(String file, List<Author> authors) throws Exception {
-        DataTransformer transformer = new DataTransformer();
 
 //        logger.debug("connect remotly and query abstracts for these viaf ids");
 //        Map<String, String> rdfList = authorModel.getAuthorsViafAndAbstracts();
@@ -289,11 +288,16 @@ public class MARCFileFactory {
 //                .collect(Collectors.toMap(author -> author.getViafId(), author -> author));
         Map<String, Author> viafAuthorsMap = new HashMap<>();
         authors.forEach(author -> {
-            if (author != null || author.getViafId()!=null || !author.getViafId().isEmpty()) {
-                viafAuthorsMap.put(author.getViafId(), author);
+            try {
+                if (author != null || author.getViafId() != null || !author.getViafId().isEmpty()) {
+                    viafAuthorsMap.put(author.getViafId(), author);
+                }
+            } catch (Throwable t) {
+                logger.error("Exception wil updating MARC record", t);
             }
         });
-
+        
+        DataTransformer transformer = new DataTransformer();
         logger.debug("generate the updated MARC file");
         return transformer.dynamicallyGenerateMARCXMLFile(file, viafAuthorsMap);
     }

@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Nick
  */
-//@Ignore
+@Ignore
 public class JobExecutorTest {
 
     public static Logger logger = LoggerFactory.getLogger(JobExecutorTest.class);

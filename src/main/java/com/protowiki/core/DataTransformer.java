@@ -248,7 +248,7 @@ public class DataTransformer {
                 }
             }
             logger.info("Done!!!");
-        } catch (IllegalArgumentException | TransformerException | IOException ex) {
+        } catch (Throwable ex) {
             logger.error("Exception while transforming XML MARC file", ex);
         }
 
@@ -361,7 +361,7 @@ public class DataTransformer {
                 }
             }
 
-        } catch (ParserConfigurationException | SAXException | IOException | DOMException ex) {
+        } catch (Throwable ex) {
             logger.error("Exception while updating XML MARC file", ex);
         }
 
@@ -404,7 +404,7 @@ public class DataTransformer {
                 Desktop.getDesktop().open(file);
             }
 
-        } catch (IllegalArgumentException | TransformerException | IOException ex) {
+        } catch (Throwable ex) {
             logger.error("Exception while transforming XML MARC file", ex);
             return false;
         }
