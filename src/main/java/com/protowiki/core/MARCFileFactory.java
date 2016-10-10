@@ -128,7 +128,7 @@ public class MARCFileFactory {
     }
 
     private void openResults(String filePath) {
-        
+
         if (filePath == null || filePath.isEmpty()) {
             return;
         }
@@ -285,8 +285,14 @@ public class MARCFileFactory {
 
 //        logger.debug("connect remotly and query abstracts for these viaf ids");
 //        Map<String, String> rdfList = authorModel.getAuthorsViafAndAbstracts();
-        Map<String, Author> viafAuthorsMap = authors.stream()
-                .collect(Collectors.toMap(author -> author.getViafId(), author -> author));
+//        Map<String, Author> viafAuthorsMap = authors.stream()
+//                .collect(Collectors.toMap(author -> author.getViafId(), author -> author));
+        Map<String, Author> viafAuthorsMap = new HashMap<>();
+        authors.forEach(author -> {
+            if (author != null || author.getViafId()!=null || !author.getViafId().isEmpty()) {
+                viafAuthorsMap.put(author.getViafId(), author);
+            }
+        });
 
         logger.debug("generate the updated MARC file");
         return transformer.dynamicallyGenerateMARCXMLFile(file, viafAuthorsMap);
